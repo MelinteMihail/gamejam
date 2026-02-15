@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://68mbw55v5x4o" path="res://assets/player/16x32/16x32 Idle-Sheet.png" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://bby55lj567k0h" path="res://assets/player/16x32/16x32 Walk-Sheet.png" id="3_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="4_dqkch"]
+[ext_resource type="Texture2D" uid="uid://ce624tekde6uv" path="res://assets/lantern/Lanterns - Smaller Versions/Lantern 1/Bronze/Lantern 1 Small - Bronze and Orange.png" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://fahcumd5wwi8" path="res://scenes/LanternPivot.cs" id="5_tuyoq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("2_g2els")
@@ -215,6 +217,122 @@ animations = [{
 radius = 5.0
 height = 22.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_31cv2"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(0, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf23h"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(24, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt7fs"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(48, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqfne"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(72, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnwbv"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(96, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gl8cc"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(120, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_487ah"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(144, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_md1ol"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(0, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bj30b"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(24, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc3p3"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(48, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hax0n"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(72, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4otl"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(96, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2b1d"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(120, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cs1tg"]
+atlas = ExtResource("5_qlg0r")
+region = Rect2(144, 102, 24, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2dvfe"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_31cv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pf23h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt7fs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqfne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnwbv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gl8cc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_487ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_md1ol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bj30b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc3p3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hax0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4otl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2b1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cs1tg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_tuyoq"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fjrip"]
+gradient = SubResource("Gradient_tuyoq")
+
 [node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite", "CollisionShape")]
 collision_mask = 2
 script = ExtResource("1_3vyb7")
@@ -238,3 +356,26 @@ drag_right_margin = 0.01
 drag_bottom_margin = 0.01
 
 [node name="Health" parent="." unique_id=635338871 instance=ExtResource("4_dqkch")]
+
+[node name="Lantern_pivot" type="Node2D" parent="." unique_id=454673647 node_paths=PackedStringArray("playerClass", "lanternSprite")]
+z_index = 1
+position = Vector2(0, 9)
+script = ExtResource("5_tuyoq")
+offset = Vector2(2, 8)
+playerClass = NodePath("..")
+lanternSprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Lantern_pivot" unique_id=180631090]
+z_index = 1
+position = Vector2(0, 5)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_2dvfe")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="PointLight2D" type="PointLight2D" parent="Lantern_pivot" unique_id=397766385]
+position = Vector2(-1, 5.5)
+scale = Vector2(0.96875, 1.015625)
+color = Color(0.7886799, 0.49189848, 0.28759003, 1)
+energy = 0.5
+texture = SubResource("GradientTexture2D_fjrip")
