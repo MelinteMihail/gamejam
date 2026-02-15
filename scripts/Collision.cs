@@ -1,11 +1,13 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Collision : Area2D
 {
     [Export]
     public float DamagePerSecond = 10.0f;
-    public Player playerInside = null;
+
+    private List<Health> bodiesInside = new();
     public override void _Ready()
     {
         this.BodyEntered += OnBodyEntered;
@@ -14,27 +16,35 @@ public partial class Collision : Area2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if(playerInside != null)
+        float damage = DamagePerSecond * (float) delta;
+
+        foreach (var health in bodiesInside)
         {
-            float damage = DamagePerSecond * (float)delta;
-            playerInside.TakeDamage(damage);
+            health.TakeDamage(damage);
         }
     }
 
     private void OnBodyEntered(Node2D body)
     {
+        var health = body.GetNodeOrNull<Health>("Health");
+
         GD.Print("Body entered: " + body.Name);
 
-        if(body is Player player)
-            playerInside = player;
-        
+        if (health != null)
+        {
+            bodiesInside.Add(health);
+        }
     }
 
     private void OnBodyExited(Node2D body)
     {
+        var health = body.GetNodeOrNull<Health>("Health");
+
         GD.Print("Body exited: " + body.Name);
 
-        if(body is Player player && playerInside == player)
-            playerInside = null;
+        if (health != null)
+        {
+            bodiesInside.Remove(health);
+        }
     }
 }
