@@ -214,12 +214,13 @@ animations = [{
 radius = 5.0
 height = 22.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1439945288]
+[node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("1_3vyb7")
+Sprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2090552940]
 sprite_frames = SubResource("SpriteFrames_fjrip")
-animation = &"walk_up"
+animation = &"idle_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1092773889]

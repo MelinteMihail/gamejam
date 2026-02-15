@@ -3,26 +3,62 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 300.0f;
+	[Export]
+	public float Speed = 300.0f;
+	[Export]
+	public AnimatedSprite2D Sprite;
 
-	public override void _PhysicsProcess(double delta)
+    public enum EnumDirection
+    {
+		Up,
+		Down,
+		Left,
+		Right
+    }
+
+    public Vector2 GetInputDirection()
 	{
-		Vector2 velocity = Velocity;
+		Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
+		Velocity = inputDirection * Speed;
 
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("left", "right", "up", "down");
-		if (direction != Vector2.Zero)
-		{
-			velocity = direction * Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
-		}
+		return inputDirection;
+    }
 
-		Velocity = velocity;
-		MoveAndSlide();
+	public void AnimatePlayer()
+	{
+		Vector2 lastPosition;
+		switch (GetInputDirection())
+		{
+			case Vector2(0, -1):
+				Sprite.Play("walk_up");
+                lastPosition = GetInputDirection();
+                break;
+			case Vector2(0, 1):
+				Sprite.Play("walk_down");
+				break;
+			case Vector2(-1, 0):
+				Sprite.FlipH = true;
+				Sprite.Play("walk_right");
+                break;
+			case Vector2(1, 0):
+				Sprite.FlipH = false;
+                Sprite.Play("walk_right");
+				break;
+			default:
+				Sprite.Play("idle_down");
+				break;
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+	{
+		GetInputDirection();
+        MoveAndSlide();
 	}
+
+	public override void _Process(double delta)
+	{
+		AnimatePlayer();
+    }
+
 }
