@@ -16,9 +16,8 @@ public partial class Player : CharacterBody2D
 	private Vector2 lastPosition;
 	private EnumDirection currentDirection = EnumDirection.Down;
 
-    private enum EnumDirection
-    {
-		None,
+	public enum EnumDirection
+	{
 		Up,
 		Down,
 		Left,
@@ -68,74 +67,65 @@ public partial class Player : CharacterBody2D
 		if (inputDirection != Vector2.Zero)
 			lastPosition = inputDirection;
 
-        switch (inputDirection)
-        {
-            case Vector2(0, -1):
-                currentDirection = EnumDirection.Up;
-                break;
-            case Vector2(0, 1):
-                currentDirection = EnumDirection.Down;
-                break;
-
-            case Vector2(-1, 0):
-                currentDirection = EnumDirection.Left;
-                break;
-
-            case Vector2(1, 0):
-                currentDirection = EnumDirection.Right;
-                break;
-
-            default:
-                currentDirection = EnumDirection.None;
-                break;
-        }
-
-        return inputDirection;
-    }
+		return inputDirection;
+	}
 
 	private void AnimatePlayer()
 	{
-        switch (currentDirection)
+		switch (GetInputDirection())
 		{
-            case EnumDirection.Up:
-                Sprite.Play("walk_up");
-                break;
-            case EnumDirection.Down:
-                Sprite.Play("walk_down");
-                break;
-            case EnumDirection.Left:
-                Sprite.FlipH = true;
-                Sprite.Play("walk_right");
-                break;
-            case EnumDirection.Right:
-                Sprite.FlipH = false;
-                Sprite.Play("walk_right");
-                break;
+			case Vector2(0, -1):
+				Sprite.Play("walk_up");
+				break;
 
-            default:
-                if (lastPosition.X == 0)
-                {
-                    if (lastPosition.Y < 0)
-                        Sprite.Play("idle_up");
-                    else if (lastPosition.Y > 0)
-                        Sprite.Play("idle_down");
-                }
-                else if (lastPosition.Y == 0)
-                {
-                    if (lastPosition.X < 0)
-                    {
-                        Sprite.FlipH = true;
-                        Sprite.Play("idle_right");
-                    }
+			case Vector2(0, 1):
+				Sprite.Play("walk_down");
+				break;
 
-                    else if (lastPosition.X > 0)
-                    {
-                        Sprite.FlipH = false;
-                        Sprite.Play("idle_right");
-                    }
-                }
-                break;
+			case Vector2(-1, 0):
+				Sprite.FlipH = true;
+				Sprite.Play("walk_right");
+				break;
 
-        }
-    }
+			case Vector2(1, 0):
+				Sprite.FlipH = false;
+				Sprite.Play("walk_right");
+				break;
+
+			default:
+				if (lastPosition.X == 0)
+				{
+					if (lastPosition.Y < 0)
+						Sprite.Play("idle_up");
+					else if (lastPosition.Y > 0)
+						Sprite.Play("idle_down");
+				}
+				else if (lastPosition.Y == 0)
+				{
+					if (lastPosition.X < 0)
+					{
+						Sprite.FlipH = true;
+						Sprite.Play("idle_right");
+					}
+
+					else if (lastPosition.X > 0)
+					{
+						Sprite.FlipH = false;
+						Sprite.Play("idle_right");
+					}
+				}
+				break;
+		}
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		MoveAndSlide();
+	}
+
+	public override void _Process(double delta)
+	{
+		AnimatePlayer();
+	}
+
 }
