@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c1c4hnxycqsjd" path="res://scripts/Player.cs" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://68mbw55v5x4o" path="res://assets/player/16x32/16x32 Idle-Sheet.png" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://bby55lj567k0h" path="res://assets/player/16x32/16x32 Walk-Sheet.png" id="3_qhqgy"]
+[ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("2_g2els")
@@ -222,7 +223,7 @@ CollisionShape = NodePath("CollisionShape2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2090552940]
 sprite_frames = SubResource("SpriteFrames_fjrip")
-animation = &"walk_up"
+animation = &"walk_right"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1092773889]
@@ -235,3 +236,5 @@ drag_left_margin = 0.01
 drag_top_margin = 0.01
 drag_right_margin = 0.01
 drag_bottom_margin = 0.01
+
+[node name="Health" parent="." unique_id=635338871 instance=ExtResource("4_dqkch")]

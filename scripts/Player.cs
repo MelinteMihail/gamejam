@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using static Player;
 
 public partial class Player : CharacterBody2D
 {
@@ -9,15 +10,15 @@ public partial class Player : CharacterBody2D
 	public AnimatedSprite2D Sprite;
 	[Export]
 	public CollisionShape2D CollisionShape;
-	[Export]
-	public int MaxHealth = 100;
 
-	private float currentHealth;
+    private Health health;
+
 	private Vector2 lastPosition;
 	private EnumDirection currentDirection = EnumDirection.Down;
 
 	public enum EnumDirection
 	{
+        None,
 		Up,
 		Down,
 		Left,
@@ -26,7 +27,10 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
-        currentHealth = MaxHealth;
+        health = GetNode<Health>("Health");
+
+        health.Died += OnPlayerDied;
+        health.HealthChanged += OnHealthChanged;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -40,23 +44,15 @@ public partial class Player : CharacterBody2D
         AnimatePlayer();
     }
 
-    public void TakeDamage(float damage)
+    private void OnPlayerDied()
     {
-        currentHealth -= damage;
-		
-		int currentHealthInt = (int)currentHealth;
-        GD.Print("Player's current health is: " + currentHealthInt);
-
-        if (currentHealthInt <= 0)
-        {
-            GD.Print("Player has died.");
-            Die();
-        }
+        GD.Print("Player has died.");
+        QueueFree();
     }
 
-    private void Die()
+    private void OnHealthChanged(float current, float max)
     {
-        QueueFree();
+        GD.Print($"Player health changed: {current}/{max}");
     }
 
     private Vector2 GetInputDirection()
@@ -67,55 +63,79 @@ public partial class Player : CharacterBody2D
 		if (inputDirection != Vector2.Zero)
 			lastPosition = inputDirection;
 
-		return inputDirection;
+        switch (inputDirection)
+        {
+            case Vector2(0, -1):
+                currentDirection = EnumDirection.Up;
+                break;
+
+            case Vector2(0, 1):
+                currentDirection = EnumDirection.Down;
+                break;
+
+            case Vector2(-1, 0):
+                currentDirection = EnumDirection.Left;
+                break;
+
+            case Vector2(1, 0):
+                currentDirection = EnumDirection.Right;
+                break;
+
+            default:
+                currentDirection = EnumDirection.None;
+                break;
+        }
+
+        return inputDirection;
 	}
 
 	private void AnimatePlayer()
 	{
-		switch (GetInputDirection())
-		{
-			case Vector2(0, -1):
-				Sprite.Play("walk_up");
-				break;
+		switch (currentDirection)
+        {
+            case EnumDirection.Up:
+                Sprite.Play("walk_up");
+                break;
 
-			case Vector2(0, 1):
-				Sprite.Play("walk_down");
-				break;
+            case EnumDirection.Down:
+                Sprite.Play("walk_down");
+                break;
 
-			case Vector2(-1, 0):
-				Sprite.FlipH = true;
-				Sprite.Play("walk_right");
-				break;
+            case EnumDirection.Left:
+                Sprite.FlipH = true;
+                Sprite.Play("walk_right");
+                break;
 
-			case Vector2(1, 0):
-				Sprite.FlipH = false;
-				Sprite.Play("walk_right");
-				break;
+            case EnumDirection.Right:
+                Sprite.FlipH = false;
+                Sprite.Play("walk_right");
+                break;
 
-			default:
-				if (lastPosition.X == 0)
-				{
-					if (lastPosition.Y < 0)
-						Sprite.Play("idle_up");
-					else if (lastPosition.Y > 0)
-						Sprite.Play("idle_down");
-				}
-				else if (lastPosition.Y == 0)
-				{
-					if (lastPosition.X < 0)
-					{
-						Sprite.FlipH = true;
-						Sprite.Play("idle_right");
-					}
+            default:
+                if (lastPosition.X == 0)
+                {
+                    if (lastPosition.Y < 0)
+                        Sprite.Play("idle_up");
+                    else if (lastPosition.Y > 0)
+                        Sprite.Play("idle_down");
+                }
+                else if (lastPosition.Y == 0)
+                {
+                    if (lastPosition.X < 0)
+                    {
+                        Sprite.FlipH = true;
+                        Sprite.Play("idle_right");
+                    }
 
-					else if (lastPosition.X > 0)
-					{
-						Sprite.FlipH = false;
-						Sprite.Play("idle_right");
-					}
-				}
-				break;
-		}
+                    else if (lastPosition.X > 0)
+                    {
+                        Sprite.FlipH = false;
+                        Sprite.Play("idle_right");
+                    }
+                }
+                break;
+        }
+        
 	}
 
 }
