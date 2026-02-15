@@ -7,6 +7,8 @@ public partial class Player : CharacterBody2D
 	public float Speed = 200.0f;
 	[Export]
 	public AnimatedSprite2D Sprite;
+	[Export]
+	public CollisionShape2D CollisionShape;
 
 	public Vector2 lastPosition;
 
