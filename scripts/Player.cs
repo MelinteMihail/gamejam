@@ -15,12 +15,12 @@ public partial class Player : CharacterBody2D
 		if (direction != Vector2.Zero)
 		{
 			velocity = direction * Speed;
-        }
+		}
 		else
 		{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
-        }
+		}
 
 		Velocity = velocity;
 		MoveAndSlide();
