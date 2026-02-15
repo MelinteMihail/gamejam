@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b15tgnborxqam" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://bumh5if4xovdf" path="res://icon.svg" id="1_yqjtg"]
-[ext_resource type="PackedScene" uid="uid://d2du15ano2qh7" path="res://scenes/enemy.tscn" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://f6s2clhetoem" path="res://scenes/enemy.tscn" id="3_lnu2h"]
 
 [node name="game" type="Node2D" unique_id=561111296]
 
@@ -11,8 +11,14 @@ position = Vector2(-45, -12)
 scale = Vector2(0.2109375, 0.2265625)
 texture = ExtResource("1_yqjtg")
 
-[node name="Player" parent="." unique_id=1439945288 instance=ExtResource("1_uwrxv")]
+[node name="Player" parent="." unique_id=1439945288 groups=["player"] instance=ExtResource("1_uwrxv")]
 position = Vector2(2, 2)
 
 [node name="Enemy" parent="." unique_id=1579080019 instance=ExtResource("3_lnu2h")]
-position = Vector2(68, 2)
+position = Vector2(150, -15)
+
+[node name="Enemy2" parent="." unique_id=304251503 instance=ExtResource("3_lnu2h")]
+position = Vector2(106, -88)
+
+[node name="Enemy3" parent="." unique_id=1824808602 instance=ExtResource("3_lnu2h")]
+position = Vector2(118, 68)

@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://d2du15ano2qh7"]
+[gd_scene format=3 uid="uid://f6s2clhetoem"]
 
 [ext_resource type="Script" uid="uid://te6dp8idfhly" path="res://scripts/Enemy.cs" id="1_4ra3w"]
 [ext_resource type="Texture2D" uid="uid://68mbw55v5x4o" path="res://assets/player/16x32/16x32 Idle-Sheet.png" id="1_md0e3"]
@@ -219,10 +219,13 @@ height = 22.0
 radius = 5.0
 height = 22.0
 
-[node name="Enemy" type="CharacterBody2D" unique_id=1579080019 node_paths=PackedStringArray("CollisionShape")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_5uy6h"]
+radius = 73.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1579080019]
 collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_4ra3w")
-CollisionShape = NodePath("")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=387230799]
 sprite_frames = SubResource("SpriteFrames_5uy6h")
@@ -241,3 +244,8 @@ shape = SubResource("CapsuleShape2D_c4w8v")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1813329109]
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_5uy6h")
+
+[node name="Follow_area" type="Area2D" parent="." unique_id=527678376]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Follow_area" unique_id=44942976]
+shape = SubResource("CircleShape2D_5uy6h")
