@@ -4,12 +4,14 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	[Export]
-	public float Speed = 300.0f;
+	public float Speed = 200.0f;
 	[Export]
 	public AnimatedSprite2D Sprite;
 
-	public enum EnumDirection
-	{
+	public Vector2 lastPosition;
+
+    public enum EnumDirection
+    {
 		Up,
 		Down,
 		Left,
@@ -21,39 +23,63 @@ public partial class Player : CharacterBody2D
 		Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
 		Velocity = inputDirection * Speed;
 
-		return inputDirection;
-	}
+		if (inputDirection != Vector2.Zero)
+			lastPosition = inputDirection;
+
+        return inputDirection;
+    }
 
 	public void AnimatePlayer()
 	{
-		Vector2 lastPosition;
-		switch (GetInputDirection())
+        switch (GetInputDirection())
 		{
 			case Vector2(0, -1):
 				Sprite.Play("walk_up");
-				lastPosition = GetInputDirection();
-				break;
+                break;
+
 			case Vector2(0, 1):
 				Sprite.Play("walk_down");
-				break;
+                break;
+
 			case Vector2(-1, 0):
 				Sprite.FlipH = true;
 				Sprite.Play("walk_right");
-				break;
+                break;
+
 			case Vector2(1, 0):
 				Sprite.FlipH = false;
-				Sprite.Play("walk_right");
-				break;
+                Sprite.Play("walk_right");
+                break;
+
 			default:
-				Sprite.Play("idle_down");
-				break;
-		}
-	}
+				if (lastPosition.X == 0)
+				{
+					if (lastPosition.Y < 0)
+						Sprite.Play("idle_up");
+					else if (lastPosition.Y > 0)
+						Sprite.Play("idle_down");
+                }
+				else if (lastPosition.Y == 0)
+                {
+					if (lastPosition.X < 0)
+					{
+                        Sprite.FlipH = true;
+                        Sprite.Play("idle_right");
+                    }
+
+					else if (lastPosition.X > 0)
+					{
+						Sprite.FlipH = false;
+						Sprite.Play("idle_right");
+					}
+				}
+                break;
+        }
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
-		GetInputDirection();
-		MoveAndSlide();
+        MoveAndSlide();
 	}
 
 	public override void _Process(double delta)
