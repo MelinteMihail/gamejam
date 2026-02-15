@@ -26,8 +26,6 @@ public partial class Player : CharacterBody2D
 		if (inputDirection != Vector2.Zero)
 			lastPosition = inputDirection;
 
-		GD.Print("Input Direction: " + inputDirection + " Last Position: " + lastPosition);
-
         return inputDirection;
     }
 
