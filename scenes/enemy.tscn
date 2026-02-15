@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://te6dp8idfhly" path="res://scripts/Enemy.cs" id="1_4ra3w"]
 [ext_resource type="Texture2D" uid="uid://68mbw55v5x4o" path="res://assets/player/16x32/16x32 Idle-Sheet.png" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://bby55lj567k0h" path="res://assets/player/16x32/16x32 Walk-Sheet.png" id="2_4ra3w"]
+[ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_5uy6h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("1_md0e3")
@@ -211,18 +212,32 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c4w8v"]
+radius = 7.0
+height = 22.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5uy6h"]
 radius = 5.0
 height = 22.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1579080019 node_paths=PackedStringArray("CollisionShape")]
+collision_layer = 2
 script = ExtResource("1_4ra3w")
-CollisionShape = NodePath("CollisionShape2D")
+CollisionShape = NodePath("")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=387230799]
 sprite_frames = SubResource("SpriteFrames_5uy6h")
 animation = &"idle_down"
 autoplay = "idle_down"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1561231587]
-position = Vector2(0, 5)
+[node name="Collision Area" type="Area2D" parent="." unique_id=756618788]
+position = Vector2(15, 0)
+collision_layer = 2
+script = ExtResource("4_5uy6h")
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="Collision Area" unique_id=344270264]
+position = Vector2(-15, 5)
 shape = SubResource("CapsuleShape2D_c4w8v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1813329109]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_5uy6h")
