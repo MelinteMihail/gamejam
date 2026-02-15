@@ -118,14 +118,4 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	public override void _PhysicsProcess(double delta)
-	{
-		MoveAndSlide();
-	}
-
-	public override void _Process(double delta)
-	{
-		AnimatePlayer();
-	}
-
 }
