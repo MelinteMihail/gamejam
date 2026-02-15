@@ -8,21 +8,21 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public AnimatedSprite2D Sprite;
 
-    public enum EnumDirection
-    {
+	public enum EnumDirection
+	{
 		Up,
 		Down,
 		Left,
 		Right
-    }
+	}
 
-    public Vector2 GetInputDirection()
+	public Vector2 GetInputDirection()
 	{
 		Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
 		Velocity = inputDirection * Speed;
 
 		return inputDirection;
-    }
+	}
 
 	public void AnimatePlayer()
 	{
@@ -31,34 +31,34 @@ public partial class Player : CharacterBody2D
 		{
 			case Vector2(0, -1):
 				Sprite.Play("walk_up");
-                lastPosition = GetInputDirection();
-                break;
+				lastPosition = GetInputDirection();
+				break;
 			case Vector2(0, 1):
 				Sprite.Play("walk_down");
 				break;
 			case Vector2(-1, 0):
 				Sprite.FlipH = true;
 				Sprite.Play("walk_right");
-                break;
+				break;
 			case Vector2(1, 0):
 				Sprite.FlipH = false;
-                Sprite.Play("walk_right");
+				Sprite.Play("walk_right");
 				break;
 			default:
 				Sprite.Play("idle_down");
 				break;
-        }
-    }
+		}
+	}
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		GetInputDirection();
-        MoveAndSlide();
+		MoveAndSlide();
 	}
 
 	public override void _Process(double delta)
 	{
 		AnimatePlayer();
-    }
+	}
 
 }
