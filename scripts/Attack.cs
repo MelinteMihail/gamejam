@@ -3,7 +3,9 @@ using System;
 
 public partial class Attack : Node2D
 {
-	private Area2D hitboxArea;
+	[Signal]
+	public delegate void AttackFinishedEventHandler();
+    private Area2D hitboxArea;
 	private AnimatedSprite2D attackSprite;
 
 	private Health health;
@@ -36,6 +38,7 @@ public partial class Attack : Node2D
 	}
 	public void OnAnimationFinished()
 	{
+		EmitSignal("AttackFinished");
         QueueFree();
     }
 

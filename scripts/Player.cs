@@ -20,6 +20,7 @@ public partial class Player : CharacterBody2D
 
     private Vector2 lastPosition;
     private EnumDirection currentDirection = EnumDirection.Down;
+    private bool isAttacking = false;
 
     public enum EnumDirection
     {
@@ -40,6 +41,7 @@ public partial class Player : CharacterBody2D
 
         LampArea.BodyEntered += OnBodyEnteredLampArea;
         LampArea.BodyExited += OnBodyExitedLampArea;
+
     }
 
     public override void _PhysicsProcess(double delta)
@@ -153,6 +155,7 @@ public partial class Player : CharacterBody2D
 
     private void SpawnAttack()
     {
+        
         var scene = GD.Load<PackedScene>("res://scenes/Attack.tscn");
         if (scene != null)
         {
@@ -161,6 +164,8 @@ public partial class Player : CharacterBody2D
             attackInstance.GlobalPosition = GlobalPosition;
             Vector2 directionVector = lastPosition.Normalized();
             attackInstance.SetDirection(directionVector);
+            attackInstance.Connect("AttackFinished", new Callable(this, "OnAttackFinished"));
+            isAttacking = true;
         }
         else
         {
@@ -170,9 +175,13 @@ public partial class Player : CharacterBody2D
 
     public void Attack()
     {
-        if (Input.IsActionJustPressed("attack"))
+        if (Input.IsActionJustPressed("attack") && isAttacking == false)
         {
             SpawnAttack();
         }
+    }
+    private void OnAttackFinished()
+    {
+        isAttacking = false;
     }
 }
