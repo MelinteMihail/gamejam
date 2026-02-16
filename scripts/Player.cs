@@ -176,6 +176,10 @@ public partial class Player : CharacterBody2D
                 }
                 break;
         }
-
+        
+	}
+    public EnumDirection GetCurrentDirection()
+    {
+        return currentDirection;
     }
 }
