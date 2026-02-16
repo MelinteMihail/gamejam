@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cvecnw3qcs2sg"]
+[gd_scene format=3 uid="uid://bxkb0wjjitwg"]
 
 [ext_resource type="Script" uid="uid://b7ara4q7drte0" path="res://scripts/Attack.cs" id="1_jy1op"]
 [ext_resource type="Texture2D" uid="uid://cwq6uurkxyqge" path="res://assets/player/attack/gamejam_slashhero-Sheet.png" id="1_nursx"]
@@ -86,7 +86,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_td8ue")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 30.0
 }, {

@@ -15,6 +15,7 @@ public partial class Attack : Node2D
 
         hitboxArea.BodyEntered += OnBodyEntered;
 		attackSprite.Play();
+		attackSprite.AnimationFinished += OnAnimationFinished;
     }
 
 	public void SetDirection(Vector2 direction)
@@ -33,7 +34,10 @@ public partial class Attack : Node2D
 				enemyHealth.TakeDamage(10);
         }
 	}
-	
+	public void OnAnimationFinished()
+	{
+        QueueFree();
+    }
 
 
 }
