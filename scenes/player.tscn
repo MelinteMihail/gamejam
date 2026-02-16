@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bby55lj567k0h" path="res://assets/player/16x32/16x32 Walk-Sheet.png" id="3_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="4_dqkch"]
 [ext_resource type="Texture2D" uid="uid://ce624tekde6uv" path="res://assets/lantern/Lanterns - Smaller Versions/Lantern 1/Bronze/Lantern 1 Small - Bronze and Orange.png" id="5_qlg0r"]
-[ext_resource type="Script" uid="uid://fahcumd5wwi8" path="res://scenes/LanternPivot.cs" id="5_tuyoq"]
+[ext_resource type="Script" uid="uid://fahcumd5wwi8" path="res://scripts/LanternPivot.cs" id="5_tuyoq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("2_g2els")
@@ -333,6 +333,9 @@ animations = [{
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_fjrip"]
 gradient = SubResource("Gradient_tuyoq")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
+size = Vector2(26, 27)
+
 [node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite", "CollisionShape")]
 collision_mask = 2
 script = ExtResource("1_3vyb7")
@@ -357,7 +360,7 @@ drag_bottom_margin = 0.01
 
 [node name="Health" parent="." unique_id=635338871 instance=ExtResource("4_dqkch")]
 
-[node name="Lantern_pivot" type="Node2D" parent="." unique_id=454673647 node_paths=PackedStringArray("playerClass", "lanternSprite")]
+[node name="LanternPivot" type="Node2D" parent="." unique_id=454673647 node_paths=PackedStringArray("playerClass", "lanternSprite")]
 z_index = 1
 position = Vector2(0, 9)
 script = ExtResource("5_tuyoq")
@@ -365,7 +368,7 @@ offset = Vector2(2, 8)
 playerClass = NodePath("..")
 lanternSprite = NodePath("AnimatedSprite2D")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Lantern_pivot" unique_id=180631090]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="LanternPivot" unique_id=180631090]
 z_index = 1
 position = Vector2(0, 5)
 scale = Vector2(0.25, 0.25)
@@ -373,9 +376,16 @@ sprite_frames = SubResource("SpriteFrames_2dvfe")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="PointLight2D" type="PointLight2D" parent="Lantern_pivot" unique_id=397766385]
+[node name="PointLight2D" type="PointLight2D" parent="LanternPivot" unique_id=397766385]
 position = Vector2(-1, 5.5)
 scale = Vector2(0.96875, 1.015625)
 color = Color(0.7886799, 0.49189848, 0.28759003, 1)
 energy = 0.5
 texture = SubResource("GradientTexture2D_fjrip")
+
+[node name="LampArea" type="Area2D" parent="." unique_id=1764573761]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LampArea" unique_id=926156432]
+position = Vector2(-1, 3.5)
+shape = SubResource("RectangleShape2D_tuyoq")
