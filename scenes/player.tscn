@@ -215,6 +215,9 @@ animations = [{
 radius = 5.0
 height = 22.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
+size = Vector2(40, 32.5)
+
 [node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite", "CollisionShape")]
 collision_mask = 2
 script = ExtResource("1_3vyb7")
@@ -238,3 +241,10 @@ drag_right_margin = 0.01
 drag_bottom_margin = 0.01
 
 [node name="Health" parent="." unique_id=635338871 instance=ExtResource("4_dqkch")]
+
+[node name="LampArea" type="Area2D" parent="." unique_id=487222250]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LampArea" unique_id=938708077]
+position = Vector2(0, 1.75)
+shape = SubResource("RectangleShape2D_dqkch")

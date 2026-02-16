@@ -14,14 +14,9 @@ public partial class Health : Node
 	private float currentHealth;
     private bool isDead = false;
 
-
     public override void _Ready()
     {
         currentHealth = maxHealth;
-    }
-
-    public override void _Process(double delta)
-    {
     }
 
     public void TakeDamage(float damage)
@@ -32,16 +27,14 @@ public partial class Health : Node
         currentHealth -= damage;
 
         int currentHealthInt = (int) currentHealth;
-        GD.Print("Player's current health is: " + currentHealthInt);
 
-        if (currentHealthInt <= 0)
+        EmitSignal(SignalName.HealthChanged, currentHealth, maxHealth);
+
+        if (currentHealthInt <= 0 && !isDead)
         {
-            GD.Print("Player has died.");
-
-            EmitSignal(SignalName.HealthChanged, currentHealth, maxHealth);
-
-            if (currentHealthInt <= 0)
-                EmitSignal(SignalName.Died);
+            isDead = true;
+            EmitSignal(SignalName.Died);
+            Die();
         }
     }
 

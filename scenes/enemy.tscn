@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://68mbw55v5x4o" path="res://assets/player/16x32/16x32 Idle-Sheet.png" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://bby55lj567k0h" path="res://assets/player/16x32/16x32 Walk-Sheet.png" id="2_4ra3w"]
 [ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_5uy6h"]
+[ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="5_c4w8v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("1_md0e3")
@@ -245,7 +246,10 @@ shape = SubResource("CapsuleShape2D_c4w8v")
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_5uy6h")
 
-[node name="Follow_area" type="Area2D" parent="." unique_id=527678376]
+[node name="FollowArea" type="Area2D" parent="." unique_id=527678376]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Follow_area" unique_id=44942976]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FollowArea" unique_id=44942976]
 shape = SubResource("CircleShape2D_5uy6h")
+
+[node name="Health" parent="." unique_id=635338871 instance=ExtResource("5_c4w8v")]
+maxHealth = 50
