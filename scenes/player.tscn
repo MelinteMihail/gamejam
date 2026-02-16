@@ -363,7 +363,7 @@ drag_bottom_margin = 0.01
 z_index = 1
 position = Vector2(0, 9)
 script = ExtResource("5_tuyoq")
-offset = Vector2(2, 8)
+offset = Vector2(2.5, 8.5)
 playerClass = NodePath("..")
 lanternSprite = NodePath("AnimatedSprite2D")
 

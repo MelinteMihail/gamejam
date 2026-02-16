@@ -15,6 +15,10 @@ run/main_scene="uid://dfn2vw2lesmwg"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+QuestManager="*uid://b6knk6gpi1efc"
+
 [dotnet]
 
 project/assembly_name="gamejam"

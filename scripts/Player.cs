@@ -102,79 +102,70 @@ public partial class Player : CharacterBody2D
         Velocity = inputDirection * Speed;
 
         if (inputDirection != Vector2.Zero)
+        {
             lastPosition = inputDirection;
 
-        switch (inputDirection)
-        {
-            case Vector2(0, -1):
-                currentDirection = EnumDirection.Up;
-                break;
-
-            case Vector2(0, 1):
-                currentDirection = EnumDirection.Down;
-                break;
-
-            case Vector2(-1, 0):
-                currentDirection = EnumDirection.Left;
-                break;
-
-            case Vector2(1, 0):
-                currentDirection = EnumDirection.Right;
-                break;
-
-            default:
-                currentDirection = EnumDirection.None;
-                break;
+            if (Mathf.Abs(inputDirection.X) > Mathf.Abs(inputDirection.Y))
+            {
+                currentDirection = inputDirection.X > 0 ? EnumDirection.Right : EnumDirection.Left;
+            }
+            else
+            {
+                currentDirection = inputDirection.Y > 0 ? EnumDirection.Down : EnumDirection.Up;
+            }
         }
 
         return inputDirection;
     }
 
+
     private void AnimatePlayer()
     {
+        bool isMoving = Velocity != Vector2.Zero;
+
         switch (currentDirection)
         {
             case EnumDirection.Up:
-                Sprite.Play("walk_up");
+                Sprite.Play(isMoving ? "walk_up" : "idle_up");
                 break;
 
             case EnumDirection.Down:
-                Sprite.Play("walk_down");
+                Sprite.Play(isMoving ? "walk_down" : "idle_down");
                 break;
 
             case EnumDirection.Left:
                 Sprite.FlipH = true;
-                Sprite.Play("walk_right");
+                Sprite.Play(isMoving ? "walk_right" : "idle_right");
                 break;
 
             case EnumDirection.Right:
                 Sprite.FlipH = false;
-                Sprite.Play("walk_right");
+                Sprite.Play(isMoving ? "walk_right" : "idle_right");
                 break;
 
-            default:
-                if (lastPosition.X == 0)
-                {
-                    if (lastPosition.Y < 0)
-                        Sprite.Play("idle_up");
-                    else if (lastPosition.Y > 0)
-                        Sprite.Play("idle_down");
-                }
-                else if (lastPosition.Y == 0)
-                {
-                    if (lastPosition.X < 0)
-                    {
-                        Sprite.FlipH = true;
-                        Sprite.Play("idle_right");
-                    }
+            //default:
+            //    if (lastPosition.X == 0)
+            //    {
+            //        if (lastPosition.Y < 0)
+            //            Sprite.Play("idle_up");
+            //        else if (lastPosition.Y > 0)
+            //            Sprite.Play("idle_down");
+            //    }
+            //    else if (lastPosition.Y == 0)
+            //    {
+            //        if (lastPosition.X < 0)
+            //        {
+            //            Sprite.FlipH = true;
+            //            Sprite.Play("idle_right");
+            //        }
 
-                    else if (lastPosition.X > 0)
-                    {
-                        Sprite.FlipH = false;
-                        Sprite.Play("idle_right");
-                    }
-                }
-                break;
+            //        else if (lastPosition.X > 0)
+            //        {
+            //            Sprite.FlipH = false;
+            //            Sprite.Play("idle_right");
+            //        }
+            //    }
+                //break;
         }
         
 	}

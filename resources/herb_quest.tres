@@ -4,4 +4,6 @@
 
 [resource]
 script = ExtResource("1_1y7mm")
+QuestId = "\"herbs\""
+TargetProgress = 2
 metadata/_custom_type_script = "uid://bsen6cibx0to0"
