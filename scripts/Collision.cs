@@ -28,8 +28,6 @@ public partial class Collision : Area2D
     {
         var health = body.GetNodeOrNull<Health>("Health");
 
-        GD.Print("Body entered: " + body.Name);
-
         if (health != null)
         {
             bodiesInside.Add(health);
@@ -39,8 +37,6 @@ public partial class Collision : Area2D
     private void OnBodyExited(Node2D body)
     {
         var health = body.GetNodeOrNull<Health>("Health");
-
-        GD.Print("Body exited: " + body.Name);
 
         if (health != null)
         {

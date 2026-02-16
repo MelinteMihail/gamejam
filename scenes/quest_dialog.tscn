@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://ct21lad8m8odr"]
+
+[ext_resource type="Script" uid="uid://c1lm2bpuc3obr" path="res://scripts/QuestDialog.cs" id="1_wxjll"]
+
+[node name="QuestDialog" type="Control" unique_id=305932241]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wxjll")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1472420024]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=898054721]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=1447119946]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=1239890514]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="Text" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=183271895]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+autowrap_mode = 2
+
+[node name="Options" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=1210660770]
+layout_mode = 2
+theme_override_constants/separation = 5
