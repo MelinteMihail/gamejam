@@ -61,6 +61,7 @@ public partial class Player : CharacterBody2D
     public override void _Process(double delta)
     {
         AnimatePlayer();
+        Attack();
     }
 
     private void OnPlayerDied()
@@ -142,35 +143,36 @@ public partial class Player : CharacterBody2D
                 Sprite.FlipH = false;
                 Sprite.Play(isMoving ? "walk_right" : "idle_right");
                 break;
-
-            //default:
-            //    if (lastPosition.X == 0)
-            //    {
-            //        if (lastPosition.Y < 0)
-            //            Sprite.Play("idle_up");
-            //        else if (lastPosition.Y > 0)
-            //            Sprite.Play("idle_down");
-            //    }
-            //    else if (lastPosition.Y == 0)
-            //    {
-            //        if (lastPosition.X < 0)
-            //        {
-            //            Sprite.FlipH = true;
-            //            Sprite.Play("idle_right");
-            //        }
-
-            //        else if (lastPosition.X > 0)
-            //        {
-            //            Sprite.FlipH = false;
-            //            Sprite.Play("idle_right");
-            //        }
-            //    }
-                //break;
         }
         
 	}
     public EnumDirection GetCurrentDirection()
     {
         return currentDirection;
+    }
+
+    private void SpawnAttack()
+    {
+        var scene = GD.Load<PackedScene>("res://scenes/Attack.tscn");
+        if (scene != null)
+        {
+            var attackInstance = scene.Instantiate<Attack>();
+            GetParent().AddChild(attackInstance);
+            attackInstance.GlobalPosition = GlobalPosition;
+            Vector2 directionVector = lastPosition.Normalized();
+            attackInstance.SetDirection(directionVector);
+        }
+        else
+        {
+            GD.PrintErr("Failed to load Attack scene!");
+        }
+    }
+
+    public void Attack()
+    {
+        if (Input.IsActionJustPressed("attack"))
+        {
+            SpawnAttack();
+        }
     }
 }
