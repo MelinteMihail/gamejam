@@ -4,8 +4,6 @@
 [ext_resource type="Script" uid="uid://bnbry1enmkys2" path="res://scripts/Npc.cs" id="1_rv78h"]
 [ext_resource type="Texture2D" uid="uid://bby55lj567k0h" path="res://assets/player/16x32/16x32 Walk-Sheet.png" id="2_rv78h"]
 [ext_resource type="FontFile" uid="uid://5i0cxovnatev" path="res://assets/font/pixel_3/pixel.ttf" id="4_7n8xq"]
-[ext_resource type="Script" uid="uid://dv602b5ii4wk8" path="res://scripts/Quest.cs" id="5_4wlns"]
-[ext_resource type="Script" uid="uid://bsen6cibx0to0" path="res://scripts/QuestData.cs" id="6_tl2vt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("1_abqhh")
@@ -220,10 +218,6 @@ height = 22.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7n8xq"]
 size = Vector2(37, 28)
 
-[sub_resource type="Resource" id="Resource_hwkja"]
-script = ExtResource("6_tl2vt")
-metadata/_custom_type_script = "uid://bsen6cibx0to0"
-
 [node name="NPC" type="CharacterBody2D" unique_id=1047270165]
 script = ExtResource("1_rv78h")
 
@@ -253,7 +247,3 @@ theme_override_font_sizes/font_size = 5
 text = "Press [E] to Interact"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Quest" type="Node2D" parent="." unique_id=94289837]
-script = ExtResource("5_4wlns")
-QuestData = SubResource("Resource_hwkja")

@@ -20,13 +20,11 @@ public partial class QuestDialog : Control
         titleLabel = GetNode<Label>("Panel/MarginContainer/VBoxContainer/Title");
         textLabel = GetNode<Label>("Panel/MarginContainer/VBoxContainer/Text");
         optionsContainer = GetNode<VBoxContainer>("Panel/MarginContainer/VBoxContainer/Options");
-
         Hide();
     }
 
     public void ShowDialog(string title, string text, string[] options)
     {
-
         titleLabel.Text = title;
         textLabel.Text = text;
 
@@ -47,18 +45,20 @@ public partial class QuestDialog : Control
             Button optionButton = new();
             optionButton.Text = options[i];
             int index = i;
-
-            optionButton.Pressed += () => OnOptionPressed(index);
+            optionButton.Pressed += () => OnOptionPressed(index, options[index]);
             optionsContainer.AddChild(optionButton);
         }
-
         Show();
     }
 
-    private void OnOptionPressed(int index)
+    private void OnOptionPressed(int index, string buttonText)
     {
         EmitSignal(SignalName.OptionSelected, index);
-        Hide();
-        EmitSignal(SignalName.DialogClosed);
+
+        if (buttonText != "Continue")
+        {
+            Hide();
+            EmitSignal(SignalName.DialogClosed);
+        }
     }
 }
