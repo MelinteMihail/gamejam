@@ -13,13 +13,15 @@ public partial class Player : CharacterBody2D
     public CollisionShape2D CollisionShape;
     [Export]
     public float LampDamagePerSecond = 10.0f;
+    [Export]
+    public float attackDistance = 20.0f;
 
     private Health health;
     private Area2D LampArea;
     private List<Health> enemiesInLamp = new();
 
     private Vector2 lastPosition;
-    private EnumDirection currentDirection = EnumDirection.Down;
+    public EnumDirection currentDirection = EnumDirection.Down;
     private bool isAttacking = false;
 
     public enum EnumDirection
@@ -46,6 +48,9 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (LockInput.inputLocked)
+            return;
+
         GetInputDirection();
         MoveAndSlide();
 
@@ -62,6 +67,9 @@ public partial class Player : CharacterBody2D
 
     public override void _Process(double delta)
     {
+        if (LockInput.inputLocked)
+            return;
+
         AnimatePlayer();
         Attack();
     }
@@ -163,7 +171,8 @@ public partial class Player : CharacterBody2D
             GetParent().AddChild(attackInstance);
             attackInstance.GlobalPosition = GlobalPosition;
             Vector2 directionVector = lastPosition.Normalized();
-            attackInstance.SetDirection(directionVector);
+            attackInstance.GlobalPosition = GlobalPosition + directionVector * attackDistance;
+            attackInstance.SetDirection();
             attackInstance.Connect("AttackFinished", new Callable(this, "OnAttackFinished"));
             isAttacking = true;
         }

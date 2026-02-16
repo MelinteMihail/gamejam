@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bxkb0wjjitwg"]
+[gd_scene format=3 uid="uid://cvecnw3qcs2sg"]
 
 [ext_resource type="Script" uid="uid://b7ara4q7drte0" path="res://scripts/Attack.cs" id="1_jy1op"]
 [ext_resource type="Texture2D" uid="uid://cwq6uurkxyqge" path="res://assets/player/attack/gamejam_slashhero-Sheet.png" id="1_nursx"]
@@ -100,13 +100,17 @@ animations = [{
 script = ExtResource("1_jy1op")
 
 [node name="HitboxArea" type="Area2D" parent="." unique_id=41806024]
+position = Vector2(13, 0)
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea" unique_id=430090762]
+position = Vector2(-13, 0)
 shape = SubResource("RectangleShape2D_jy1op")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=877347961]
 sprite_frames = SubResource("SpriteFrames_a4huc")
 animation = &"attack"
-frame_progress = 0.33045092
+frame = 10
+frame_progress = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1583030374]

@@ -58,6 +58,8 @@ public partial class Quest : Node2D
 
     public void StartQuest()
     {
+        LockInput.inputLocked = true;
+
         GD.Print($"StartQuest called for: {questInstance?.QuestId}");
 
         if (questDialog == null || questInstance == null)
@@ -165,12 +167,14 @@ public partial class Quest : Node2D
             {
                 GD.Print("Quest accepted!");
                 questAccepted = true;
+                LockInput.inputLocked = false;
                 OnQuestAccepted();
             }
             else
             {
                 GD.Print("Quest declined!");
                 questAccepted = false;
+                LockInput.inputLocked = false;
                 OnQuestDeclined();
             }
         }

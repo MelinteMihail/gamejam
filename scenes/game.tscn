@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://ciy3gcmn052yr" path="res://resources/herb_quest.tres" id="6_0tnpc"]
 [ext_resource type="Script" uid="uid://lmmdfpe00ocn" path="res://scripts/QuestUI.cs" id="6_p57ef"]
 [ext_resource type="Script" uid="uid://doss0120fddb0" path="res://scripts/QuestCollectible.cs" id="9_0tnpc"]
-[ext_resource type="Resource" path="res://resources/herb_quest_2.tres" id="9_vtaks"]
+[ext_resource type="Resource" uid="uid://cqft7x0c67g45" path="res://resources/herb_quest_2.tres" id="9_vtaks"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 
