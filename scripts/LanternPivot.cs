@@ -10,7 +10,7 @@ public partial class LanternPivot : Node2D
     [Export] private float swingSmoothness = 8f;
     [Export] private Vector2 offset = new Vector2(0.1f, 0.1f);
     [Export] private Player playerClass;
-    [Export] private AnimatedSprite2D lanternSprite; 
+    [Export] private AnimatedSprite2D lanternSprite;
     private Vector2 currentOffset;
     private Vector2 Velocity;
     float targetRotation;
@@ -45,7 +45,6 @@ public partial class LanternPivot : Node2D
             lanternSprite.ZIndex = -2;
         }
         else if (currentDir != Player.EnumDirection.None) lanternSprite.ZIndex = 2;
-
     }
 
 }
