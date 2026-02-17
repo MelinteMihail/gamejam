@@ -27,16 +27,19 @@ public partial class Attack : Node2D
         GD.Print($"Attack damage set to: {attackDamage}");
     }
 
-    public void SetDirection()
-    {
-        switch (player.currentDirection)
-        {
-            case Player.EnumDirection.Up:
-                attackSprite.RotationDegrees = 360;
+	public void SetDirection()
+	{
+		switch (player.currentPlayerDirection)
+		{
+			case Player.PlayerEnumDirection.Up:
+				attackSprite.RotationDegrees = 360;
                 break;
 
-            case Player.EnumDirection.Down:
-                attackSprite.RotationDegrees = 180;
+			case Player.PlayerEnumDirection.Down:
+				attackSprite.RotationDegrees = 180;
+				break;
+			case Player.PlayerEnumDirection.Left:
+				attackSprite.FlipH = true;
                 break;
 
             case Player.EnumDirection.Left:

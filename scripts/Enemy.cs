@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using static Player;
 
 public partial class Enemy : CharacterBody2D
 {
@@ -11,7 +12,18 @@ public partial class Enemy : CharacterBody2D
     private CharacterBody2D Player;
 	private Area2D area2D;
 	private Health health;
-
+	private Vector2 lastPosition;
+	[Export]
+	private AnimatedSprite2D animatedSprite;
+    public EnemyEnumDirection currentEnemyDirection = EnemyEnumDirection.Down;
+    public enum EnemyEnumDirection
+    {
+        None,
+        Up,
+        Down,
+        Left,
+        Right
+    }
     public override void _Ready()
 	{
         AddToGroup("enemy");
@@ -70,15 +82,66 @@ public partial class Enemy : CharacterBody2D
 		{
 			Vector2 direction = (Player.GlobalPosition - GlobalPosition).Normalized();
 			Velocity = direction * Enemy_Speed;
+			lastPosition = direction;
 			MoveAndCollide(direction);
-		}
+            GetEnemyInputDirection();
+        }
 		else
 		{
 			Velocity = Vector2.Zero;
+		}
+	}
+    private Vector2 GetEnemyInputDirection()
+    {
+        Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
+        Velocity = inputDirection * Enemy_Speed;
+        if (inputDirection != Vector2.Zero)
+        {
+            lastPosition = inputDirection;
+
+            if (Mathf.Abs(inputDirection.X) > Mathf.Abs(inputDirection.Y))
+            {
+                currentEnemyDirection = inputDirection.X > 0 ? EnemyEnumDirection.Right : EnemyEnumDirection.Left;
+            }
+            else
+            {
+                currentEnemyDirection = inputDirection.Y > 0 ? EnemyEnumDirection.Down : EnemyEnumDirection.Up;
+            }
         }
+
+        return inputDirection;
+    }
+
+
+    private void AnimateEnemy()
+    {
+        bool isMoving = Velocity != Vector2.Zero;
+
+        switch (currentEnemyDirection)
+        {
+            case EnemyEnumDirection.Up:
+                animatedSprite.Play(isMoving ? "walk_up" : "idle_up");
+                break;
+
+            case EnemyEnumDirection.Down:
+                animatedSprite.Play(isMoving ? "walk_down" : "idle_down");
+                break;
+
+            case EnemyEnumDirection.Left:
+                animatedSprite.FlipH = true;
+                animatedSprite.Play(isMoving ? "walk_right" : "idle_right");
+                break;
+
+            case EnemyEnumDirection.Right:
+                animatedSprite.FlipH = false;
+                animatedSprite.Play(isMoving ? "walk_right" : "idle_right");
+                break;
+        }
+
     }
 
     public override void _Process(double delta)
 	{
-	}
+        AnimateEnemy();
+    }
 }

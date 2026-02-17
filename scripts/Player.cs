@@ -31,10 +31,10 @@ public partial class Player : CharacterBody2D
     private List<Health> enemiesInLamp = new();
 
     private Vector2 lastPosition;
-    public EnumDirection currentDirection = EnumDirection.Down;
+    public PlayerEnumDirection currentPlayerDirection = PlayerEnumDirection.Down;
     private bool isAttacking = false;
 
-    public enum EnumDirection
+    public enum PlayerEnumDirection
     {
         None,
         Up,
@@ -142,11 +142,11 @@ public partial class Player : CharacterBody2D
 
             if (Mathf.Abs(inputDirection.X) > Mathf.Abs(inputDirection.Y))
             {
-                currentDirection = inputDirection.X > 0 ? EnumDirection.Right : EnumDirection.Left;
+                currentPlayerDirection = inputDirection.X > 0 ? PlayerEnumDirection.Right : PlayerEnumDirection.Left;
             }
             else
             {
-                currentDirection = inputDirection.Y > 0 ? EnumDirection.Down : EnumDirection.Up;
+                currentPlayerDirection = inputDirection.Y > 0 ? PlayerEnumDirection.Down : PlayerEnumDirection.Up;
             }
         }
 
@@ -157,31 +157,31 @@ public partial class Player : CharacterBody2D
     {
         bool isMoving = Velocity != Vector2.Zero;
 
-        switch (currentDirection)
+        switch (currentPlayerDirection)
         {
-            case EnumDirection.Up:
+            case PlayerEnumDirection.Up:
                 Sprite.Play(isMoving ? "walk_up" : "idle_up");
                 break;
 
-            case EnumDirection.Down:
+            case PlayerEnumDirection.Down:
                 Sprite.Play(isMoving ? "walk_down" : "idle_down");
                 break;
 
-            case EnumDirection.Left:
+            case PlayerEnumDirection.Left:
                 Sprite.FlipH = true;
                 Sprite.Play(isMoving ? "walk_right" : "idle_right");
                 break;
 
-            case EnumDirection.Right:
+            case PlayerEnumDirection.Right:
                 Sprite.FlipH = false;
                 Sprite.Play(isMoving ? "walk_right" : "idle_right");
                 break;
         }
     }
 
-    public EnumDirection GetCurrentDirection()
+    public PlayerEnumDirection GetCurrentDirection()
     {
-        return currentDirection;
+        return currentPlayerDirection;
     }
 
     private void SpawnAttack()
