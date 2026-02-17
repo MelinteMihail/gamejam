@@ -41,10 +41,6 @@ public partial class Attack : Node2D
 			case Player.PlayerEnumDirection.Left:
 				attackSprite.FlipH = true;
                 break;
-
-            case Player.EnumDirection.Left:
-                attackSprite.FlipH = true;
-                break;
         }
     }
 
