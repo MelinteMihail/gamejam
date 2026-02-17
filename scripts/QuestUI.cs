@@ -10,12 +10,11 @@ public partial class QuestUI : Control
 
     public override void _Ready()
     {
-        // Create the UI structure
         var panel = new PanelContainer();
         AddChild(panel);
 
         var margin = new MarginContainer();
-        margin.AddThemeConstantOverride("margin_left", 10);
+        margin.AddThemeConstantOverride("margin_left", 25);
         margin.AddThemeConstantOverride("margin_right", 10);
         margin.AddThemeConstantOverride("margin_top", 10);
         margin.AddThemeConstantOverride("margin_bottom", 10);
@@ -24,7 +23,6 @@ public partial class QuestUI : Control
         var vbox = new VBoxContainer();
         margin.AddChild(vbox);
 
-        // Header with toggle button
         var header = new HBoxContainer();
         vbox.AddChild(header);
 
@@ -44,22 +42,18 @@ public partial class QuestUI : Control
         toggleButton.Pressed += ToggleQuestList;
         header.AddChild(toggleButton);
 
-        // Quest list container
         questListContainer = new VBoxContainer();
         vbox.AddChild(questListContainer);
 
-        // Position in top-right corner
         SetAnchorsPreset(LayoutPreset.TopRight);
         Position = new Vector2(-20, 20);
 
-        // Create update timer to refresh progress regularly
         updateTimer = new Timer();
-        updateTimer.WaitTime = 0.5f; // Update twice per second
+        updateTimer.WaitTime = 0.5f;
         updateTimer.Autostart = true;
         updateTimer.Timeout += RefreshQuestList;
         AddChild(updateTimer);
 
-        // Connect to QuestManager signals
         if (QuestManager.Instance != null)
         {
             QuestManager.Instance.QuestAdded += OnQuestAdded;
@@ -101,7 +95,6 @@ public partial class QuestUI : Control
 
     private void RefreshQuestList()
     {
-        // Clear existing quest items
         foreach (Node child in questListContainer.GetChildren())
         {
             child.QueueFree();
@@ -113,7 +106,6 @@ public partial class QuestUI : Control
         var activeQuests = QuestManager.Instance.GetActiveQuests();
         questCountLabel.Text = $"({activeQuests.Count})";
 
-        // Add each quest to the list
         foreach (var quest in activeQuests)
         {
             var questItem = new PanelContainer();
@@ -136,7 +128,6 @@ public partial class QuestUI : Control
             var questVBox = new VBoxContainer();
             itemMargin.AddChild(questVBox);
 
-            // Quest title
             var titleLabel = new Label();
             titleLabel.Text = quest.QuestTitle;
             titleLabel.AddThemeColorOverride("font_color", new Color(1, 0.9f, 0.6f));
@@ -144,11 +135,9 @@ public partial class QuestUI : Control
             titleLabel.CustomMinimumSize = new Vector2(200, 0);
             questVBox.AddChild(titleLabel);
 
-            // Progress text
             var progressLabel = new Label();
             progressLabel.Text = quest.GetProgressText();
 
-            // Color code based on completion
             if (quest.IsCompleted())
             {
                 progressLabel.AddThemeColorOverride("font_color", new Color(0, 1, 0)); // Green
