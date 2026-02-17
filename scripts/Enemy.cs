@@ -91,25 +91,25 @@ public partial class Enemy : CharacterBody2D
 			Velocity = Vector2.Zero;
 		}
 	}
-    private Vector2 GetEnemyInputDirection()
-    {
-        Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
-        Velocity = inputDirection * Enemy_Speed;
-        if (inputDirection != Vector2.Zero)
-        {
-            lastPosition = inputDirection;
 
-            if (Mathf.Abs(inputDirection.X) > Mathf.Abs(inputDirection.Y))
+    public override void _Process(double delta)
+    {
+        AnimateEnemy();
+    }
+
+    private void GetEnemyInputDirection()
+    {
+        if (lastPosition != Vector2.Zero)
+        {
+            if (Mathf.Abs(lastPosition.X) > Mathf.Abs(lastPosition.Y))
             {
-                currentEnemyDirection = inputDirection.X > 0 ? EnemyEnumDirection.Right : EnemyEnumDirection.Left;
+                currentEnemyDirection = lastPosition.X > 0 ? EnemyEnumDirection.Right : EnemyEnumDirection.Left;
             }
             else
             {
-                currentEnemyDirection = inputDirection.Y > 0 ? EnemyEnumDirection.Down : EnemyEnumDirection.Up;
+                currentEnemyDirection = lastPosition.Y > 0 ? EnemyEnumDirection.Down : EnemyEnumDirection.Up;
             }
         }
-
-        return inputDirection;
     }
 
 
@@ -138,10 +138,5 @@ public partial class Enemy : CharacterBody2D
                 break;
         }
 
-    }
-
-    public override void _Process(double delta)
-	{
-        AnimateEnemy();
     }
 }
