@@ -40,6 +40,22 @@ region = Rect2(42, 36, 20, 36)
 atlas = ExtResource("3_tuyoq")
 region = Rect2(62, 36, 20, 36)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lovq"]
+atlas = ExtResource("4_fjrip")
+region = Rect2(1, 108, 20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0usgs"]
+atlas = ExtResource("4_fjrip")
+region = Rect2(21, 108, 20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7iw1"]
+atlas = ExtResource("4_fjrip")
+region = Rect2(41, 108, 20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fccsy"]
+atlas = ExtResource("4_fjrip")
+region = Rect2(61, 108, 20, 36)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_mx1m4"]
 atlas = ExtResource("3_tuyoq")
 region = Rect2(2, 108, 20, 36)
@@ -408,6 +424,22 @@ region = Rect2(62, 180, 20, 36)
 atlas = ExtResource("3_tuyoq")
 region = Rect2(2, 180, 20, 36)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4c5e"]
+atlas = ExtResource("4_fjrip")
+region = Rect2(61, 252, 20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72noi"]
+atlas = ExtResource("4_fjrip")
+region = Rect2(41, 252, 20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0j382"]
+atlas = ExtResource("4_fjrip")
+region = Rect2(1, 252, 20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3jfe"]
+atlas = ExtResource("4_fjrip")
+region = Rect2(21, 252, 20, 36)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ua5cf"]
 atlas = ExtResource("3_tuyoq")
 region = Rect2(22, 216, 20, 36)
@@ -527,6 +559,23 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle_down_sword",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1lovq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0usgs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7iw1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fccsy")
+}],
+"loop": true,
+"name": &"idle_left",
 "speed": 5.0
 }, {
 "frames": [{
@@ -922,6 +971,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_e4c5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72noi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j382")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3jfe")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ua5cf")
 }, {
 "duration": 1.0,
@@ -1138,8 +1204,9 @@ attackDistance = 30.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2090552940]
 sprite_frames = SubResource("SpriteFrames_fjrip")
-animation = &"steel_walk_up"
+animation = &"idle_left"
 autoplay = "idle_down"
+frame_progress = 0.929877
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1092773889]
 position = Vector2(0, 5)
