@@ -16,7 +16,7 @@ public partial class BlacksmithShop : Control
     public float ArmorSet1AttackBonus = 5f;
 
     [Export]
-    public string ArmorSet1IconPath = "";
+    public string ArmorSet1IconPath = "res://assets/extras/Iron_Armor_Weapon.png";
 
     [Export]
     public int ArmorSet2Cost = 6;
@@ -28,7 +28,7 @@ public partial class BlacksmithShop : Control
     public float ArmorSet2AttackBonus = 15f;
 
     [Export]
-    public string ArmorSet2IconPath = "";
+    public string ArmorSet2IconPath = "res://assets/extras/Steel_Armor_Weapon.png";
 
     private Button armorSet1Button;
     private Button armorSet2Button;

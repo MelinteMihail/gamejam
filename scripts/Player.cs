@@ -34,6 +34,9 @@ public partial class Player : CharacterBody2D
     public PlayerEnumDirection currentPlayerDirection = PlayerEnumDirection.Down;
     private bool isAttacking = false;
 
+    // Track current armor set
+    private string armorPrefix = ""; // "", "iron_", or "steel_"
+
     public enum PlayerEnumDirection
     {
         None,
@@ -95,12 +98,13 @@ public partial class Player : CharacterBody2D
         attackMultiplier += (damageBonus / 100.0f);
 
         if (durabilityBonus >= 20f)
-            Sprite.SpriteFrames = GD.Load<SpriteFrames>("res://path/to/steel_armor_spriteframes.tres");
+            armorPrefix = "steel_";
         else if (durabilityBonus >= 10f)
-            Sprite.SpriteFrames = GD.Load<SpriteFrames>("res://path/to/iron_armor_spriteframes.tres");
+            armorPrefix = "iron_";
 
         GD.Print($"Armor equipped! DUR: {durabilityMultiplier}x, ATK: {attackMultiplier}x");
         GD.Print($"Current stats - Durability: {CurrentDurability}, Attack: {CurrentDamage}");
+        GD.Print($"Animation prefix set to: {armorPrefix}");
     }
 
     private void OnBodyEnteredLampArea(Node body)
@@ -160,21 +164,21 @@ public partial class Player : CharacterBody2D
         switch (currentPlayerDirection)
         {
             case PlayerEnumDirection.Up:
-                Sprite.Play(isMoving ? "walk_up" : "idle_up");
+                Sprite.Play(armorPrefix + (isMoving ? "walk_up" : "idle_up"));
                 break;
 
             case PlayerEnumDirection.Down:
-                Sprite.Play(isMoving ? "walk_down" : "idle_down");
+                Sprite.Play(armorPrefix + (isMoving ? "walk_down" : "idle_down"));
                 break;
 
             case PlayerEnumDirection.Left:
                 Sprite.FlipH = true;
-                Sprite.Play(isMoving ? "walk_right" : "idle_right");
+                Sprite.Play(armorPrefix + (isMoving ? "walk_right" : "idle_right"));
                 break;
 
             case PlayerEnumDirection.Right:
                 Sprite.FlipH = false;
-                Sprite.Play(isMoving ? "walk_right" : "idle_right");
+                Sprite.Play(armorPrefix + (isMoving ? "walk_right" : "idle_right"));
                 break;
         }
     }
