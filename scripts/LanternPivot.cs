@@ -26,25 +26,25 @@ public partial class LanternPivot : Node2D
         Velocity = player.Velocity;
         targetRotation = Velocity.X * swingAmount;
         Rotation = Mathf.Lerp(Rotation, targetRotation, swingSmoothness * (float)delta);
-        Player.EnumDirection currentDir = playerClass.GetCurrentDirection();
+        Player.PlayerEnumDirection currentDir = playerClass.GetCurrentDirection();
 
-        float horizontalOffset = currentDir == Player.EnumDirection.Up ? -offset.X :
-              currentDir == Player.EnumDirection.Down ? offset.X : 0;
+        float horizontalOffset = currentDir == Player.PlayerEnumDirection.Up ? -offset.X :
+              currentDir == Player.PlayerEnumDirection.Down ? offset.X : 0;
 
-        if (currentDir != Player.EnumDirection.None)
+        if (currentDir != Player.PlayerEnumDirection.None)
         {
             currentOffset = new Vector2(horizontalOffset, offset.Y);
             Position = currentOffset;
         }
-        if (currentDir == Player.EnumDirection.Right)
+        if (currentDir == Player.PlayerEnumDirection.Right)
         {
             lanternSprite.ZIndex = -2;
         }
-        else if (currentDir == Player.EnumDirection.Down)
+        else if (currentDir == Player.PlayerEnumDirection.Down)
         {
             lanternSprite.ZIndex = -2;
         }
-        else if (currentDir != Player.EnumDirection.None) lanternSprite.ZIndex = 2;
+        else if (currentDir != Player.PlayerEnumDirection.None) lanternSprite.ZIndex = 2;
     }
 
 }

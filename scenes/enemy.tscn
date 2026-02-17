@@ -220,12 +220,13 @@ radius = 5.0
 height = 22.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5uy6h"]
-radius = 73.0
+radius = 74.00676
 
-[node name="Enemy" type="CharacterBody2D" unique_id=1579080019]
+[node name="Enemy" type="CharacterBody2D" unique_id=1579080019 node_paths=PackedStringArray("animatedSprite")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_4ra3w")
+animatedSprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=387230799]
 sprite_frames = SubResource("SpriteFrames_5uy6h")

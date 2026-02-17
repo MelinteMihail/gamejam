@@ -24,16 +24,16 @@ public partial class Attack : Node2D
 
 	public void SetDirection()
 	{
-		switch (player.currentDirection)
+		switch (player.currentPlayerDirection)
 		{
-			case Player.EnumDirection.Up:
+			case Player.PlayerEnumDirection.Up:
 				attackSprite.RotationDegrees = 360;
                 break;
 
-			case Player.EnumDirection.Down:
+			case Player.PlayerEnumDirection.Down:
 				attackSprite.RotationDegrees = 180;
 				break;
-			case Player.EnumDirection.Left:
+			case Player.PlayerEnumDirection.Left:
 				attackSprite.FlipH = true;
                 break;
 
