@@ -172,12 +172,10 @@ public partial class Player : CharacterBody2D
                 break;
 
             case PlayerEnumDirection.Left:
-                Sprite.FlipH = true;
-                Sprite.Play(armorPrefix + (isMoving ? "walk_right" : "idle_right"));
+                Sprite.Play(armorPrefix + (isMoving ? "walk_left" : "idle_left"));
                 break;
 
             case PlayerEnumDirection.Right:
-                Sprite.FlipH = false;
                 Sprite.Play(armorPrefix + (isMoving ? "walk_right" : "idle_right"));
                 break;
         }
