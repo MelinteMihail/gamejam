@@ -7,42 +7,58 @@ public partial class QuestCollectible : Area2D
     public string QuestItemType = "herbs";
 
     private bool hasBeenCollected = false;
+    private bool playerInRange = false;
 
     public override void _Ready()
     {
         BodyEntered += OnPlayerEntered;
+        BodyExited += OnPlayerExited;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (playerInRange && !hasBeenCollected && Input.IsActionJustPressed("interact"))
+            CollectItem();
     }
 
     private void OnPlayerEntered(Node2D body)
     {
-        if (hasBeenCollected)
-            return;
-
         if (body.Name == "Player" || body.GetType().Name == "Player")
         {
-            hasBeenCollected = true;
+            playerInRange = true;
+        }
+    }
+    
+    private void OnPlayerExited(Node2D body)
+    {
+        if (body.Name == "Player" || body.GetType().Name == "Player")
+            playerInRange = false;
+    }
 
-            if (QuestManager.Instance != null)
+    private void CollectItem()
+    {
+        hasBeenCollected = true;
+
+        if (QuestManager.Instance != null)
+        {
+            var activeQuests = QuestManager.Instance.GetActiveQuests();
+
+            foreach (var quest in activeQuests)
             {
-                var activeQuests = QuestManager.Instance.GetActiveQuests();
-
-                foreach (var quest in activeQuests)
+                if (quest.ProgressType == QuestItemType && !quest.IsCompleted())
                 {
-                    if (quest.ProgressType == QuestItemType && !quest.IsCompleted())
-                    {
-                        quest.AddProgress(1);
-                        GD.Print($"Quest progress: {quest.GetProgressText()}");
+                    quest.AddProgress(1);
+                    GD.Print($"Quest progress: {quest.GetProgressText()}");
 
-                        if (quest.IsCompleted())
-                        {
-                            GD.Print($"Quest completed: {quest.QuestTitle}");
-                            QuestManager.Instance.CompleteQuest(quest);
-                        }
+                    if (quest.IsCompleted())
+                    {
+                        GD.Print($"Quest completed: {quest.QuestTitle}");
                     }
                 }
             }
-
-            QueueFree();
         }
+
+        QueueFree();
+        
     }
 }

@@ -106,6 +106,8 @@ public partial class QuestUI : Control
         var activeQuests = QuestManager.Instance.GetActiveQuests();
         questCountLabel.Text = $"({activeQuests.Count})";
 
+        Visible = activeQuests.Count > 0;
+
         foreach (var quest in activeQuests)
         {
             var questItem = new PanelContainer();
@@ -140,11 +142,11 @@ public partial class QuestUI : Control
 
             if (quest.IsCompleted())
             {
-                progressLabel.AddThemeColorOverride("font_color", new Color(0, 1, 0)); // Green
+                progressLabel.AddThemeColorOverride("font_color", new Color(0, 1, 0)); 
             }
             else
             {
-                progressLabel.AddThemeColorOverride("font_color", new Color(0.8f, 0.8f, 0.8f)); // Light gray
+                progressLabel.AddThemeColorOverride("font_color", new Color(0.8f, 0.8f, 0.8f));
             }
 
             questVBox.AddChild(progressLabel);

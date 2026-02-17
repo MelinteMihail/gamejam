@@ -18,6 +18,9 @@ public partial class QuestData : Resource
     };
 
     [Export]
+    public string NpcName = "Quest Giver";
+
+    [Export]
     public string AcceptedMessage = "Quest already accepted.";
 
     [Export]
@@ -30,6 +33,9 @@ public partial class QuestData : Resource
     public int TargetProgress = 10;
 
     [Export]
+    public int QuestReward = 3;
+
+    [Export]
     public string ProgressType = "herbs";
 
     public int CurrentProgress = 0;
@@ -38,12 +44,14 @@ public partial class QuestData : Resource
     {
         QuestData copy = new QuestData();
         copy.QuestId = this.QuestId;
+        copy.NpcName = this.NpcName;
         copy.QuestTitle = this.QuestTitle;
         copy.DialogPages = (string[])this.DialogPages.Clone();
         copy.AcceptedMessage = this.AcceptedMessage;
         copy.CompletionMessage = this.CompletionMessage;
         copy.QuestDescription = this.QuestDescription;
         copy.TargetProgress = this.TargetProgress;
+        copy.QuestReward = this.QuestReward;
         copy.ProgressType = this.ProgressType;
         copy.CurrentProgress = 0;
         return copy;
@@ -51,6 +59,11 @@ public partial class QuestData : Resource
 
     public string GetProgressText()
     {
+        if (IsCompleted())
+        {
+            return $"Return to {NpcName}";
+        }
+
         return $"{CurrentProgress}/{TargetProgress} {ProgressType}";
     }
 

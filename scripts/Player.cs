@@ -8,6 +8,10 @@ public partial class Player : CharacterBody2D
     [Export]
     public float Speed = 200.0f;
     [Export]
+    public float baseDurability = 100.0f;
+    [Export]
+    public float baseDamage = 10.0f;
+    [Export]
     public AnimatedSprite2D Sprite;
     [Export]
     public CollisionShape2D CollisionShape;
@@ -15,6 +19,12 @@ public partial class Player : CharacterBody2D
     public float LampDamagePerSecond = 10.0f;
     [Export]
     public float attackDistance = 20.0f;
+
+    public float durabilityMultiplier = 1.0f;
+    public float attackMultiplier = 1.0f;
+
+    public float CurrentDurability => baseDurability * durabilityMultiplier;
+    public float CurrentDamage => baseDamage * attackMultiplier;
 
     private Health health;
     private Area2D LampArea;
@@ -43,7 +53,6 @@ public partial class Player : CharacterBody2D
 
         LampArea.BodyEntered += OnBodyEnteredLampArea;
         LampArea.BodyExited += OnBodyExitedLampArea;
-
     }
 
     public override void _PhysicsProcess(double delta)
@@ -54,12 +63,13 @@ public partial class Player : CharacterBody2D
         GetInputDirection();
         MoveAndSlide();
 
-        float damage = LampDamagePerSecond * (float) delta;
+        float baseDamage = LampDamagePerSecond * (float)delta;
+        float actualDamage = baseDamage * attackMultiplier;
 
         foreach (var enemyHealth in enemiesInLamp)
         {
             if (enemyHealth != null && !enemyHealth.IsQueuedForDeletion())
-                enemyHealth.TakeDamage(damage);
+                enemyHealth.TakeDamage(actualDamage);
         }
 
         enemiesInLamp.RemoveAll(e => e == null || e.IsQueuedForDeletion());
@@ -77,6 +87,20 @@ public partial class Player : CharacterBody2D
     private void OnPlayerDied()
     {
         QueueFree();
+    }
+
+    public void EquipArmorSet(float durabilityBonus, float damageBonus)
+    {
+        durabilityMultiplier += (durabilityBonus / 100.0f);
+        attackMultiplier += (damageBonus / 100.0f);
+
+        if (durabilityBonus >= 20f)
+            Sprite.SpriteFrames = GD.Load<SpriteFrames>("res://path/to/steel_armor_spriteframes.tres");
+        else if (durabilityBonus >= 10f)
+            Sprite.SpriteFrames = GD.Load<SpriteFrames>("res://path/to/iron_armor_spriteframes.tres");
+
+        GD.Print($"Armor equipped! DUR: {durabilityMultiplier}x, ATK: {attackMultiplier}x");
+        GD.Print($"Current stats - Durability: {CurrentDurability}, Attack: {CurrentDamage}");
     }
 
     private void OnBodyEnteredLampArea(Node body)
@@ -104,7 +128,7 @@ public partial class Player : CharacterBody2D
 
     private void OnHealthChanged(float current, float max)
     {
-        GD.Print($"Player health changed: {(int) current}");
+        GD.Print($"Player health changed: {(int)current}");
     }
 
     private Vector2 GetInputDirection()
@@ -128,7 +152,6 @@ public partial class Player : CharacterBody2D
 
         return inputDirection;
     }
-
 
     private void AnimatePlayer()
     {
@@ -154,8 +177,8 @@ public partial class Player : CharacterBody2D
                 Sprite.Play(isMoving ? "walk_right" : "idle_right");
                 break;
         }
-        
-	}
+    }
+
     public EnumDirection GetCurrentDirection()
     {
         return currentDirection;
@@ -163,7 +186,6 @@ public partial class Player : CharacterBody2D
 
     private void SpawnAttack()
     {
-        
         var scene = GD.Load<PackedScene>("res://scenes/Attack.tscn");
         if (scene != null)
         {
@@ -172,6 +194,9 @@ public partial class Player : CharacterBody2D
             attackInstance.GlobalPosition = GlobalPosition;
             Vector2 directionVector = lastPosition.Normalized();
             attackInstance.GlobalPosition = GlobalPosition + directionVector * attackDistance;
+
+            attackInstance.SetDamage(CurrentDamage);
+
             attackInstance.SetDirection();
             attackInstance.Connect("AttackFinished", new Callable(this, "OnAttackFinished"));
             isAttacking = true;
@@ -189,6 +214,7 @@ public partial class Player : CharacterBody2D
             SpawnAttack();
         }
     }
+
     private void OnAttackFinished()
     {
         isAttacking = false;

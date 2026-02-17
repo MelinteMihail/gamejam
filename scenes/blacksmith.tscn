@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://c2helh2ilwbxe"]
+
+[ext_resource type="Script" uid="uid://c0q3o5u20gvfu" path="res://scripts/Blacksmith.cs" id="1_ho0ex"]
+[ext_resource type="Texture2D" uid="uid://c2ufpk1tjxuor" path="res://assets/extras/Npc_Smith01.png" id="2_hak2j"]
+[ext_resource type="FontFile" uid="uid://5i0cxovnatev" path="res://assets/font/pixel_3/pixel.ttf" id="3_3liba"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3liba"]
+atlas = ExtResource("2_hak2j")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j10r7"]
+atlas = ExtResource("2_hak2j")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwsnw"]
+atlas = ExtResource("2_hak2j")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nxq5"]
+atlas = ExtResource("2_hak2j")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_puaei"]
+atlas = ExtResource("2_hak2j")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbekb"]
+atlas = ExtResource("2_hak2j")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mq7b"]
+atlas = ExtResource("2_hak2j")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gq8ou"]
+atlas = ExtResource("2_hak2j")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j10r7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3liba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j10r7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwsnw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nxq5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_puaei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbekb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mq7b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gq8ou")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hwsnw"]
+radius = 5.0
+height = 22.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4nxq5"]
+size = Vector2(43, 36)
+
+[node name="Blacksmith" type="CharacterBody2D" unique_id=1866240032]
+script = ExtResource("1_ho0ex")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1987795365]
+sprite_frames = SubResource("SpriteFrames_j10r7")
+autoplay = "default"
+frame_progress = 0.9065388
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1667264250]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_hwsnw")
+
+[node name="Interactable Area" type="Area2D" parent="." unique_id=990187697]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable Area" unique_id=75033646]
+position = Vector2(-0.5, 2)
+shape = SubResource("RectangleShape2D_4nxq5")
+
+[node name="Interact Text" type="Label" parent="." unique_id=1548272136]
+texture_filter = 1
+offset_left = -47.0
+offset_top = -40.0
+offset_right = 48.0
+offset_bottom = -17.0
+theme_override_fonts/font = ExtResource("3_3liba")
+theme_override_font_sizes/font_size = 5
+text = "Press [E] to Interact"
+horizontal_alignment = 1
+vertical_alignment = 1

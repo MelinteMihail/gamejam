@@ -48,7 +48,9 @@ public partial class Quest : Node2D
         if (QuestDataTemplate != null)
         {
             questInstance = QuestDataTemplate.Duplicate();
-            GD.Print($"Quest: Created instance with ID: {questInstance.QuestId}");
+
+            questInstance.NpcName = GetParent().Name;
+            GD.Print($"Quest: Created instance with ID: {questInstance.QuestId}, NPC: {questInstance.NpcName}");
         }
         else
         {
@@ -77,9 +79,17 @@ public partial class Quest : Node2D
                 ConnectToDialog();
                 return;
             }
+            var activeQuest = QuestManager.Instance.GetQuestById(questInstance.QuestId);
+            if (activeQuest != null && activeQuest.IsCompleted())
+            {
+                GD.Print("Quest ready to turn in!");
+                questDialog.ShowDialog(questInstance.QuestTitle, "You've completed my quest! Thank you!", new string[] { "Turn In" });
+                ConnectToDialog();
+                return;
+            }
             else if (QuestManager.Instance.HasQuest(questInstance.QuestId))
             {
-                GD.Print("Quest already active");
+                GD.Print("Quest already active but not complete");
                 questDialog.ShowDialog(questInstance.QuestTitle, "You've already accepted this quest. Check your quest log!", new string[] { "Leave" });
                 ConnectToDialog();
                 return;
@@ -155,6 +165,17 @@ public partial class Quest : Node2D
             return;
         }
 
+        if (QuestManager.Instance != null)
+        {
+            var activeQuest = QuestManager.Instance.GetQuestById(questInstance.QuestId);
+            if (activeQuest != null && activeQuest.IsCompleted() && optionIndex == 0)
+            {
+                GD.Print("Turning in completed quest!");
+                OnQuestTurnedIn();
+                return;
+            }
+        }
+
         if (currentPage < questInstance.DialogPages.Length - 1)
         {
             GD.Print("Moving to next page");
@@ -200,6 +221,21 @@ public partial class Quest : Node2D
         GD.Print("Quest declined");
     }
 
+    private void OnQuestTurnedIn()
+    {
+        if (QuestManager.Instance != null && questInstance != null)
+        {
+            if (Coin.Instance != null)
+                Coin.Instance.AddCoins(questInstance.QuestReward);
+
+            GD.Print($"Quest turned in: {questInstance.QuestTitle}");
+
+            QuestManager.Instance.CompleteQuest(questInstance);
+            questAccepted = false;
+            LockInput.inputLocked = false;
+        }
+    }
+
     public void UpdateProgress(int amount = 1)
     {
         if (questAccepted && questInstance != null)
@@ -208,7 +244,7 @@ public partial class Quest : Node2D
 
             if (questInstance.IsCompleted())
             {
-                OnQuestCompleted();
+                GD.Print($"Quest objective complete! Return to {questInstance.NpcName}");
             }
         }
     }

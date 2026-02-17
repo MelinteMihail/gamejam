@@ -5,8 +5,10 @@ public partial class Enemy : CharacterBody2D
 {
 	[Export]
 	public float Enemy_Speed = 100.0f;
-	
-	private CharacterBody2D Player;
+	[Export]
+	public string EnemyType = "goblin";
+
+    private CharacterBody2D Player;
 	private Area2D area2D;
 	private Health health;
 
@@ -26,6 +28,25 @@ public partial class Enemy : CharacterBody2D
     }
     private void OnEnemyDied()
     {
+        if (QuestManager.Instance != null)
+        {
+            var activeQuests = QuestManager.Instance.GetActiveQuests();
+
+            foreach (var quest in activeQuests)
+            {
+                if (quest.ProgressType == EnemyType && !quest.IsCompleted())
+                {
+                    quest.AddProgress(1);
+                    GD.Print($"Quest progress: {quest.GetProgressText()}");
+
+                    if (quest.IsCompleted())
+                    {
+                        GD.Print($"Quest objectives complete! Return to {quest.NpcName}");
+                    }
+                }
+            }
+        }
+
         QueueFree();
     }
 

@@ -9,7 +9,11 @@
 [ext_resource type="Resource" uid="uid://ciy3gcmn052yr" path="res://resources/herb_quest.tres" id="6_0tnpc"]
 [ext_resource type="Script" uid="uid://lmmdfpe00ocn" path="res://scripts/QuestUI.cs" id="6_p57ef"]
 [ext_resource type="Script" uid="uid://doss0120fddb0" path="res://scripts/QuestCollectible.cs" id="9_0tnpc"]
+[ext_resource type="Script" uid="uid://c00rglak8othv" path="res://scripts/BlacksmithShop.cs" id="9_trtic"]
 [ext_resource type="Resource" uid="uid://cqft7x0c67g45" path="res://resources/herb_quest_2.tres" id="9_vtaks"]
+[ext_resource type="Texture2D" uid="uid://chbcvmxi5glai" path="res://assets/lantern/Lantern 1/Bronze/Orange Light/Lantern 1 - Beonze and Orange_000.png" id="11_kvpfn"]
+[ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="12_dinhu"]
+[ext_resource type="PackedScene" uid="uid://c2helh2ilwbxe" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 
@@ -54,6 +58,14 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("6_p57ef")
 
+[node name="BlacksmithShop" type="Control" parent="UI" unique_id=1135856288]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 32.0
+offset_right = 40.0
+offset_bottom = 72.0
+script = ExtResource("9_trtic")
+
 [node name="NPC2" parent="." unique_id=210497804 instance=ExtResource("4_lbhrr")]
 position = Vector2(-204, -16)
 
@@ -70,6 +82,11 @@ script = ExtResource("9_0tnpc")
 position = Vector2(-90, 34)
 shape = SubResource("RectangleShape2D_vtaks")
 
+[node name="Sprite2D" type="Sprite2D" parent="QuestCollectible" unique_id=412433906]
+position = Vector2(-91, 64.00001)
+scale = Vector2(0.275, 0.30357143)
+texture = ExtResource("11_kvpfn")
+
 [node name="QuestCollectible2" type="Area2D" parent="." unique_id=1291926951]
 modulate = Color(0, 0, 0, 1)
 position = Vector2(-36, -89)
@@ -78,3 +95,9 @@ script = ExtResource("9_0tnpc")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="QuestCollectible2" unique_id=338806076]
 position = Vector2(-90, 34)
 shape = SubResource("RectangleShape2D_vtaks")
+
+[node name="Coin" parent="." unique_id=1662488867 instance=ExtResource("12_dinhu")]
+position = Vector2(-194, -52)
+
+[node name="Blacksmith" parent="." unique_id=1866240032 instance=ExtResource("13_kvuet")]
+position = Vector2(-283, -21)

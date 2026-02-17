@@ -3,59 +3,65 @@ using System;
 
 public partial class Attack : Node2D
 {
-	[Signal]
-	public delegate void AttackFinishedEventHandler();
+    [Signal]
+    public delegate void AttackFinishedEventHandler();
+
     private Area2D hitboxArea;
-	private AnimatedSprite2D attackSprite;
+    private AnimatedSprite2D attackSprite;
+    private Player player;
+    private float attackDamage = 10f;
 
-	private Health health;
-	private Player player;
-
-	public override void _Ready()
-	{
-		player = GetNode<Player>("/root/game/Player");
+    public override void _Ready()
+    {
+        player = GetNode<Player>("/root/game/Player");
         attackSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         hitboxArea = GetNode<Area2D>("HitboxArea");
-
         hitboxArea.BodyEntered += OnBodyEntered;
-		attackSprite.Play();
-		attackSprite.AnimationFinished += OnAnimationFinished;
+        attackSprite.Play();
+        attackSprite.AnimationFinished += OnAnimationFinished;
     }
 
-	public void SetDirection()
-	{
-		switch (player.currentDirection)
-		{
-			case Player.EnumDirection.Up:
-				attackSprite.RotationDegrees = 360;
+    public void SetDamage(float damage)
+    {
+        attackDamage = damage;
+        GD.Print($"Attack damage set to: {attackDamage}");
+    }
+
+    public void SetDirection()
+    {
+        switch (player.currentDirection)
+        {
+            case Player.EnumDirection.Up:
+                attackSprite.RotationDegrees = 360;
                 break;
 
-			case Player.EnumDirection.Down:
-				attackSprite.RotationDegrees = 180;
-				break;
-			case Player.EnumDirection.Left:
-				attackSprite.FlipH = true;
+            case Player.EnumDirection.Down:
+                attackSprite.RotationDegrees = 180;
                 break;
 
+            case Player.EnumDirection.Left:
+                attackSprite.FlipH = true;
+                break;
         }
     }
 
     private void OnBodyEntered(Node2D body)
-	{
-		GD.Print($"Hitbox entered by: {body.Name}");
-        if (body is  Enemy enemy)
-		{
-			var enemyHealth = enemy.GetNode<Health>("Health");
-
-			if (enemyHealth != null)
-				enemyHealth.TakeDamage(10);
+    {
+        GD.Print($"Hitbox entered by: {body.Name}");
+        if (body is Enemy enemy)
+        {
+            var enemyHealth = enemy.GetNode<Health>("Health");
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(attackDamage);
+                GD.Print($"Dealt {attackDamage} damage to {enemy.Name}");
+            }
         }
-	}
-	public void OnAnimationFinished()
-	{
-		EmitSignal("AttackFinished");
-        QueueFree();
     }
 
-
+    public void OnAnimationFinished()
+    {
+        EmitSignal("AttackFinished");
+        QueueFree();
+    }
 }

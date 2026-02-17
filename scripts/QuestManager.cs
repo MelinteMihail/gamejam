@@ -9,7 +9,6 @@ public partial class QuestManager : Node
 
     [Signal]
     public delegate void QuestAddedEventHandler(QuestData questData);
-
     [Signal]
     public delegate void QuestCompletedEventHandler(QuestData questData);
 
@@ -66,7 +65,7 @@ public partial class QuestManager : Node
         if (questToRemove != null)
         {
             activeQuests.Remove(questToRemove);
-            completedQuestIds.Add(questData.QuestId); // Mark as completed
+            completedQuestIds.Add(questData.QuestId);
             EmitSignal(SignalName.QuestCompleted, questToRemove);
             GD.Print($"Quest completed: {questToRemove.QuestTitle} (ID: {questToRemove.QuestId})");
         }
