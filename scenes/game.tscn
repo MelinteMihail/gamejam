@@ -163,3 +163,9 @@ texture = ExtResource("20_5newe")
 position = Vector2(-363, -219)
 scale = Vector2(13.624999, 11.250001)
 texture = ExtResource("21_37s47")
+
+[node name="pointA" type="Marker2D" parent="." unique_id=1137461530]
+position = Vector2(425, -213)
+
+[node name="pointB" type="Marker2D" parent="." unique_id=1759994558]
+position = Vector2(470, -213)
