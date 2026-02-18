@@ -7,7 +7,7 @@ public partial class Enemy : CharacterBody2D
 	[Export]
 	public float Enemy_Speed = 100.0f;
 	[Export]
-	public string EnemyType = "goblin";
+	public string EnemyType = "";
     private CharacterBody2D Player;
     private bool isAttacking = false;
     private Area2D area2D;
@@ -17,6 +17,8 @@ public partial class Enemy : CharacterBody2D
 	[Export]
 	private AnimatedSprite2D animatedSprite;
     public EnemyEnumDirection currentEnemyDirection = EnemyEnumDirection.Down;
+
+    private string EnemyTypePrefix;
     public enum EnemyEnumDirection
     {
         None,
@@ -37,6 +39,9 @@ public partial class Enemy : CharacterBody2D
 
         health.Died += OnEnemyDied;
         health.HealthChanged += OnEnemyHealthChanged;
+
+        EnemyTypePrefix = EnemyType + "_";
+
         Attack.AttackStarted += OnAttackStarted;
         animatedSprite.AnimationFinished += OnAnimationFinished;
 
@@ -127,21 +132,21 @@ public partial class Enemy : CharacterBody2D
         switch (currentEnemyDirection)
         {
             case EnemyEnumDirection.Up:
-                animatedSprite.Play(isMoving ? "walk_up" : "idle_up");
+                animatedSprite.Play(EnemyTypePrefix + (isMoving ? "walk_up" : "idle_up"));
                 break;
 
             case EnemyEnumDirection.Down:
-                animatedSprite.Play(isMoving ? "walk_down" : "idle_down");
+                animatedSprite.Play(EnemyTypePrefix + (isMoving ? "walk_down" : "idle_down"));
                 break;
 
             case EnemyEnumDirection.Left:
                 animatedSprite.FlipH = true;
-                animatedSprite.Play(isMoving ? "walk_right" : "idle_right");
+                animatedSprite.Play(EnemyTypePrefix + (isMoving ? "walk_right" : "idle_right"));
                 break;
 
             case EnemyEnumDirection.Right:
                 animatedSprite.FlipH = false;
-                animatedSprite.Play(isMoving ? "walk_right" : "idle_right");
+                animatedSprite.Play(EnemyTypePrefix + (isMoving ? "walk_right" : "idle_right"));
                 break;
         }
 
