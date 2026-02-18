@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://dc8vfd35tdhhy"]
+
+[ext_resource type="Texture2D" uid="uid://dpb2a83avcp56" path="res://assets/enemy/gamejam_eye_enemy-Sheet.png" id="1_fox8h"]
+[ext_resource type="Script" uid="uid://te6dp8idfhly" path="res://scripts/Enemy.cs" id="1_ibab6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ibab6"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(1, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wdqc"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(37, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xasvo"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(73, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1mtdb"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(109, 0, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exidn"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(1, 108, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u6tux"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(37, 108, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjml7"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(73, 108, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqj1k"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(109, 108, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rhgk"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(1, 72, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63su4"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(37, 72, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mcdax"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(73, 72, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ymas"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(109, 72, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ju11b"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(1, 36, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1mtp"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(37, 36, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ik62b"]
+atlas = ExtResource("1_fox8h")
+region = Rect2(73, 36, 36, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xc8ne"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ibab6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wdqc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xasvo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1mtdb")
+}],
+"loop": true,
+"name": &"attack_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exidn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u6tux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjml7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqj1k")
+}],
+"loop": true,
+"name": &"attack_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rhgk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63su4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mcdax")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ymas")
+}],
+"loop": true,
+"name": &"attack_up",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ju11b")
+}],
+"loop": true,
+"name": &"eye_idle_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1mtp")
+}],
+"loop": true,
+"name": &"eye_idle_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik62b")
+}],
+"loop": true,
+"name": &"eye_idle_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kjxq0"]
+radius = 12.0
+height = 38.0
+
+[node name="Enemy_eye" type="CharacterBody2D" unique_id=365287305 node_paths=PackedStringArray("animatedSprite")]
+script = ExtResource("1_ibab6")
+EnemyType = "eye"
+animatedSprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=489755393]
+sprite_frames = SubResource("SpriteFrames_xc8ne")
+animation = &"attack_right"
+autoplay = "eye_idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=23549786]
+position = Vector2(1, 3)
+shape = SubResource("CapsuleShape2D_kjxq0")
