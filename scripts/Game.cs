@@ -3,11 +3,18 @@ using System;
 
 public partial class Game : Node2D
 {
-	// Called when the node enters the scene tree for the first time.
+	[Export]
+	private Dialogue dialogue;
 	public override void _Ready()
 	{
 		var button = GetNode<Button>("Button");
 		button.Pressed += OnButtonPressed;
+
+        dialogue.ShowDialogue(new[]
+		{
+			("", "The room feels heavy..."),
+			("John", "I need to get up.")
+		});
     }
 
 
