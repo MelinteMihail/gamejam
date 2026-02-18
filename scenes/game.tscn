@@ -154,7 +154,6 @@ offset_bottom = -62.0
 [node name="Checkpoint" parent="." unique_id=878379604 instance=ExtResource("19_264po")]
 position = Vector2(-357, -17)
 
-[node name="Enemy_eye" parent="." unique_id=365287305 instance=ExtResource("20_1kice")]
 position = Vector2(-20, -189)
 [node name="blacksquare" type="Sprite2D" parent="." unique_id=652130297]
 position = Vector2(-434, -77)
