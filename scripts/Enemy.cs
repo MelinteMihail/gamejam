@@ -8,11 +8,12 @@ public partial class Enemy : CharacterBody2D
 	public float Enemy_Speed = 100.0f;
 	[Export]
 	public string EnemyType = "goblin";
-
     private CharacterBody2D Player;
-	private Area2D area2D;
+    private bool isAttacking = false;
+    private Area2D area2D;
 	private Health health;
 	private Vector2 lastPosition;
+    private Collision Attack;
 	[Export]
 	private AnimatedSprite2D animatedSprite;
     public EnemyEnumDirection currentEnemyDirection = EnemyEnumDirection.Down;
@@ -27,7 +28,7 @@ public partial class Enemy : CharacterBody2D
     public override void _Ready()
 	{
         AddToGroup("enemy");
-
+        Attack = GetNode<Collision>("Collision Area");
         area2D = GetNode<Area2D>("FollowArea");
         area2D.BodyEntered += OnBodyEntered;
         area2D.BodyExited += OnBodyExited;
@@ -36,6 +37,9 @@ public partial class Enemy : CharacterBody2D
 
         health.Died += OnEnemyDied;
         health.HealthChanged += OnEnemyHealthChanged;
+        Attack.AttackStarted += OnAttackStarted;
+        animatedSprite.AnimationFinished += OnAnimationFinished;
+
 
     }
     private void OnEnemyDied()
@@ -65,6 +69,7 @@ public partial class Enemy : CharacterBody2D
     private void OnEnemyHealthChanged(float current, float max)
     {
         GD.Print($"Enemy health changed: {current}");
+
     }
     private void OnBodyEntered(Node body)
 	{
@@ -115,8 +120,10 @@ public partial class Enemy : CharacterBody2D
 
     private void AnimateEnemy()
     {
+        if (isAttacking)
+            return; 
         bool isMoving = Velocity != Vector2.Zero;
-
+        
         switch (currentEnemyDirection)
         {
             case EnemyEnumDirection.Up:
@@ -139,4 +146,37 @@ public partial class Enemy : CharacterBody2D
         }
 
     }
+    private void OnAttackStarted()
+    {
+        isAttacking = true;
+
+        switch (currentEnemyDirection)
+        {
+            case EnemyEnumDirection.Up:
+                animatedSprite.Play("attack_up");
+                break;
+            case EnemyEnumDirection.Down:
+                animatedSprite.Play("attack_down");
+                break;
+            case EnemyEnumDirection.Left:
+                animatedSprite.FlipH = true;
+                animatedSprite.Play("attack_right");
+                break;
+            case EnemyEnumDirection.Right:
+                animatedSprite.FlipH = false;
+                animatedSprite.Play("attack_right");
+                break;
+        }
+    }
+    private void OnAnimationFinished()
+    {
+        string anim = animatedSprite.Animation.ToString();
+
+        if (anim.StartsWith("attack"))
+        {
+            isAttacking = false;
+            Attack.isAttacking = false;
+        }
+    }
+
 }
