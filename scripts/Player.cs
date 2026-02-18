@@ -26,6 +26,8 @@ public partial class Player : CharacterBody2D
     public float CurrentDurability => baseDurability * durabilityMultiplier;
     public float CurrentDamage => baseDamage * attackMultiplier;
 
+    public HealthBar healthBar;
+
     private Health health;
     private Area2D LampArea;
     private List<Health> enemiesInLamp = new();
@@ -34,8 +36,7 @@ public partial class Player : CharacterBody2D
     public PlayerEnumDirection currentPlayerDirection = PlayerEnumDirection.Down;
     private bool isAttacking = false;
 
-    // Track current armor set
-    private string armorPrefix = ""; // "", "iron_", or "steel_"
+    private string armorPrefix = "";
 
     public enum PlayerEnumDirection
     {
@@ -54,8 +55,18 @@ public partial class Player : CharacterBody2D
         health.Died += OnPlayerDied;
         health.HealthChanged += OnHealthChanged;
 
-        LampArea.BodyEntered += OnBodyEnteredLampArea;
+        healthBar = GetNodeOrNull<HealthBar>("/root/game/UI/HealthBar");
+
+        if (healthBar != null)
+        {
+            health.HealthChanged += (current, max) => healthBar.UpdateHealth(current, max);
+
+            healthBar.CallDeferred("UpdateHealth", health.CurrentHealth, (float)health.maxHealth);
+        }
+
+            LampArea.BodyEntered += OnBodyEnteredLampArea;
         LampArea.BodyExited += OnBodyExitedLampArea;
+        GD.Print(healthBar == null ? "HealthBar NOT found" : "HealthBar found");
     }
 
     public override void _PhysicsProcess(double delta)
