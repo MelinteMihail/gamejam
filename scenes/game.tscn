@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="12_dinhu"]
 [ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="12_ssvqc"]
 [ext_resource type="PackedScene" uid="uid://c2helh2ilwbxe" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
-[ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/enemy/herb.png" id="15_rysoc"]
+[ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/extras/herb.png" id="15_rysoc"]
 [ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="19_264po"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]

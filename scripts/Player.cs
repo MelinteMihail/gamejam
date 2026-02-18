@@ -111,6 +111,7 @@ public partial class Player : CharacterBody2D
         SetPhysicsProcess(false);
         SetProcess(false);
 
+        Sprite.Play(armorPrefix + "death");
         await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 
         Respawn();
