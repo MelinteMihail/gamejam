@@ -1044,13 +1044,19 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Gradient" id="Gradient_tuyoq"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_fjrip"]
-gradient = SubResource("Gradient_tuyoq")
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
 size = Vector2(42, 27)
+
+[sub_resource type="Gradient" id="Gradient_smehm"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ur7pv"]
+gradient = SubResource("Gradient_smehm")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite", "CollisionShape")]
 collision_mask = 2
@@ -1095,16 +1101,16 @@ sprite_frames = SubResource("SpriteFrames_2dvfe")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="PointLight2D" type="PointLight2D" parent="LanternPivot" unique_id=397766385]
-position = Vector2(-1, 5.5)
-scale = Vector2(0.96875, 1.015625)
-color = Color(0.7886799, 0.49189848, 0.28759003, 1)
-energy = 0.5
-texture = SubResource("GradientTexture2D_fjrip")
-
 [node name="LampArea" type="Area2D" parent="." unique_id=1764573761]
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LampArea" unique_id=926156432]
 position = Vector2(1, 5)
 shape = SubResource("RectangleShape2D_tuyoq")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=397766385]
+position = Vector2(-2.87e-42, -1.9073486e-06)
+scale = Vector2(0.96875, 1.015625)
+color = Color(0.7886799, 0.49189848, 0.28759003, 1)
+energy = 5.0
+texture = SubResource("GradientTexture2D_ur7pv")

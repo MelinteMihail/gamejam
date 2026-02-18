@@ -18,8 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="12_ssvqc"]
 [ext_resource type="PackedScene" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
 [ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/extras/herb.png" id="15_rysoc"]
-[ext_resource type="PackedScene" path="res://scenes/checkpoint.tscn" id="19_264po"]
-[ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="20_1kice"]
+[ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="19_264po"]
+[ext_resource type="Texture2D" uid="uid://2ra30empomyl" path="res://assets/extras/black.png" id="20_5newe"]
+[ext_resource type="Texture2D" uid="uid://bw8htgh7a0i7k" path="res://assets/extras/little_whiter.png" id="21_37s47"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 
@@ -32,6 +33,7 @@ scale = Vector2(0.2109375, 0.2265625)
 texture = ExtResource("1_yqjtg")
 
 [node name="Player" parent="." unique_id=1439945288 groups=["player"] instance=ExtResource("1_uwrxv")]
+z_index = 2
 position = Vector2(2, 2)
 attackDistance = 20.0
 
@@ -154,3 +156,12 @@ position = Vector2(-357, -17)
 
 [node name="Enemy_eye" parent="." unique_id=365287305 instance=ExtResource("20_1kice")]
 position = Vector2(-20, -189)
+[node name="blacksquare" type="Sprite2D" parent="." unique_id=652130297]
+position = Vector2(-434, -77)
+scale = Vector2(2.75, 2.5000005)
+texture = ExtResource("20_5newe")
+
+[node name="whitersquare" type="Sprite2D" parent="." unique_id=1844077708]
+position = Vector2(-363, -219)
+scale = Vector2(13.624999, 11.250001)
+texture = ExtResource("21_37s47")

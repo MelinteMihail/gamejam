@@ -12,12 +12,12 @@ public partial class DeathScreen : CanvasLayer
         youDiedLabel.Modulate = new Color(1, 1, 1, 0);
 
         var tween = CreateTween();
-        tween.TweenProperty(fadeOverlay, "modulate:a", 0.0f, 0.5f);        // fade in scene
-        tween.TweenProperty(youDiedLabel, "modulate:a", 1.0f, 0.8f);       // YOU DIED fades in
-        tween.TweenInterval(holdDuration);                                   // hold
-        tween.TweenProperty(youDiedLabel, "modulate:a", 0.0f, 0.5f);       // YOU DIED fades out
-        tween.TweenProperty(fadeOverlay, "modulate:a", 1.0f, 0.6f);        // fade to black
-        tween.TweenCallback(Callable.From(GoToLoadingScreen));              // then switch
+        tween.TweenProperty(fadeOverlay, "modulate:a", 0.0f, 0.5f);
+        tween.TweenProperty(youDiedLabel, "modulate:a", 1.0f, 0.8f);
+        tween.TweenInterval(holdDuration);
+        tween.TweenProperty(youDiedLabel, "modulate:a", 0.0f, 0.5f);       
+        tween.TweenProperty(fadeOverlay, "modulate:a", 1.0f, 0.6f);
+        tween.TweenCallback(Callable.From(GoToLoadingScreen));
     }
 
     private void GoToLoadingScreen()
