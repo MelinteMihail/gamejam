@@ -37,26 +37,28 @@ public partial class QuestCollectible : Area2D
 
     private void CollectItem()
     {
-        if (QuestManager.Instance == null) return;
+        hasBeenCollected = true;
 
-        var activeQuests = QuestManager.Instance.GetActiveQuests();
-        bool hasMatchingQuest = false;
+        if (QuestManager.Instance != null)
+        {   
+            var activeQuests = QuestManager.Instance.GetActiveQuests();
 
-        foreach (var quest in activeQuests)
-        {
-            if (quest.ProgressType == QuestItemType && !quest.IsCompleted())
+            foreach (var quest in activeQuests)
             {
-                hasMatchingQuest = true;
-                quest.AddProgress(1);
-                GD.Print($"Quest progress: {quest.GetProgressText()}");
-                if (quest.IsCompleted())
-                    GD.Print($"Quest completed: {quest.QuestTitle}");
+                if (quest.ProgressType == QuestItemType && !quest.IsCompleted())
+                {
+                    quest.AddProgress(1);
+                    GD.Print($"Quest progress: {quest.GetProgressText()}");
+
+                    if (quest.IsCompleted())
+                    {
+                        GD.Print($"Quest completed: {quest.QuestTitle}");
+                    }
+                }
             }
         }
 
-        if (hasMatchingQuest)
-            QueueFree();
-        else
-            GD.Print("No active quest for this item.");
+        QueueFree();
+        
     }
 }
