@@ -6,5 +6,5 @@
 script = ExtResource("1_m1a44")
 QuestId = "\"herbs2\""
 QuestTitle = "NPC2's Quest "
-TargetProgress = 1
+TargetProgress = 2
 ProgressType = "goblin"

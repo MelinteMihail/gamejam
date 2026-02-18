@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="12_ssvqc"]
 [ext_resource type="PackedScene" uid="uid://c2helh2ilwbxe" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
 [ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/enemy/herb.png" id="15_rysoc"]
+[ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="19_264po"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 
@@ -75,10 +76,10 @@ script = ExtResource("9_trtic")
 [node name="HealthBar" type="Control" parent="UI" unique_id=1342863381]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -416.0
-offset_top = -204.0
-offset_right = -160.0
-offset_bottom = -136.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 276.0
+offset_bottom = 88.0
 script = ExtResource("10_ir15t")
 
 [node name="Decoration" type="TextureRect" parent="UI/HealthBar" unique_id=1224920840]
@@ -146,3 +147,6 @@ offset_left = -89.0
 offset_top = -70.0
 offset_right = -81.0
 offset_bottom = -62.0
+
+[node name="Checkpoint" parent="." unique_id=878379604 instance=ExtResource("19_264po")]
+position = Vector2(-357, -17)

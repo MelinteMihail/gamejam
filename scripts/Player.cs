@@ -33,6 +33,7 @@ public partial class Player : CharacterBody2D
     private List<Health> enemiesInLamp = new();
 
     private Vector2 lastPosition;
+    private Vector2 respawnPosition;
     public PlayerEnumDirection currentPlayerDirection = PlayerEnumDirection.Down;
     private bool isAttacking = false;
 
@@ -49,6 +50,8 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
+        respawnPosition = GlobalPosition;
+
         LampArea = GetNode<Area2D>("LampArea");
         health = GetNode<Health>("Health");
 
@@ -98,9 +101,31 @@ public partial class Player : CharacterBody2D
         Attack();
     }
 
-    private void OnPlayerDied()
+    public void SetCheckpoint(Vector2 position)
     {
-        QueueFree();
+        respawnPosition = position;
+    }
+
+    private async void OnPlayerDied()
+    {
+        SetPhysicsProcess(false);
+        SetProcess(false);
+
+        await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+
+        Respawn();
+    }
+
+    private void Respawn()
+    {
+        GlobalPosition = respawnPosition;
+        Velocity = Vector2.Zero;
+        enemiesInLamp.Clear();
+
+        health.Reset();
+
+        SetPhysicsProcess(true);
+        SetProcess(true);
     }
 
     public void EquipArmorSet(float durabilityBonus, float damageBonus)
