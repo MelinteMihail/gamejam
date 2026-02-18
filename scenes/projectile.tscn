@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dacekq42yenco"]
+
+[ext_resource type="Script" uid="uid://bin4hfvemo8by" path="res://scripts/Projectile.cs" id="1_q3m7n"]
+[ext_resource type="Texture2D" uid="uid://c755heicxmx1n" path="res://assets/enemy/gamejam_eye_laser.png" id="2_softn"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_6q2a6"]
+a = Vector2(-6, 0)
+b = Vector2(6, 0)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6aapk"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_softn")
+}],
+"loop": true,
+"name": &"projectile",
+"speed": 5.0
+}]
+
+[node name="Projectile" type="Area2D" unique_id=769498925]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_q3m7n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2033137090]
+shape = SubResource("SegmentShape2D_6q2a6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1302007278]
+sprite_frames = SubResource("SpriteFrames_6aapk")
+animation = &"projectile"
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

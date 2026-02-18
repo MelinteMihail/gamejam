@@ -17,7 +17,8 @@ public partial class Enemy : CharacterBody2D
 	[Export]
 	private AnimatedSprite2D animatedSprite;
     public EnemyEnumDirection currentEnemyDirection = EnemyEnumDirection.Down;
-
+    [Export]
+    private PackedScene ProjectileScene;
     private string EnemyTypePrefix;
     public enum EnemyEnumDirection
     {
@@ -44,7 +45,6 @@ public partial class Enemy : CharacterBody2D
 
         Attack.AttackStarted += OnAttackStarted;
         animatedSprite.AnimationFinished += OnAnimationFinished;
-
 
     }
     private void OnEnemyDied()
@@ -88,19 +88,29 @@ public partial class Enemy : CharacterBody2D
     }
 	public override void _PhysicsProcess(double delta)
 	{
-		if (Player != null)
-		{
-			Vector2 direction = (Player.GlobalPosition - GlobalPosition).Normalized();
-			Velocity = direction * Enemy_Speed;
-			lastPosition = direction;
-			MoveAndCollide(direction);
+        if (Player != null)
+        {
+            Vector2 direction = (Player.GlobalPosition - GlobalPosition).Normalized();
+            lastPosition = direction;
             GetEnemyInputDirection();
+
+            if (EnemyType == "goblin")
+            {
+                Velocity = direction * Enemy_Speed;
+                MoveAndCollide(direction);
+            }
+            
         }
-		else
+        else
 		{
 			Velocity = Vector2.Zero;
 		}
-	}
+        if (EnemyType == "eye")
+        {
+            Velocity = Vector2.Zero;
+            MoveAndSlide();
+        }
+    }
 
     public override void _Process(double delta)
     {
@@ -126,30 +136,33 @@ public partial class Enemy : CharacterBody2D
     private void AnimateEnemy()
     {
         if (isAttacking)
-            return; 
+            return;
         bool isMoving = Velocity != Vector2.Zero;
-        
+        string targetAnim = "";
+        bool flip = false;
+
         switch (currentEnemyDirection)
         {
             case EnemyEnumDirection.Up:
-                animatedSprite.Play(EnemyTypePrefix + (isMoving ? "walk_up" : "idle_up"));
+                targetAnim = EnemyTypePrefix + (isMoving ? "walk_up" : "idle_up");
                 break;
-
             case EnemyEnumDirection.Down:
-                animatedSprite.Play(EnemyTypePrefix + (isMoving ? "walk_down" : "idle_down"));
+                targetAnim = EnemyTypePrefix + (isMoving ? "walk_down" : "idle_down");
                 break;
-
             case EnemyEnumDirection.Left:
-                animatedSprite.FlipH = true;
-                animatedSprite.Play(EnemyTypePrefix + (isMoving ? "walk_right" : "idle_right"));
+                flip = true;
+                targetAnim = EnemyTypePrefix + (isMoving ? "walk_right" : "idle_right");
                 break;
-
             case EnemyEnumDirection.Right:
-                animatedSprite.FlipH = false;
-                animatedSprite.Play(EnemyTypePrefix + (isMoving ? "walk_right" : "idle_right"));
+                targetAnim = EnemyTypePrefix + (isMoving ? "walk_right" : "idle_right");
                 break;
+            default:
+                return;
         }
+        animatedSprite.FlipH = flip;
 
+        if (animatedSprite.Animation.ToString() != targetAnim)
+            animatedSprite.Play(targetAnim);
     }
     private void OnAttackStarted()
     {
@@ -177,10 +190,24 @@ public partial class Enemy : CharacterBody2D
     {   
         string anim = animatedSprite.Animation.ToString();
 
-        if (anim.StartsWith("attack"))
+        if (anim.StartsWith(EnemyTypePrefix + "attack"))
         {
             isAttacking = false;
-            Attack.ApplyDamageOnce();
+
+            if (EnemyType == "eye" && ProjectileScene != null && Player != null)
+            {
+                var projectile = ProjectileScene.Instantiate<Projectile>();
+                GetParent().AddChild(projectile);
+                projectile.GlobalPosition = GlobalPosition;
+                Vector2 dir = (Player.GlobalPosition - GlobalPosition).Normalized();
+                projectile.Initialize(dir);
+                Attack.isAttacking = false;
+                Attack.ResetCooldown();     
+            }
+            else
+            {
+                Attack.ApplyDamageOnce();
+            }
         }
     }
 

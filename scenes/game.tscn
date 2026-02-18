@@ -14,9 +14,9 @@
 [ext_resource type="Resource" uid="uid://cqft7x0c67g45" path="res://resources/herb_quest_2.tres" id="9_vtaks"]
 [ext_resource type="Script" uid="uid://c6bhvgbkr6fjc" path="res://scripts/HealthBar.cs" id="10_ir15t"]
 [ext_resource type="Texture2D" uid="uid://cr7hwbiu7vrad" path="res://assets/extras/health_bar_decoration.png" id="11_rysoc"]
-[ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="12_dinhu"]
+[ext_resource type="PackedScene" path="res://scenes/coin.tscn" id="12_dinhu"]
 [ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="12_ssvqc"]
-[ext_resource type="PackedScene" uid="uid://c2helh2ilwbxe" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
+[ext_resource type="PackedScene" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
 [ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/extras/herb.png" id="15_rysoc"]
 [ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="19_264po"]
 [ext_resource type="Texture2D" uid="uid://2ra30empomyl" path="res://assets/extras/black.png" id="20_5newe"]
@@ -154,6 +154,7 @@ offset_bottom = -62.0
 [node name="Checkpoint" parent="." unique_id=878379604 instance=ExtResource("19_264po")]
 position = Vector2(-357, -17)
 
+position = Vector2(-20, -189)
 [node name="blacksquare" type="Sprite2D" parent="." unique_id=652130297]
 position = Vector2(-434, -77)
 scale = Vector2(2.75, 2.5000005)
