@@ -187,7 +187,7 @@ public partial class Enemy : CharacterBody2D
         }
     }
     private void OnAnimationFinished()
-    {
+    {   
         string anim = animatedSprite.Animation.ToString();
 
         if (anim.StartsWith(EnemyTypePrefix + "attack"))
