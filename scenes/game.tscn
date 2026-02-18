@@ -11,9 +11,12 @@
 [ext_resource type="Script" uid="uid://doss0120fddb0" path="res://scripts/QuestCollectible.cs" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://c00rglak8othv" path="res://scripts/BlacksmithShop.cs" id="9_trtic"]
 [ext_resource type="Resource" uid="uid://cqft7x0c67g45" path="res://resources/herb_quest_2.tres" id="9_vtaks"]
-[ext_resource type="Texture2D" uid="uid://chbcvmxi5glai" path="res://assets/lantern/Lantern 1/Bronze/Orange Light/Lantern 1 - Beonze and Orange_000.png" id="11_kvpfn"]
+[ext_resource type="Script" uid="uid://c6bhvgbkr6fjc" path="res://scripts/HealthBar.cs" id="10_ir15t"]
+[ext_resource type="Texture2D" uid="uid://cr7hwbiu7vrad" path="res://assets/extras/health_bar_decoration.png" id="11_rysoc"]
 [ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="12_dinhu"]
+[ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="12_ssvqc"]
 [ext_resource type="PackedScene" uid="uid://c2helh2ilwbxe" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
+[ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/enemy/herb.png" id="15_rysoc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 
@@ -67,6 +70,37 @@ offset_right = 40.0
 offset_bottom = 72.0
 script = ExtResource("9_trtic")
 
+[node name="HealthBar" type="Control" parent="UI" unique_id=1342863381]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -416.0
+offset_top = -204.0
+offset_right = -160.0
+offset_bottom = -136.0
+script = ExtResource("10_ir15t")
+
+[node name="Decoration" type="TextureRect" parent="UI/HealthBar" unique_id=1224920840]
+custom_minimum_size = Vector2(256, 68)
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 68.0
+texture = ExtResource("11_rysoc")
+expand_mode = 1
+
+[node name="FillClip" type="Control" parent="UI/HealthBar" unique_id=1826906084]
+clip_contents = true
+anchors_preset = 0
+offset_left = 56.0
+offset_right = 252.0
+offset_bottom = 68.0
+
+[node name="Fill" type="TextureRect" parent="UI/HealthBar/FillClip" unique_id=1239455209]
+custom_minimum_size = Vector2(196, 68)
+layout_mode = 1
+offset_right = 196.0
+offset_bottom = 68.0
+texture = ExtResource("12_ssvqc")
+
 [node name="NPC2" parent="." unique_id=210497804 instance=ExtResource("4_lbhrr")]
 position = Vector2(-204, -16)
 
@@ -75,27 +109,29 @@ script = ExtResource("5_gee14")
 QuestDataTemplate = ExtResource("9_vtaks")
 
 [node name="QuestCollectible" type="Area2D" parent="." unique_id=314741585]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(-35, -119)
+position = Vector2(-106, -121)
 script = ExtResource("9_0tnpc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="QuestCollectible" unique_id=17005274]
-position = Vector2(-90, 34)
 shape = SubResource("RectangleShape2D_vtaks")
 
 [node name="Sprite2D" type="Sprite2D" parent="QuestCollectible" unique_id=412433906]
-position = Vector2(-91, 64.00001)
+position = Vector2(0, 4.2915344e-06)
 scale = Vector2(0.275, 0.30357143)
-texture = ExtResource("11_kvpfn")
+texture = ExtResource("15_rysoc")
 
 [node name="QuestCollectible2" type="Area2D" parent="." unique_id=1291926951]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(-36, -89)
+position = Vector2(-58, -120)
 script = ExtResource("9_0tnpc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="QuestCollectible2" unique_id=338806076]
-position = Vector2(-90, 34)
 shape = SubResource("RectangleShape2D_vtaks")
+
+[node name="Sprite2D" type="Sprite2D" parent="QuestCollectible2" unique_id=1789133352]
+z_index = -5
+position = Vector2(0, 4.2915344e-06)
+scale = Vector2(0.905, 1)
+texture = ExtResource("15_rysoc")
 
 [node name="Coin" parent="." unique_id=1662488867 instance=ExtResource("12_dinhu")]
 position = Vector2(-194, -52)

@@ -929,7 +929,7 @@ animations = [{
 gradient = SubResource("Gradient_tuyoq")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
-size = Vector2(26, 27)
+size = Vector2(42, 27)
 
 [node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite", "CollisionShape")]
 collision_mask = 2
@@ -983,5 +983,5 @@ texture = SubResource("GradientTexture2D_fjrip")
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LampArea" unique_id=926156432]
-position = Vector2(-1, 3.5)
+position = Vector2(1, 5)
 shape = SubResource("RectangleShape2D_tuyoq")

@@ -28,6 +28,10 @@ project/assembly_name="gamejam"
 
 player=""
 
+[gui]
+
+theme/custom_font="uid://5i0cxovnatev"
+
 [input]
 
 left={
