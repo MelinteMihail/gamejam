@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://6ci0g1jjuo6"]
+
+[ext_resource type="Script" uid="uid://ddh8od8ceu3bw" path="res://scripts/DeathScreen.cs" id="1_uyutr"]
+
+[node name="DeathScreen" type="CanvasLayer" unique_id=202356570 node_paths=PackedStringArray("youDiedLabel", "fadeOverlay")]
+script = ExtResource("1_uyutr")
+youDiedLabel = NodePath("YouDiedLabel")
+fadeOverlay = NodePath("FadeOverlay")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1344536372]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[node name="YouDiedLabel" type="Label" parent="." unique_id=1218608519]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -15.0
+offset_right = 20.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You Died."
+horizontal_alignment = 1
+
+[node name="FadeOverlay" type="ColorRect" parent="." unique_id=253468297]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

@@ -11,7 +11,6 @@ public partial class LoadingScreen : CanvasLayer
     private float minTime = 1.5f;
     private float elapsed = 0.0f;
     private float displayProgress = 0f;
-
     public override void _Ready()
     {
         var tween = CreateTween();
@@ -24,15 +23,12 @@ public partial class LoadingScreen : CanvasLayer
         ResourceLoader.LoadThreadedRequest(NextScenePath);
         loading = true;
     }
-
     public override void _Process(double delta)
     {
         if (!loading) return;
         elapsed += (float)delta;
-
         var progress = new Godot.Collections.Array();
         var status = ResourceLoader.LoadThreadedGetStatus(NextScenePath, progress);
-
         switch (status)
         {
             case ResourceLoader.ThreadLoadStatus.InProgress:
@@ -41,29 +37,24 @@ public partial class LoadingScreen : CanvasLayer
                 progressBar.Value = displayProgress;
                 statusLabel.Text = $"Loading... {(int)displayProgress}%";
                 break;
-
             case ResourceLoader.ThreadLoadStatus.Loaded:
                 if (switching) break;
-
                 displayProgress = Mathf.MoveToward(displayProgress, 100f, (float)delta * 50f);
                 progressBar.Value = displayProgress;
                 statusLabel.Text = $"Loading... {(int)displayProgress}%";
-
                 if (displayProgress >= 100f)
                 {
                     switching = true;
                     statusLabel.Text = "Loading complete!";
-                    GoToSceneAfterDelay(0.5f);
+                    GoToSceneAfterDelay(1f);
                 }
                 break;
-
             case ResourceLoader.ThreadLoadStatus.Failed:
                 statusLabel.Text = "Failed to load scene!";
                 loading = false;
                 break;
         }
     }
-
     private async void GoToSceneAfterDelay(float delay)
     {
         await ToSignal(GetTree().CreateTimer(delay), SceneTreeTimer.SignalName.Timeout);

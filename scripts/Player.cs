@@ -111,11 +111,11 @@ public partial class Player : CharacterBody2D
         SetPhysicsProcess(false);
         SetProcess(false);
 
+        Sprite.Play(armorPrefix + "death");
         await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 
         Respawn();
     }
-
     private void Respawn()
     {
         GlobalPosition = respawnPosition;
@@ -123,6 +123,8 @@ public partial class Player : CharacterBody2D
         enemiesInLamp.Clear();
 
         health.Reset();
+
+        GetTree().ChangeSceneToFile("res://scenes/death_screen.tscn");
 
         SetPhysicsProcess(true);
         SetProcess(true);
