@@ -158,18 +158,18 @@ public partial class Enemy : CharacterBody2D
         switch (currentEnemyDirection)
         {
             case EnemyEnumDirection.Up:
-                animatedSprite.Play("attack_up");
+                animatedSprite.Play(EnemyTypePrefix + "attack_up");
                 break;
             case EnemyEnumDirection.Down:
-                animatedSprite.Play("attack_down");
+                animatedSprite.Play(EnemyTypePrefix+ "attack_down");
                 break;
             case EnemyEnumDirection.Left:
                 animatedSprite.FlipH = true;
-                animatedSprite.Play("attack_right");
+                animatedSprite.Play(EnemyTypePrefix + "attack_right");
                 break;
             case EnemyEnumDirection.Right:
                 animatedSprite.FlipH = false;
-                animatedSprite.Play("attack_right");
+                animatedSprite.Play(EnemyTypePrefix + "attack_right");
                 break;
         }
     }
