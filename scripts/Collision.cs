@@ -26,16 +26,17 @@ public partial class Collision : Area2D
             isAttacking = true;
             EmitSignal("AttackStarted");
         }
-        else
-        {
-            float damage = DamagePerSecond * (float)delta;
-
-            foreach (var health in bodiesInside)
-            {
-                health.TakeDamage(damage);
-            }
-        }
     }
+    public void ApplyDamageOnce()
+    {
+        foreach (var health in bodiesInside)
+        {
+            health.TakeDamage(DamagePerSecond);
+        }
+
+        isAttacking = false;
+    }
+
 
 
     private void OnBodyEntered(Node2D body)

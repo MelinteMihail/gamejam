@@ -175,7 +175,7 @@ public partial class Enemy : CharacterBody2D
         if (anim.StartsWith("attack"))
         {
             isAttacking = false;
-            Attack.isAttacking = false;
+            Attack.ApplyDamageOnce();
         }
     }
 
