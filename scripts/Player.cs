@@ -116,7 +116,6 @@ public partial class Player : CharacterBody2D
 
         Respawn();
     }
-
     private void Respawn()
     {
         GlobalPosition = respawnPosition;
@@ -124,6 +123,8 @@ public partial class Player : CharacterBody2D
         enemiesInLamp.Clear();
 
         health.Reset();
+
+        GetTree().ChangeSceneToFile("res://scenes/death_screen.tscn");
 
         SetPhysicsProcess(true);
         SetProcess(true);

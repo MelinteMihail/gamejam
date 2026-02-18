@@ -1,5 +1,4 @@
 using Godot;
-
 public partial class Health : Node
 {
     [Signal]
@@ -20,17 +19,14 @@ public partial class Health : Node
     {
         if (isDead)
             return;
-
         currentHealth -= damage;
         EmitSignal(SignalName.HealthChanged, currentHealth, maxHealth);
-
         if (currentHealth <= 0 && !isDead)
         {
             isDead = true;
             EmitSignal(SignalName.Died);
         }
     }
-
     public void Reset()
     {
         isDead = false;

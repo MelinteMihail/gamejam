@@ -52,7 +52,7 @@ horizontal_alignment = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1279739218]
 sprite_frames = SubResource("SpriteFrames_ummuf")
-frame_progress = 0.50511837
+frame_progress = 0.98383343
 
 [node name="FadeOverlay" type="ColorRect" parent="." unique_id=351942380]
 anchors_preset = 15
