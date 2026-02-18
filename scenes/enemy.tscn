@@ -151,6 +151,11 @@ region = Rect2(2, 216, 20, 36)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5uy6h"]
 animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qaulx")
@@ -165,7 +170,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_0lg75")
 }],
 "loop": false,
-"name": &"attack_down",
+"name": &"goblin_attack_down",
 "speed": 5.0
 }, {
 "frames": [{
@@ -182,7 +187,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_2sbpf")
 }],
 "loop": false,
-"name": &"attack_right",
+"name": &"goblin_attack_right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -199,12 +204,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_2tuss")
 }],
 "loop": false,
-"name": &"attack_up",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"default",
+"name": &"goblin_attack_up",
 "speed": 5.0
 }, {
 "frames": [{
@@ -221,7 +221,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_nenq2")
 }],
 "loop": true,
-"name": &"idle_down",
+"name": &"goblin_idle_down",
 "speed": 5.0
 }, {
 "frames": [{
@@ -238,7 +238,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_w8i8w")
 }],
 "loop": true,
-"name": &"idle_right",
+"name": &"goblin_idle_right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -255,7 +255,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_g0wcc")
 }],
 "loop": true,
-"name": &"idle_up",
+"name": &"goblin_idle_up",
 "speed": 5.0
 }, {
 "frames": [{
@@ -272,7 +272,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_1x4g4")
 }],
 "loop": true,
-"name": &"walk_down",
+"name": &"goblin_walk_down",
 "speed": 5.0
 }, {
 "frames": [{
@@ -289,7 +289,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_6awcb")
 }],
 "loop": true,
-"name": &"walk_right",
+"name": &"goblin_walk_right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -306,7 +306,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_t3vcr")
 }],
 "loop": true,
-"name": &"walk_up",
+"name": &"goblin_walk_up",
 "speed": 5.0
 }]
 
@@ -325,12 +325,12 @@ radius = 74.00676
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_4ra3w")
+EnemyType = "goblin"
 animatedSprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=387230799]
 sprite_frames = SubResource("SpriteFrames_5uy6h")
-animation = &"attack_down"
-autoplay = "idle_down"
+autoplay = "goblin_idle_down"
 
 [node name="Collision Area" type="Area2D" parent="." unique_id=756618788]
 position = Vector2(15, 0)

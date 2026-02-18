@@ -2,6 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://dpb2a83avcp56" path="res://assets/enemy/gamejam_eye_enemy-Sheet.png" id="1_fox8h"]
 [ext_resource type="Script" uid="uid://te6dp8idfhly" path="res://scripts/Enemy.cs" id="1_ibab6"]
+[ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="4_1mtdb"]
+[ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_xasvo"]
+[ext_resource type="PackedScene" uid="uid://dacekq42yenco" path="res://scenes/projectile.tscn" id="5_1mtdb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ibab6"]
 atlas = ExtResource("1_fox8h")
@@ -65,6 +68,11 @@ region = Rect2(73, 36, 36, 36)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xc8ne"]
 animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ibab6")
@@ -78,8 +86,8 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1mtdb")
 }],
-"loop": true,
-"name": &"attack_down",
+"loop": false,
+"name": &"eye_attack_down",
 "speed": 5.0
 }, {
 "frames": [{
@@ -95,8 +103,8 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mqj1k")
 }],
-"loop": true,
-"name": &"attack_right",
+"loop": false,
+"name": &"eye_attack_right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -112,16 +120,20 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1ymas")
 }],
-"loop": true,
-"name": &"attack_up",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"default",
+"loop": false,
+"name": &"eye_attack_up",
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ju11b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ju11b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ju11b")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ju11b")
 }],
@@ -132,12 +144,30 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a1mtp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1mtp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1mtp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1mtp")
 }],
 "loop": true,
 "name": &"eye_idle_right",
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik62b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik62b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik62b")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ik62b")
 }],
@@ -150,16 +180,42 @@ animations = [{
 radius = 12.0
 height = 38.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ibab6"]
+radius = 237.0021
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1mtdb"]
+radius = 193.0
+height = 386.0
+
 [node name="Enemy_eye" type="CharacterBody2D" unique_id=365287305 node_paths=PackedStringArray("animatedSprite")]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_ibab6")
 EnemyType = "eye"
 animatedSprite = NodePath("AnimatedSprite2D")
+ProjectileScene = ExtResource("5_1mtdb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=489755393]
 sprite_frames = SubResource("SpriteFrames_xc8ne")
-animation = &"attack_right"
+animation = &"eye_idle_down"
 autoplay = "eye_idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=23549786]
 position = Vector2(1, 3)
 shape = SubResource("CapsuleShape2D_kjxq0")
+
+[node name="FollowArea" type="Area2D" parent="." unique_id=225470363]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FollowArea" unique_id=860121167]
+shape = SubResource("CircleShape2D_ibab6")
+
+[node name="Collision Area" type="Area2D" parent="." unique_id=1184177372]
+position = Vector2(15, 0)
+collision_layer = 2
+script = ExtResource("4_xasvo")
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="Collision Area" unique_id=649793127]
+position = Vector2(-14, 2)
+shape = SubResource("CapsuleShape2D_1mtdb")
+
+[node name="Health" parent="." unique_id=635338871 instance=ExtResource("4_1mtdb")]

@@ -10,6 +10,8 @@ public partial class Collision : Area2D
     public bool isAttacking = false;
     [Signal]
     public delegate void AttackStartedEventHandler();
+    private float attackCooldown = 0f;
+    private float attackCooldownTime = 0f;
     public override void _Ready()
     {
         this.BodyEntered += OnBodyEntered;
@@ -20,6 +22,12 @@ public partial class Collision : Area2D
     {
         if (bodiesInside.Count == 0)
             return;
+
+        if (attackCooldown > 0)
+        {
+            attackCooldown -= (float)delta;
+            return;
+        }
 
         if (!isAttacking)
         {
@@ -35,14 +43,18 @@ public partial class Collision : Area2D
         }
 
         isAttacking = false;
+        attackCooldown = attackCooldownTime;
     }
-
+    public void ResetCooldown()
+    {
+        attackCooldown = attackCooldownTime;
+    }
 
 
     private void OnBodyEntered(Node2D body)
     {
         var health = body.GetNodeOrNull<Health>("Health");
-
+        GD.Print("Body entered: " + body.Name);
         if (health != null)
         {
             bodiesInside.Add(health);
@@ -52,7 +64,7 @@ public partial class Collision : Area2D
     private void OnBodyExited(Node2D body)
     {
         var health = body.GetNodeOrNull<Health>("Health");
-
+        GD.Print("Body exited: " + body.Name);
         if (health != null)
         {
             bodiesInside.Remove(health);
