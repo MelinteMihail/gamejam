@@ -1,34 +1,194 @@
 using Godot;
+using System;
 
 public partial class Boss : CharacterBody2D
 {
-    [Export] public Label nameLabel;
-    [Export] public TextureProgressBar healthBar;
+    [Export] public float BossSpeed = 80f;
+    [Export] public Label NameLabel;
+    [Export] public TextureProgressBar HealthBar;
+    [Export] private AnimatedSprite2D animatedSprite;
 
+    private CharacterBody2D Player;
+    private Collision Attack;
     private Health health;
+
+    private Vector2 lastDirection;
+    private bool isAttacking = false;
+
+    public enum BossDirection
+    {
+        None,
+        Up,
+        Down,
+        Left,
+        Right
+    }
+
+    public BossDirection currentDirection = BossDirection.Down;
 
     public override void _Ready()
     {
-        AddToGroup("enemy");
+        AddToGroup("boss");
+
+        // Nodes
         health = GetNode<Health>("Health");
+        Attack = GetNode<Collision>("Collision Area");
+
+        var followArea = GetNode<Area2D>("FollowArea");
+        followArea.BodyEntered += OnBodyEntered;
+        followArea.BodyExited += OnBodyExited;
+
+        // Health signals
         health.Died += OnBossDied;
         health.HealthChanged += OnHealthChanged;
 
-        nameLabel.Text = "Boss Name";
-        healthBar.MinValue = 0;
-        healthBar.MaxValue = health.maxHealth;
-        healthBar.Value = health.CurrentHealth;
+        // Attack signal
+        Attack.AttackStarted += OnAttackStarted;
+
+        // Animation finished
+        animatedSprite.AnimationFinished += OnAnimationFinished;
+
+        // UI setup
+        NameLabel.Text = "Boss";
+        HealthBar.MinValue = 0;
+        HealthBar.MaxValue = health.maxHealth;
+        HealthBar.Value = health.CurrentHealth;
     }
 
-    public void TakeDamage(float amount)
+    private void OnBodyEntered(Node body)
     {
-        health.TakeDamage(amount);
+        if (body.IsInGroup("player"))
+            Player = body as CharacterBody2D;
+    }
+
+    private void OnBodyExited(Node body)
+    {
+        if (body == Player)
+            Player = null;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Player != null && !isAttacking)
+        {
+            Vector2 direction = (Player.GlobalPosition - GlobalPosition).Normalized();
+            lastDirection = direction;
+
+            UpdateDirection(direction);
+
+            Velocity = direction * BossSpeed;
+            MoveAndCollide(direction);
+        }
+        else
+        {
+            Velocity = Vector2.Zero;
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        AnimateBoss();
+    }
+
+    private void UpdateDirection(Vector2 direction)
+    {
+        if (direction == Vector2.Zero)
+            return;
+
+        if (Mathf.Abs(direction.X) > Mathf.Abs(direction.Y))
+        {
+            currentDirection = direction.X > 0 ? BossDirection.Right : BossDirection.Left;
+        }
+        else
+        {
+            currentDirection = direction.Y > 0 ? BossDirection.Down : BossDirection.Up;
+        }
+    }
+
+    private void AnimateBoss()
+    {
+        if (isAttacking)
+            return;
+
+        bool isMoving = Velocity != Vector2.Zero;
+        string targetAnim = "";
+        bool flip = false;
+
+        switch (currentDirection)
+        {
+            case BossDirection.Up:
+                targetAnim = isMoving ? "walk_up" : "idle_up";
+                break;
+
+            case BossDirection.Down:
+                targetAnim = isMoving ? "walk_down" : "idle_down";
+                break;
+
+            case BossDirection.Left:
+                flip = true;
+                targetAnim = isMoving ? "walk_right" : "idle_right";
+                break;
+
+            case BossDirection.Right:
+                targetAnim = isMoving ? "walk_right" : "idle_right";
+                break;
+
+            default:
+                return;
+        }
+
+        animatedSprite.FlipH = flip;
+
+        if (animatedSprite.Animation.ToString() != targetAnim)
+            animatedSprite.Play(targetAnim);
+    }
+
+    private void OnAttackStarted()
+    {
+        isAttacking = true;
+
+        string anim = "";
+        bool flip = false;
+
+        switch (currentDirection)
+        {
+            case BossDirection.Up:
+                anim = "attack_up";
+                break;
+
+            case BossDirection.Down:
+                anim = "attack_down";
+                break;
+
+            case BossDirection.Left:
+                flip = true;
+                anim = "attack_right";
+                break;
+
+            case BossDirection.Right:
+                anim = "attack_right";
+                break;
+        }
+
+        animatedSprite.FlipH = flip;
+        animatedSprite.Play(anim);
+    }
+
+    private void OnAnimationFinished()
+    {
+        string anim = animatedSprite.Animation.ToString();
+
+        if (anim.StartsWith("attack"))
+        {
+            isAttacking = false;
+            Attack.ApplyDamageOnce();
+        }
     }
 
     private void OnHealthChanged(float current, float max)
     {
-        healthBar.Value = current;
-        GD.Print($"Boss health: {current}/{max}");
+        HealthBar.Value = current;
+        GD.Print($"Boss Health: {current}/{max}");
     }
 
     private void OnBossDied()

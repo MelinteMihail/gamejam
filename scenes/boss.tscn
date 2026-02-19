@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://1qotsqifneyj" path="res://assets/enemy/gamejam_enemy-Sheet.png" id="2_qnbj4"]
 [ext_resource type="Texture2D" uid="uid://ca68ftcu0lmnw" path="res://assets/boss/gamejam_boss_enemy.png" id="2_wqpjq"]
 [ext_resource type="Texture2D" uid="uid://bd7hwj7k3dsxn" path="res://assets/boss/health bar.png" id="3_qnbj4"]
+[ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_2cdgk"]
 [ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="5_r3bxh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2avx2"]
@@ -182,7 +183,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lfs1x")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_down",
 "speed": 5.0
 }, {
@@ -199,8 +200,8 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mautr")
 }],
-"loop": true,
-"name": &"attack_side",
+"loop": false,
+"name": &"attack_right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -216,7 +217,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4dlq0")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_up",
 "speed": 5.0
 }, {
@@ -268,7 +269,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_e1yhm")
 }],
 "loop": true,
-"name": &"idle_side",
+"name": &"idle_right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -319,7 +320,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_pm5ke")
 }],
 "loop": true,
-"name": &"walk_side",
+"name": &"walk_right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -341,23 +342,32 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5f346"]
-radius = 11.0
-height = 38.0
+radius = 12.0
+height = 52.0
 
-[node name="Boss" type="CharacterBody2D" unique_id=577010878 node_paths=PackedStringArray("nameLabel", "healthBar")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_wqpjq"]
+radius = 74.00676
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2cdgk"]
+radius = 12.0
+height = 52.0
+
+[node name="Boss" type="CharacterBody2D" unique_id=577010878 node_paths=PackedStringArray("NameLabel", "HealthBar", "animatedSprite")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_dlmty")
-nameLabel = NodePath("CanvasLayer/VBoxContainer/Label")
-healthBar = NodePath("CanvasLayer/VBoxContainer/TextureProgressBar")
+NameLabel = NodePath("CanvasLayer/VBoxContainer/Label")
+HealthBar = NodePath("CanvasLayer/VBoxContainer/TextureProgressBar")
+animatedSprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2004838196]
 sprite_frames = SubResource("SpriteFrames_2avx2")
-animation = &"idle_up"
-frame = 3
-frame_progress = 0.7638645
+animation = &"walk_up"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1446876795]
+[node name="Collision Area" type="Area2D" parent="." unique_id=259614234]
+script = ExtResource("4_2cdgk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision Area" unique_id=1446876795]
 shape = SubResource("CapsuleShape2D_5f346")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=729551923]
@@ -384,3 +394,11 @@ texture_under = ExtResource("2_jncid")
 texture_progress = ExtResource("3_qnbj4")
 
 [node name="Health" parent="." unique_id=635338871 instance=ExtResource("5_r3bxh")]
+
+[node name="FollowArea" type="Area2D" parent="." unique_id=349633102]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FollowArea" unique_id=263318812]
+shape = SubResource("CircleShape2D_wqpjq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=43905487]
+shape = SubResource("CapsuleShape2D_2cdgk")

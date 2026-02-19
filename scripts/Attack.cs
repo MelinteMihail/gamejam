@@ -47,19 +47,16 @@ public partial class Attack : Node2D
     private void OnBodyEntered(Node2D body)
     {
         GD.Print($"Hitbox entered by: {body.Name}");
-        if (body is Enemy enemy)
+
+        if (body.IsInGroup("enemy") || body.IsInGroup("boss"))
         {
-            var enemyHealth = enemy.GetNode<Health>("Health");
-            if (enemyHealth != null)
+            var health = body.GetNodeOrNull<Health>("Health");
+
+            if (health != null)
             {
-                enemyHealth.TakeDamage(attackDamage);
-                GD.Print($"Dealt {attackDamage} damage to {enemy.Name}");
+                health.TakeDamage(attackDamage);
+                GD.Print($"Dealt {attackDamage} damage to {body.Name}");
             }
-        }
-        else if (body is Boss boss)
-        {
-            boss.TakeDamage(attackDamage);
-            GD.Print($"Dealt {attackDamage} damage to {boss.Name}");
         }
     }
 

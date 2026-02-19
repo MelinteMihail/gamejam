@@ -30,7 +30,7 @@ public partial class Enemy : CharacterBody2D
     }
     public override void _Ready()
 	{
-        AddToGroup("enemy");
+        AddToGroup("boss");
         Attack = GetNode<Collision>("Collision Area");
         area2D = GetNode<Area2D>("FollowArea");
         area2D.BodyEntered += OnBodyEntered;
