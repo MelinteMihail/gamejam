@@ -108,7 +108,6 @@ public partial class Enemy : CharacterBody2D
         if (EnemyType == "eye")
         {
             Velocity = Vector2.Zero;
-            MoveAndSlide();
         }
     }
 
