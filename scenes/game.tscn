@@ -14,15 +14,14 @@
 [ext_resource type="Resource" uid="uid://cqft7x0c67g45" path="res://resources/herb_quest_2.tres" id="9_vtaks"]
 [ext_resource type="Script" uid="uid://c6bhvgbkr6fjc" path="res://scripts/HealthBar.cs" id="10_ir15t"]
 [ext_resource type="Texture2D" uid="uid://cr7hwbiu7vrad" path="res://assets/extras/health_bar_decoration.png" id="11_rysoc"]
-[ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="12_dinhu"]
+[ext_resource type="PackedScene" path="res://scenes/coin.tscn" id="12_dinhu"]
 [ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="12_ssvqc"]
-[ext_resource type="PackedScene" uid="uid://c2helh2ilwbxe" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
+[ext_resource type="PackedScene" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
 [ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/extras/herb.png" id="15_rysoc"]
 [ext_resource type="PackedScene" path="res://scenes/checkpoint.tscn" id="19_264po"]
 [ext_resource type="Texture2D" uid="uid://2ra30empomyl" path="res://assets/extras/black.png" id="20_5newe"]
 [ext_resource type="Texture2D" uid="uid://bw8htgh7a0i7k" path="res://assets/extras/little_whiter.png" id="21_37s47"]
 [ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="22_37s47"]
-[ext_resource type="PackedScene" path="res://scenes/enemy_eye.tscn" id="22_37s47"]
 [ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="23_bt5mj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
@@ -176,11 +175,12 @@ texture = ExtResource("21_37s47")
 
 [node name="Enemy_eye" parent="." unique_id=365287305 instance=ExtResource("22_37s47")]
 position = Vector2(288, -341)
+
 [node name="pointA" type="Marker2D" parent="." unique_id=1137461530]
 position = Vector2(425, -213)
 
 [node name="pointB" type="Marker2D" parent="." unique_id=1759994558]
 position = Vector2(470, -213)
 
-[node name="Enemy_eye" parent="." unique_id=365287305 instance=ExtResource("22_37s47")]
+[node name="Enemy_eye2" parent="." unique_id=21716704 instance=ExtResource("22_37s47")]
 position = Vector2(-461, 110)
