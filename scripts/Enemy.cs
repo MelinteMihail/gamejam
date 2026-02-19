@@ -52,23 +52,24 @@ public partial class Enemy : CharacterBody2D
         if (QuestManager.Instance != null)
         {
             var activeQuests = QuestManager.Instance.GetActiveQuests();
-
             foreach (var quest in activeQuests)
             {
                 if (quest.ProgressType == EnemyType && !quest.IsCompleted())
                 {
                     quest.AddProgress(1);
                     GD.Print($"Quest progress: {quest.GetProgressText()}");
-
                     if (quest.IsCompleted())
-                    {
                         GD.Print($"Quest objectives complete! Return to {quest.NpcName}");
-                    }
                 }
             }
         }
 
-        QueueFree();
+        SetPhysicsProcess(false);
+        SetProcess(false);
+        isAttacking = true; 
+        animatedSprite.Play(EnemyTypePrefix + "death");
+        animatedSprite.AnimationFinished -= OnAnimationFinished;
+        animatedSprite.AnimationFinished += () => QueueFree();
     }
 
     private void OnEnemyHealthChanged(float current, float max)

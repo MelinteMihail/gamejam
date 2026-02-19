@@ -30,7 +30,6 @@ public partial class Boss : CharacterBody2D
     {
         AddToGroup("boss");
 
-        // Nodes
         health = GetNode<Health>("Health");
         Attack = GetNode<Collision>("Collision Area");
 
@@ -38,17 +37,13 @@ public partial class Boss : CharacterBody2D
         followArea.BodyEntered += OnBodyEntered;
         followArea.BodyExited += OnBodyExited;
 
-        // Health signals
         health.Died += OnBossDied;
         health.HealthChanged += OnHealthChanged;
 
-        // Attack signal
         Attack.AttackStarted += OnAttackStarted;
 
-        // Animation finished
         animatedSprite.AnimationFinished += OnAnimationFinished;
 
-        // UI setup
         NameLabel.Text = "Boss";
         HealthBar.MinValue = 0;
         HealthBar.MaxValue = health.maxHealth;
@@ -194,6 +189,11 @@ public partial class Boss : CharacterBody2D
     private void OnBossDied()
     {
         GD.Print("Boss died!");
-        QueueFree();
+        SetPhysicsProcess(false);
+        SetProcess(false);
+        isAttacking = true;
+        animatedSprite.Play("death");
+        animatedSprite.AnimationFinished -= OnAnimationFinished;
+        animatedSprite.AnimationFinished += () => QueueFree();
     }
 }
