@@ -14,7 +14,7 @@ public partial class QuestUI : Control
         AddChild(panel);
 
         var margin = new MarginContainer();
-        margin.AddThemeConstantOverride("margin_left", 25);
+        margin.AddThemeConstantOverride("margin_left", 10);
         margin.AddThemeConstantOverride("margin_right", 10);
         margin.AddThemeConstantOverride("margin_top", 10);
         margin.AddThemeConstantOverride("margin_bottom", 10);
@@ -46,7 +46,8 @@ public partial class QuestUI : Control
         vbox.AddChild(questListContainer);
 
         SetAnchorsPreset(LayoutPreset.TopRight);
-        Position = new Vector2(-20, 20);
+
+        Position = new Vector2(0, 100);
 
         updateTimer = new Timer();
         updateTimer.WaitTime = 0.5f;
