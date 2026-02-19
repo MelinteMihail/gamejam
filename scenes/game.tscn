@@ -26,9 +26,13 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 
-[node name="game" type="Node2D" unique_id=561111296 node_paths=PackedStringArray("dialogue")]
+[node name="game" type="Node2D" unique_id=561111296 node_paths=PackedStringArray("dialogue", "pointA", "pointB", "player")]
+position = Vector2(0, -1)
 script = ExtResource("1_ssvqc")
 dialogue = NodePath("UI/Dialog")
+pointA = NodePath("pointA")
+pointB = NodePath("pointB")
+player = NodePath("Player")
 
 [node name="Icon" type="Sprite2D" parent="." unique_id=1250055078]
 position = Vector2(-45, -12)
@@ -36,7 +40,6 @@ scale = Vector2(0.2109375, 0.2265625)
 texture = ExtResource("1_yqjtg")
 
 [node name="Player" parent="." unique_id=1439945288 groups=["player"] instance=ExtResource("1_uwrxv")]
-z_index = 2
 position = Vector2(2, 2)
 attackDistance = 20.0
 
@@ -170,10 +173,10 @@ scale = Vector2(13.624999, 11.250001)
 texture = ExtResource("21_37s47")
 
 [node name="pointA" type="Marker2D" parent="." unique_id=1137461530]
-position = Vector2(425, -213)
+position = Vector2(-205, 31)
 
 [node name="pointB" type="Marker2D" parent="." unique_id=1759994558]
-position = Vector2(470, -213)
+position = Vector2(-53, 31)
 
 [node name="Enemy_eye" parent="." unique_id=365287305 instance=ExtResource("22_37s47")]
 position = Vector2(-461, 110)

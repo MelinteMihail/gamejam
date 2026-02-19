@@ -67,7 +67,7 @@ public partial class Player : CharacterBody2D
             healthBar.CallDeferred("UpdateHealth", health.CurrentHealth, (float)health.maxHealth);
         }
 
-            LampArea.BodyEntered += OnBodyEnteredLampArea;
+        LampArea.BodyEntered += OnBodyEnteredLampArea;
         LampArea.BodyExited += OnBodyExitedLampArea;
         GD.Print(healthBar == null ? "HealthBar NOT found" : "HealthBar found");
     }
