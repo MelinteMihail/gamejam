@@ -1045,7 +1045,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
-size = Vector2(42, 27)
+size = Vector2(76, 36)
 
 [sub_resource type="Gradient" id="Gradient_smehm"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
@@ -1059,6 +1059,7 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
 [node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite", "CollisionShape")]
+z_index = 2
 collision_mask = 2
 script = ExtResource("1_3vyb7")
 Sprite = NodePath("AnimatedSprite2D")
