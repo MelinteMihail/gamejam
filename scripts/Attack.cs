@@ -56,6 +56,11 @@ public partial class Attack : Node2D
                 GD.Print($"Dealt {attackDamage} damage to {enemy.Name}");
             }
         }
+        else if (body is Boss boss)
+        {
+            boss.TakeDamage(attackDamage);
+            GD.Print($"Dealt {attackDamage} damage to {boss.Name}");
+        }
     }
 
     public void OnAnimationFinished()

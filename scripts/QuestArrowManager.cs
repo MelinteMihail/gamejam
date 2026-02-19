@@ -44,8 +44,6 @@ public partial class QuestArrowManager : Control
                 activeArrows[quest.QuestId] = arrow;
             }
 
-            GD.Print($"Quest ID: '{quest.QuestId}'");
-
         }
 
         foreach (var questId in new List<string>(activeArrows.Keys))
@@ -75,6 +73,5 @@ public partial class QuestArrowManager : Control
             arrow.Scale = new Vector2(2, 2);
         }
 
-        GD.Print($"Active quests: {activeQuests.Count}, Active arrows: {activeArrows.Count}, Texture: {arrowTexture != null}");
     }
 }
