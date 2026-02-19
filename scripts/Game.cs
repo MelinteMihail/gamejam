@@ -30,11 +30,11 @@ public partial class Game : Node2D
 		//	LockInput.inputLocked = false;
 		//};
 
-		dialogue.ShowDialogue(new[]
-		{
-			("Narrator", "The room feels heavy..."),
-			("John", "I need to get up.")
-		});
+		//dialogue.ShowDialogue(new[]
+		//{
+		//	("Narrator", "The room feels heavy..."),
+		//	("John", "I need to get up.")
+		//});
 	}
 
 

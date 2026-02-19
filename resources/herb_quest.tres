@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_1y7mm")
-QuestId = "\"herbs\""
+QuestId = "herbs"
 QuestTitle = "NPC's Quest"
 TargetProgress = 2
 metadata/_custom_type_script = "uid://bsen6cibx0to0"

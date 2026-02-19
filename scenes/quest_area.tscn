@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c4rnmfyca4err"]
+
+[ext_resource type="Script" uid="uid://nmdcrnd1ldfw" path="res://scripts/QuestArea.cs" id="1_6ty67"]
+[ext_resource type="Texture2D" uid="uid://cehbeybiuokig" path="res://assets/extras/arrow.png" id="2_x8rj4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ddedm"]
+size = Vector2(124, 96)
+
+[node name="QuestArea" type="Node2D" unique_id=633637666]
+script = ExtResource("1_6ty67")
+
+[node name="Arrow" type="Sprite2D" parent="." unique_id=755915171]
+texture = ExtResource("2_x8rj4")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1188125711]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=495276099]
+shape = SubResource("RectangleShape2D_ddedm")
