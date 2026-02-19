@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://1qotsqifneyj" path="res://assets/enemy/gamejam_enemy-Sheet.png" id="2_qnbj4"]
 [ext_resource type="Texture2D" uid="uid://ca68ftcu0lmnw" path="res://assets/boss/gamejam_boss_enemy.png" id="2_wqpjq"]
 [ext_resource type="Texture2D" uid="uid://bd7hwj7k3dsxn" path="res://assets/boss/health bar.png" id="3_qnbj4"]
+[ext_resource type="Texture2D" uid="uid://oeudyfygg5e6" path="res://assets/boss/bossenemy_Death-Sheet.png" id="3_qsl3t"]
 [ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_2cdgk"]
 [ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="5_r3bxh"]
 
@@ -55,6 +56,54 @@ region = Rect2(109, 486, 54, 54)
 [sub_resource type="AtlasTexture" id="AtlasTexture_4dlq0"]
 atlas = ExtResource("2_wqpjq")
 region = Rect2(163, 486, 54, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ueo3c"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(0, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_863od"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(54, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh7ji"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(108, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3xpi"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(162, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5w2ut"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(216, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_es0rk"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(270, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jq7oa"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(324, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gqtx"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(378, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6jog"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(432, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02csv"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(486, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_te2y6"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(540, 0, 54, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbhct"]
+atlas = ExtResource("3_qsl3t")
+region = Rect2(594, 0, 54, 58)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r3bxh"]
 atlas = ExtResource("2_qnbj4")
@@ -223,6 +272,47 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ueo3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_863od")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh7ji")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3xpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5w2ut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_es0rk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq7oa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7gqtx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6jog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_02csv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_te2y6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qbhct")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_r3bxh")
 }, {
 "duration": 1.0,
@@ -342,11 +432,11 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5f346"]
-radius = 12.0
-height = 52.0
+radius = 28.0
+height = 76.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wqpjq"]
-radius = 74.00676
+radius = 136.09187
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2cdgk"]
 radius = 12.0
@@ -362,7 +452,9 @@ animatedSprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2004838196]
 sprite_frames = SubResource("SpriteFrames_2avx2")
-animation = &"walk_up"
+animation = &"death"
+frame = 11
+frame_progress = 1.0
 
 [node name="Collision Area" type="Area2D" parent="." unique_id=259614234]
 script = ExtResource("4_2cdgk")

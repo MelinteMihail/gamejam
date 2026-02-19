@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dpb2a83avcp56" path="res://assets/enemy/gamejam_eye_enemy-Sheet.png" id="1_fox8h"]
 [ext_resource type="Script" uid="uid://te6dp8idfhly" path="res://scripts/Enemy.cs" id="1_ibab6"]
 [ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="4_1mtdb"]
+[ext_resource type="Texture2D" uid="uid://bhtjspfdyt8h1" path="res://assets/enemy/gamejam_enemy_eye_death.png" id="4_exidn"]
 [ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_xasvo"]
 [ext_resource type="PackedScene" uid="uid://dacekq42yenco" path="res://scenes/projectile.tscn" id="5_1mtdb"]
 
@@ -53,6 +54,46 @@ region = Rect2(73, 72, 36, 36)
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ymas"]
 atlas = ExtResource("1_fox8h")
 region = Rect2(109, 72, 36, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5le3f"]
+atlas = ExtResource("4_exidn")
+region = Rect2(0, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjxq0"]
+atlas = ExtResource("4_exidn")
+region = Rect2(38, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kiibu"]
+atlas = ExtResource("4_exidn")
+region = Rect2(76, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uidb4"]
+atlas = ExtResource("4_exidn")
+region = Rect2(114, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahbkj"]
+atlas = ExtResource("4_exidn")
+region = Rect2(152, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xu687"]
+atlas = ExtResource("4_exidn")
+region = Rect2(190, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_isxns"]
+atlas = ExtResource("4_exidn")
+region = Rect2(228, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxr0g"]
+atlas = ExtResource("4_exidn")
+region = Rect2(266, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vl4y"]
+atlas = ExtResource("4_exidn")
+region = Rect2(304, 0, 38, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7m28v"]
+atlas = ExtResource("4_exidn")
+region = Rect2(342, 0, 38, 42)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ju11b"]
 atlas = ExtResource("1_fox8h")
@@ -126,6 +167,41 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_5le3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjxq0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kiibu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uidb4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahbkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xu687")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_isxns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxr0g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vl4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7m28v")
+}],
+"loop": false,
+"name": &"eye_death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ju11b")
 }, {
 "duration": 1.0,
@@ -195,8 +271,10 @@ ProjectileScene = ExtResource("5_1mtdb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=489755393]
 sprite_frames = SubResource("SpriteFrames_xc8ne")
-animation = &"eye_idle_down"
+animation = &"eye_death"
 autoplay = "eye_idle_down"
+frame = 9
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=23549786]
 position = Vector2(1, 3)

@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bqjku08f7arsu" path="res://assets/player/Armors/gamejam_hero_armor_weapon-Sheet.png" id="4_smehm"]
 [ext_resource type="Texture2D" uid="uid://ce624tekde6uv" path="res://assets/lantern/Lanterns - Smaller Versions/Lantern 1/Bronze/Lantern 1 Small - Bronze and Orange.png" id="5_qlg0r"]
 [ext_resource type="Script" uid="uid://fahcumd5wwi8" path="res://scripts/LanternPivot.cs" id="5_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://3cs4yygtma33" path="res://assets/player/attack/hurt.png" id="9_ur7pv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fdfoy"]
 atlas = ExtResource("2_smehm")
@@ -1058,13 +1059,72 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
-[node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite", "CollisionShape")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ua5cf"]
+atlas = ExtResource("9_ur7pv")
+region = Rect2(111, 0, 22, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2a3c5"]
+atlas = ExtResource("9_ur7pv")
+region = Rect2(1, 0, 22, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_42b1b"]
+atlas = ExtResource("9_ur7pv")
+region = Rect2(23, 0, 22, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7ic4"]
+atlas = ExtResource("9_ur7pv")
+region = Rect2(45, 0, 22, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_au7lq"]
+atlas = ExtResource("9_ur7pv")
+region = Rect2(67, 0, 22, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nubpm"]
+atlas = ExtResource("9_ur7pv")
+region = Rect2(89, 0, 22, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_51ujp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ua5cf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2a3c5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_42b1b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7ic4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_au7lq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nubpm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ua5cf")
+}],
+"loop": false,
+"name": &"Hurt",
+"speed": 20.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" unique_id=1439945288 node_paths=PackedStringArray("Sprite", "CollisionShape", "Hurt")]
 z_index = 2
 collision_mask = 2
 script = ExtResource("1_3vyb7")
 Sprite = NodePath("AnimatedSprite2D")
 CollisionShape = NodePath("CollisionShape2D")
 attackDistance = 30.0
+Hurt = NodePath("Hurt")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2090552940]
 position = Vector2(0, -5)
@@ -1114,3 +1174,10 @@ scale = Vector2(0.96875, 1.015625)
 color = Color(0.7886799, 0.49189848, 0.28759003, 1)
 energy = 5.0
 texture = SubResource("GradientTexture2D_ur7pv")
+
+[node name="Hurt" type="AnimatedSprite2D" parent="." unique_id=1770764777]
+position = Vector2(-1, 0)
+sprite_frames = SubResource("SpriteFrames_51ujp")
+animation = &"Hurt"
+frame = 6
+frame_progress = 1.0

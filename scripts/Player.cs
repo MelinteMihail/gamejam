@@ -19,7 +19,8 @@ public partial class Player : CharacterBody2D
     public float LampDamagePerSecond = 10.0f;
     [Export]
     public float attackDistance = 20.0f;
-
+    [Export]
+    public AnimatedSprite2D Hurt;
     public float durabilityMultiplier = 1.0f;
     public float attackMultiplier = 1.0f;
 
@@ -171,6 +172,7 @@ public partial class Player : CharacterBody2D
     private void OnHealthChanged(float current, float max)
     {
         GD.Print($"Player health changed: {(int)current}");
+        Hurt.Play("Hurt");
     }
 
     private Vector2 GetInputDirection()
