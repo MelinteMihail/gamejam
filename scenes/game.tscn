@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://ct21lad8m8odr" path="res://scenes/quest_dialog.tscn" id="5_iywne"]
 [ext_resource type="Resource" uid="uid://ciy3gcmn052yr" path="res://resources/herb_quest.tres" id="6_0tnpc"]
 [ext_resource type="Script" uid="uid://lmmdfpe00ocn" path="res://scripts/QuestUI.cs" id="6_p57ef"]
-[ext_resource type="Script" uid="uid://doss0120fddb0" path="res://scripts/QuestCollectible.cs" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://c00rglak8othv" path="res://scripts/BlacksmithShop.cs" id="9_trtic"]
 [ext_resource type="Resource" uid="uid://cqft7x0c67g45" path="res://resources/herb_quest_2.tres" id="9_vtaks"]
 [ext_resource type="Script" uid="uid://c6bhvgbkr6fjc" path="res://scripts/HealthBar.cs" id="10_ir15t"]
@@ -18,14 +17,12 @@
 [ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="12_ssvqc"]
 [ext_resource type="PackedScene" uid="uid://c2helh2ilwbxe" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
 [ext_resource type="Script" uid="uid://tahvhhrt5s4u" path="res://scripts/QuestArrowManager.cs" id="15_pl11u"]
-[ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/extras/herb.png" id="15_rysoc"]
 [ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="19_264po"]
 [ext_resource type="Texture2D" uid="uid://2ra30empomyl" path="res://assets/extras/black.png" id="20_5newe"]
 [ext_resource type="Texture2D" uid="uid://bw8htgh7a0i7k" path="res://assets/extras/little_whiter.png" id="21_37s47"]
 [ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="22_37s47"]
 [ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="23_bt5mj"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
+[ext_resource type="PackedScene" uid="uid://c8s8b0ki2vfiv" path="res://scenes/quest_collectible.tscn" id="23_e1j6l"]
 
 [node name="game" type="Node2D" unique_id=561111296 node_paths=PackedStringArray("dialogue", "pointA", "pointB", "player")]
 script = ExtResource("1_ssvqc")
@@ -128,31 +125,6 @@ position = Vector2(-204, -16)
 script = ExtResource("5_gee14")
 QuestDataTemplate = ExtResource("9_vtaks")
 
-[node name="QuestCollectible" type="Area2D" parent="." unique_id=314741585]
-position = Vector2(-106, -121)
-script = ExtResource("9_0tnpc")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="QuestCollectible" unique_id=17005274]
-shape = SubResource("RectangleShape2D_vtaks")
-
-[node name="Sprite2D" type="Sprite2D" parent="QuestCollectible" unique_id=412433906]
-position = Vector2(0, 4.2915344e-06)
-scale = Vector2(0.275, 0.30357143)
-texture = ExtResource("15_rysoc")
-
-[node name="QuestCollectible2" type="Area2D" parent="." unique_id=1291926951]
-position = Vector2(-58, -120)
-script = ExtResource("9_0tnpc")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="QuestCollectible2" unique_id=338806076]
-shape = SubResource("RectangleShape2D_vtaks")
-
-[node name="Sprite2D" type="Sprite2D" parent="QuestCollectible2" unique_id=1789133352]
-z_index = -5
-position = Vector2(0, 4.2915344e-06)
-scale = Vector2(0.905, 1)
-texture = ExtResource("15_rysoc")
-
 [node name="Coin" parent="." unique_id=1662488867 instance=ExtResource("12_dinhu")]
 position = Vector2(-194, -52)
 
@@ -189,3 +161,9 @@ position = Vector2(-53, 31)
 
 [node name="Enemy_eye2" parent="." unique_id=21716704 instance=ExtResource("22_37s47")]
 position = Vector2(-461, 110)
+
+[node name="QuestCollectible" parent="." unique_id=1448573231 instance=ExtResource("23_e1j6l")]
+position = Vector2(-101, -121)
+
+[node name="QuestCollectible2" parent="." unique_id=2099273740 instance=ExtResource("23_e1j6l")]
+position = Vector2(-47, -121)

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c8s8b0ki2vfiv"]
+
+[ext_resource type="Script" uid="uid://doss0120fddb0" path="res://scripts/QuestCollectible.cs" id="1_p81tb"]
+[ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/extras/herb.png" id="2_efq6k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o65pf"]
+
+[node name="QuestCollectible" type="Area2D" unique_id=1448573231]
+script = ExtResource("1_p81tb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1297873454]
+shape = SubResource("RectangleShape2D_o65pf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1192400834]
+z_index = -5
+position = Vector2(0, 4.2915344e-06)
+scale = Vector2(0.905, 1)
+texture = ExtResource("2_efq6k")
+
+[node name="Label" type="Label" parent="." unique_id=500308509]
+offset_right = 40.0
+offset_bottom = 30.0
