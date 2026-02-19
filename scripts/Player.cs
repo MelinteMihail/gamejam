@@ -159,7 +159,7 @@ public partial class Player : CharacterBody2D
 
     private void OnBodyExitedLampArea(Node body)
     {
-        if (body.IsInGroup("enemy"))
+        if (body.IsInGroup("enemy") || body.IsInGroup("boss"))
         {
             var enemyHealth = body.GetNodeOrNull<Health>("Health");
             if (enemyHealth != null)
