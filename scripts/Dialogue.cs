@@ -30,7 +30,7 @@ public partial class Dialogue : Control
         if (!Visible)
             return;
 
-        if (@event.IsActionPressed("interact"))
+        if (Input.IsActionJustPressed("interact"))
             Advance();
     }
 
@@ -41,6 +41,8 @@ public partial class Dialogue : Control
         foreach (var line in lines)
             dialogueQueue.Enqueue(line);
 
+        LockInput.inputLocked = true;
+
         Advance();
     }
 
@@ -49,6 +51,7 @@ public partial class Dialogue : Control
         if (dialogueQueue.Count == 0)
         {
             Hide();
+            LockInput.inputLocked = false;
             EmitSignal(SignalName.DialogueClosed);
             return;
         }

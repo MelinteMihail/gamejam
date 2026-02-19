@@ -21,7 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="19_264po"]
 [ext_resource type="Texture2D" uid="uid://2ra30empomyl" path="res://assets/extras/black.png" id="20_5newe"]
 [ext_resource type="Texture2D" uid="uid://bw8htgh7a0i7k" path="res://assets/extras/little_whiter.png" id="21_37s47"]
-[ext_resource type="PackedScene" path="res://scenes/enemy_eye.tscn" id="22_37s47"]
+[ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="22_37s47"]
 [ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="23_bt5mj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
@@ -111,10 +111,6 @@ offset_bottom = 68.0
 texture = ExtResource("12_ssvqc")
 
 [node name="Dialog" parent="UI" unique_id=2072398341 instance=ExtResource("23_bt5mj")]
-offset_left = 527.0
-offset_top = -151.0
-offset_right = 527.0
-offset_bottom = -151.0
 
 [node name="NPC2" parent="." unique_id=210497804 instance=ExtResource("4_lbhrr")]
 position = Vector2(-204, -16)
