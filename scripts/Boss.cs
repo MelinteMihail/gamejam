@@ -3,14 +3,20 @@ using System;
 
 public partial class Boss : CharacterBody2D
 {
-    [Export] public float BossSpeed = 80f;
-    [Export] public Label NameLabel;
-    [Export] public TextureProgressBar HealthBar;
-    [Export] private AnimatedSprite2D animatedSprite;
+    [Export] 
+    public float BossSpeed = 80f;
+    [Export] 
+    public Label NameLabel;
+    [Export] 
+    public TextureProgressBar HealthBar;
+    [Export] 
+    private AnimatedSprite2D animatedSprite;
 
     private CharacterBody2D Player;
     private Collision Attack;
     private Health health;
+    private AudioStreamPlayer2D attackSound;
+    private AudioStreamPlayer2D hurtSound;
 
     private Vector2 lastDirection;
     private bool isAttacking = false;
@@ -32,6 +38,8 @@ public partial class Boss : CharacterBody2D
 
         health = GetNode<Health>("Health");
         Attack = GetNode<Collision>("Collision Area");
+        attackSound = GetNode<AudioStreamPlayer2D>("AttackSound");
+        hurtSound = GetNode<AudioStreamPlayer2D>("HurtSound");
 
         var followArea = GetNode<Area2D>("FollowArea");
         followArea.BodyEntered += OnBodyEntered;
@@ -141,6 +149,7 @@ public partial class Boss : CharacterBody2D
     private void OnAttackStarted()
     {
         isAttacking = true;
+        attackSound?.Play();
 
         string anim = "";
         bool flip = false;
@@ -189,6 +198,7 @@ public partial class Boss : CharacterBody2D
     private void OnBossDied()
     {
         GD.Print("Boss died!");
+        hurtSound?.Play();
         SetPhysicsProcess(false);
         SetProcess(false);
         isAttacking = true;

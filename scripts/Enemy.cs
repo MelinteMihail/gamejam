@@ -8,18 +8,23 @@ public partial class Enemy : CharacterBody2D
 	public float Enemy_Speed = 100.0f;
 	[Export]
 	public string EnemyType = "";
-    private CharacterBody2D Player;
-    private bool isAttacking = false;
-    private Area2D area2D;
-	private Health health;
-	private Vector2 lastPosition;
-    private Collision Attack;
 	[Export]
 	private AnimatedSprite2D animatedSprite;
-    public EnemyEnumDirection currentEnemyDirection = EnemyEnumDirection.Down;
     [Export]
     private PackedScene ProjectileScene;
+
+    private AudioStreamPlayer2D hurtSound;
+    private CharacterBody2D Player;
+    private Area2D area2D;
+	private Health health;
+    private Collision Attack;
+    private AudioStreamPlayer2D attackSound;
+
+    private bool isAttacking = false;
     private string EnemyTypePrefix;
+	
+    private Vector2 lastPosition;
+    public EnemyEnumDirection currentEnemyDirection = EnemyEnumDirection.Down;
     public enum EnemyEnumDirection
     {
         None,
@@ -31,8 +36,12 @@ public partial class Enemy : CharacterBody2D
     public override void _Ready()
 	{
         AddToGroup("enemy");
+
         Attack = GetNode<Collision>("Collision Area");
+        attackSound = GetNode<AudioStreamPlayer2D>("AttackSound");
+        hurtSound = GetNode<AudioStreamPlayer2D>("HurtSound");
         area2D = GetNode<Area2D>("FollowArea");
+        
         area2D.BodyEntered += OnBodyEntered;
         area2D.BodyExited += OnBodyExited;
 
@@ -49,6 +58,7 @@ public partial class Enemy : CharacterBody2D
     }
     private void OnEnemyDied()
     {
+        hurtSound?.Play();
         if (QuestManager.Instance != null)
         {
             var activeQuests = QuestManager.Instance.GetActiveQuests();
@@ -75,7 +85,6 @@ public partial class Enemy : CharacterBody2D
     private void OnEnemyHealthChanged(float current, float max)
     {
         GD.Print($"Enemy health changed: {current}");
-
     }
     private void OnBodyEntered(Node body)
 	{
@@ -167,6 +176,7 @@ public partial class Enemy : CharacterBody2D
     private void OnAttackStarted()
     {
         isAttacking = true;
+        attackSound?.Play();
 
         switch (currentEnemyDirection)
         {

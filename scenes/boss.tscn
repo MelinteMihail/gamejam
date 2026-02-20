@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://oeudyfygg5e6" path="res://assets/boss/bossenemy_Death-Sheet.png" id="3_qsl3t"]
 [ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_2cdgk"]
 [ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="5_r3bxh"]
+[ext_resource type="AudioStream" uid="uid://bsk5ln8nm16xm" path="res://assets/sound-effects/goblin-attack.mp3" id="9_2avx2"]
+[ext_resource type="AudioStream" uid="uid://deopb1dpit5l1" path="res://assets/sound-effects/hurt-death.mp3" id="10_5f346"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2avx2"]
 atlas = ExtResource("2_wqpjq")
@@ -494,3 +496,10 @@ shape = SubResource("CircleShape2D_wqpjq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=43905487]
 shape = SubResource("CapsuleShape2D_2cdgk")
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=180163972]
+stream = ExtResource("9_2avx2")
+pitch_scale = 0.5
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="." unique_id=2119884007]
+stream = ExtResource("10_5f346")
