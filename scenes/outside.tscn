@@ -53,10 +53,18 @@ texture = ExtResource("2_7r1kg")
 1:5/0 = 0
 2:5/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxbbw"]
+texture = ExtResource("8_lt5my")
+0:0/0 = 0
+1:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_5tstl"]
+custom_data_layer_0/name = "surface"
+custom_data_layer_0/type = 4
 sources/0 = SubResource("TileSetAtlasSource_bkgx0")
 sources/1 = SubResource("TileSetAtlasSource_uaw8k")
 sources/2 = SubResource("TileSetAtlasSource_lt5my")
+sources/3 = SubResource("TileSetAtlasSource_nxbbw")
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uaw8k"]
 
