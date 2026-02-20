@@ -37,6 +37,8 @@ public partial class Player : CharacterBody2D
     private Health health;
     private Area2D LampArea;
     private List<Health> enemiesInLamp = new();
+    private Node2D lanternpivot;
+    private PointLight2D lanternLight;
 
     private float footstepTimer = 0f;
     private float footstepInterval = 0.4f;
@@ -59,6 +61,13 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
+        lanternpivot = GetNode<Node2D>("LanternPivot");
+        lanternpivot.Visible = false;
+        var gameState = GetNodeOrNull<LanternState>("/root/Lantern");
+        if (gameState != null && gameState.HasLantern)
+            lanternpivot.Visible = true;
+        lanternLight = GetNode<PointLight2D>("LanternLight");
+        lanternLight.Energy = 0.5f;
         respawnPosition = GlobalPosition;
         AddToGroup("player");
         LampArea = GetNode<Area2D>("LampArea");
@@ -317,5 +326,10 @@ public partial class Player : CharacterBody2D
     private void OnAttackFinished()
     {
         isAttacking = false;
+    }
+    public void EnableLantern()
+    {
+        lanternpivot.Visible = true;
+        lanternLight.Energy = 2.5f;
     }
 }

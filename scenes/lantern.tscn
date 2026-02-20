@@ -1,0 +1,138 @@
+[gd_scene format=3 uid="uid://ct54ghg14ppqv"]
+
+[ext_resource type="Script" uid="uid://cvfxtbvsa3pco" path="res://scripts/LanternPickup.cs" id="1_uxgnm"]
+[ext_resource type="Texture2D" uid="uid://ce624tekde6uv" path="res://assets/lantern/Lanterns - Smaller Versions/Lantern 1/Bronze/Lantern 1 Small - Bronze and Orange.png" id="2_uxgnm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdg25"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(0, 34, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6stn"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(24, 34, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4a08e"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(48, 34, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5omvi"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(48, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spggs"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(72, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkn8m"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(96, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8npp"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(96, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alqwq"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(120, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdepf"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(144, 102, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1nhv"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(144, 68, 24, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8ajs"]
+atlas = ExtResource("2_uxgnm")
+region = Rect2(120, 68, 24, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jqqsp"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdg25")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6stn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4a08e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5omvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spggs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkn8m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8npp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alqwq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdepf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1nhv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8ajs")
+}],
+"loop": true,
+"name": &"lantern_flame",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_uxgnm"]
+offsets = PackedFloat32Array(0, 0.24096386, 0.53614455)
+colors = PackedColorArray(1, 1, 1, 1, 0.25301206, 0.25301206, 0.25301206, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jdg25"]
+gradient = SubResource("Gradient_uxgnm")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.49565217, 0.5173913)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uxgnm"]
+radius = 137.05838
+
+[sub_resource type="LabelSettings" id="LabelSettings_uxgnm"]
+
+[node name="Lantern" type="Area2D" unique_id=603025709 node_paths=PackedStringArray("sprite")]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_uxgnm")
+sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=457776320]
+sprite_frames = SubResource("SpriteFrames_jqqsp")
+animation = &"lantern_flame"
+autoplay = "lantern_flame"
+frame_progress = 0.5880883
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1968798688]
+texture = SubResource("GradientTexture2D_jdg25")
+texture_scale = 0.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=914774067]
+shape = SubResource("CircleShape2D_uxgnm")
+
+[node name="Label" type="Label" parent="." unique_id=1972606365]
+offset_left = -109.0
+offset_top = -55.0
+offset_right = 110.0
+offset_bottom = -25.0
+theme_override_font_sizes/font_size = 5
+text = "Press [E] to pick up"
+label_settings = SubResource("LabelSettings_uxgnm")
