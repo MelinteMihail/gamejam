@@ -470,9 +470,10 @@ shape = SubResource("CapsuleShape2D_5f346")
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+offset_left = -128.0
+offset_top = 10.0
+offset_right = 128.0
+offset_bottom = 76.0
 grow_horizontal = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/VBoxContainer" unique_id=1885224366]

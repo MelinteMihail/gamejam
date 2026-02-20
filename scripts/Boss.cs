@@ -18,8 +18,9 @@ public partial class Boss : CharacterBody2D
     private AudioStreamPlayer2D attackSound;
     private AudioStreamPlayer2D hurtSound;
 
-    private Vector2 lastDirection;
     private bool isAttacking = false;
+    private Vector2 lastDirection;
+
 
     public enum BossDirection
     {
@@ -52,7 +53,7 @@ public partial class Boss : CharacterBody2D
 
         animatedSprite.AnimationFinished += OnAnimationFinished;
 
-        NameLabel.Text = "Boss";
+        NameLabel.Text = "Goblin King";
         HealthBar.MinValue = 0;
         HealthBar.MaxValue = health.maxHealth;
         HealthBar.Value = health.CurrentHealth;

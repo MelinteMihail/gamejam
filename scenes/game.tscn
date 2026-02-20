@@ -122,15 +122,22 @@ anchors_preset = 0
 script = ExtResource("15_pl11u")
 player = NodePath("../../Player")
 
+[node name="Coin" parent="UI" unique_id=1662488867 instance=ExtResource("12_dinhu")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+
 [node name="NPC2" parent="." unique_id=210497804 instance=ExtResource("4_lbhrr")]
 position = Vector2(-204, -16)
 
 [node name="Quest" type="Node2D" parent="NPC2" unique_id=835892798]
 script = ExtResource("5_gee14")
 QuestDataTemplate = ExtResource("9_vtaks")
-
-[node name="Coin" parent="." unique_id=1662488867 instance=ExtResource("12_dinhu")]
-position = Vector2(-194, -52)
 
 [node name="Blacksmith" parent="." unique_id=1866240032 instance=ExtResource("13_kvuet")]
 position = Vector2(-283, -21)
