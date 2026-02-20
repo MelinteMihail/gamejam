@@ -8,7 +8,7 @@ public partial class Guard : Node2D
     private GuardState guardState;
     private Dialogue dialogue;
 
-    private string NextScenePath = "res://scenes/game.tscn";
+    private string NextScenePath = "res://scenes/town.tscn";
     private bool shouldTransitionAfterDialogue = false;
     private bool playerNearby = false;
 
@@ -29,7 +29,7 @@ public partial class Guard : Node2D
         SetProcessInput(true);
 
         guardState = GetNode<GuardState>("/root/GuardState");
-        dialogue = GetNode<Dialogue>("/root/game/UI/Dialog");
+        dialogue = GetTree().GetFirstNodeInGroup("Dialogue") as Dialogue;
 
         var area = GetNode<Area2D>("Interactable Area");
         area.BodyEntered += OnBodyEntered;
@@ -60,6 +60,7 @@ public partial class Guard : Node2D
                 dialogue.ShowDialogue(repeatDialogue);
                 shouldTransitionAfterDialogue = true;
             }
+            GetViewport()?.SetInputAsHandled(); // consume the input so Dialogue._Input doesn't also fire
         }
     }
 

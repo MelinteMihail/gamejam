@@ -234,7 +234,7 @@ public partial class BlacksmithShop : Control
 
     public void OpenShop()
     {
-        player = GetNodeOrNull<Player>("/root/game/Player");
+        player = GetTree().GetFirstNodeInGroup("player") as Player;
         if (player == null)
         {
             GD.PrintErr("BlacksmithShop: Could not find Player");

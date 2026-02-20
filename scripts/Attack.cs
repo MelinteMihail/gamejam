@@ -13,7 +13,7 @@ public partial class Attack : Node2D
 
     public override void _Ready()
     {
-        player = GetNode<Player>("/root/game/Player");
+        player = GetTree().GetFirstNodeInGroup("player") as Player;
         attackSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         hitboxArea = GetNode<Area2D>("HitboxArea");
         hitboxArea.BodyEntered += OnBodyEntered;

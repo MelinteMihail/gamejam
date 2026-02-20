@@ -45,12 +45,12 @@ public partial class Blacksmith : CharacterBody2D
 
     private void OnInteract()
     {
-        var shop = GetNodeOrNull<BlacksmithShop>("/root/game/UI/BlacksmithShop");
-
+        var shop = GetTree().GetFirstNodeInGroup("BlacksmithShop") as BlacksmithShop;
         if (shop != null)
         {
             interactableText.Visible = false;
             LockInput.inputLocked = true;
+            QuestChain.Instance?.OnCivilianSpokenTo();
             shop.OpenShop();
         }
     }

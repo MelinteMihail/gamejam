@@ -19,6 +19,7 @@ public partial class Health : Node
     {
         if (isDead)
             return;
+        GD.Print($"TakeDamage called on: {GetParent().Name}, damage: {damage}");
         currentHealth -= damage;
         EmitSignal(SignalName.HealthChanged, currentHealth, maxHealth);
         if (currentHealth <= 0 && !isDead)

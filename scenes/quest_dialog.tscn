@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://c1lm2bpuc3obr" path="res://scripts/QuestDialog.cs" id="1_wxjll"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wxjll"]
+bg_color = Color(0, 0, 0, 0.7)
+
 [node name="QuestDialog" type="Control" unique_id=305932241]
 layout_mode = 3
 anchors_preset = 15
@@ -16,6 +19,7 @@ custom_minimum_size = Vector2(400, 200)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wxjll")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=898054721]
 layout_mode = 2

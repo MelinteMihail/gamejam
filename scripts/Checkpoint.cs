@@ -2,6 +2,8 @@ using Godot;
 
 public partial class Checkpoint : Area2D
 {
+    public static bool ComingFromTown = false;
+    public string NextScene = "res://scenes/outside.tscn";
     private bool activated = false;
 
     public override void _Ready()
@@ -11,14 +13,25 @@ public partial class Checkpoint : Area2D
 
     private void OnPlayerEntered(Node2D body)
     {
-        if (activated) return;
-
         if (body is Player player)
         {
             player.SetCheckpoint(GlobalPosition);
-            activated = true;
 
-            GD.Print("Set checkpoint at: " + GlobalPosition);
+            if (!string.IsNullOrEmpty(NextScene) && QuestChain.Instance?.CanLeaveTown() == true)
+            {
+                ComingFromTown = true;
+                LoadingScreen.NextScenePath = NextScene;
+                CallDeferred("ChangeScene");
+            }
+            else
+            {
+                activated = false;
+            }
         }
+    }
+
+    private void ChangeScene()
+    {
+        GetTree().ChangeSceneToFile("res://scenes/loading_screen.tscn");
     }
 }

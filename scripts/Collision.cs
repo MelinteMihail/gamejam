@@ -54,11 +54,9 @@ public partial class Collision : Area2D
     private void OnBodyEntered(Node2D body)
     {
         var health = body.GetNodeOrNull<Health>("Health");
-        GD.Print("Body entered: " + body.Name);
+        GD.Print($"Body entered: {body.Name}, group player: {body.IsInGroup("player")}, health: {health != null}");
         if (health != null)
-        {
             bodiesInside.Add(health);
-        }
     }
 
     private void OnBodyExited(Node2D body)

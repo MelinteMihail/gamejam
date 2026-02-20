@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 QuestManager="*uid://b6knk6gpi1efc"
 LockInput="*uid://tcr7wwt5nqhd"
 GuardState="*uid://jqh3hjlf5w6k"
+QuestChain="*uid://prr5jmx63jys"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [dotnet]
 
@@ -81,3 +86,7 @@ rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/default_filters/anisotropic_filtering_level=0
+textures/size/viewport_height=648
+textures/size/viewport_width=1152
+textures/size/mode=3
+textures/stretch/mode="canvas_items"

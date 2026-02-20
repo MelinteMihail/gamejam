@@ -20,6 +20,9 @@ public partial class QuestDialog : Control
         titleLabel = GetNode<Label>("Panel/MarginContainer/VBoxContainer/Title");
         textLabel = GetNode<Label>("Panel/MarginContainer/VBoxContainer/Text");
         optionsContainer = GetNode<VBoxContainer>("Panel/MarginContainer/VBoxContainer/Options");
+
+        SetAnchorsPreset(LayoutPreset.Center);
+
         Hide();
     }
 

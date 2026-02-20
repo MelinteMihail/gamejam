@@ -58,7 +58,21 @@ public partial class Enemy : CharacterBody2D
     }
     private void OnEnemyDied()
     {
+        Player = null;
+        Velocity = Vector2.Zero;
+
+        area2D.BodyEntered -= OnBodyEntered;
+        area2D.BodyExited -= OnBodyExited;
+        area2D.SetDeferred("monitoring", false);
+
+        Attack.AttackStarted -= OnAttackStarted;
+        Attack.SetDeferred("monitoring", false);
+
+        SetPhysicsProcess(false);
+        SetProcess(false);
+
         hurtSound?.Play();
+
         if (QuestManager.Instance != null)
         {
             var activeQuests = QuestManager.Instance.GetActiveQuests();
@@ -74,9 +88,7 @@ public partial class Enemy : CharacterBody2D
             }
         }
 
-        SetPhysicsProcess(false);
-        SetProcess(false);
-        isAttacking = true; 
+        isAttacking = true;
         animatedSprite.Play(EnemyTypePrefix + "death");
         animatedSprite.AnimationFinished -= OnAnimationFinished;
         animatedSprite.AnimationFinished += () => QueueFree();

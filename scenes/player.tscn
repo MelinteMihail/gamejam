@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://deopb1dpit5l1" path="res://assets/sound-effects/hurt-death.mp3" id="11_d2wvv"]
 [ext_resource type="AudioStream" uid="uid://j6appnrfdkve" path="res://assets/sound-effects/grass_walk.ogg" id="12_jej6c"]
 [ext_resource type="AudioStream" uid="uid://cj7v8utd4rc00" path="res://assets/sound-effects/stone_walk.mp3" id="13_f1ej7"]
+[ext_resource type="AudioStream" uid="uid://vn52c8emklnm" path="res://assets/sound-effects/dirt_walk.mp3" id="14_f1ej7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fdfoy"]
 atlas = ExtResource("2_smehm")
@@ -1202,4 +1203,8 @@ pitch_scale = 0.75
 [node name="StoneSound" type="AudioStreamPlayer2D" parent="." unique_id=1523339896]
 stream = ExtResource("13_f1ej7")
 volume_db = -10.0
+pitch_scale = 0.75
+
+[node name="DirtSound" type="AudioStreamPlayer2D" parent="." unique_id=288927356]
+stream = ExtResource("14_f1ej7")
 pitch_scale = 0.75

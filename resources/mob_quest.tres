@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://cqft7x0c67g45"]
 
-[ext_resource type="Script" uid="uid://bsen6cibx0to0" path="res://scripts/QuestData.cs" id="1_m1a44"]
+[ext_resource type="Script" uid="uid://bsen6cibx0to0" path="res://scripts/QuestData.cs" id="1_qac4l"]
 
 [resource]
-script = ExtResource("1_m1a44")
+script = ExtResource("1_qac4l")
 QuestId = "mobs"
 QuestTitle = "NPC2's Quest "
-TargetProgress = 2
+TargetProgress = 5
 ProgressType = "goblin"

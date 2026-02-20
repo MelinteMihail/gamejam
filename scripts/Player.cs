@@ -1,7 +1,5 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using static Player;
 
 public partial class Player : CharacterBody2D
 {
@@ -31,14 +29,18 @@ public partial class Player : CharacterBody2D
     private AudioStreamPlayer2D attackSound;
     private AudioStreamPlayer2D hurtSound;
     private AudioStreamPlayer2D grassSound;
+    private AudioStreamPlayer2D dirtSound;
     private AudioStreamPlayer2D stoneSound;
-    private TileMapLayer tileMap;
+    private TileMapLayer grassLayer;
+    private TileMapLayer dirtLayer;
+    private TileMapLayer stoneLayer;
     private Health health;
     private Area2D LampArea;
     private List<Health> enemiesInLamp = new();
 
     private float footstepTimer = 0f;
     private float footstepInterval = 0.4f;
+    private bool wasMoving = false;
     private Vector2 lastPosition;
     private Vector2 respawnPosition;
     public PlayerEnumDirection currentPlayerDirection = PlayerEnumDirection.Down;
@@ -64,24 +66,27 @@ public partial class Player : CharacterBody2D
         attackSound = GetNode<AudioStreamPlayer2D>("AttackSound");
         hurtSound = GetNode<AudioStreamPlayer2D>("HurtSound");
         grassSound = GetNode<AudioStreamPlayer2D>("GrassSound");
+        dirtSound = GetNode<AudioStreamPlayer2D>("DirtSound");
         stoneSound = GetNode<AudioStreamPlayer2D>("StoneSound");
-        tileMap = GetTree().GetFirstNodeInGroup("GroundLayer") as TileMapLayer;
 
         health.Died += OnPlayerDied;
         health.HealthChanged += OnHealthChanged;
 
-        healthBar = GetNodeOrNull<HealthBar>("/root/game/UI/HealthBar");
-
-        if (healthBar != null)
-        {
-            health.HealthChanged += (current, max) => healthBar.UpdateHealth(current, max);
-
-            healthBar.CallDeferred("UpdateHealth", health.CurrentHealth, (float)health.maxHealth);
-        }
-
         LampArea.BodyEntered += OnBodyEnteredLampArea;
         LampArea.BodyExited += OnBodyExitedLampArea;
-        GD.Print(healthBar == null ? "HealthBar NOT found" : "HealthBar found");
+
+        CallDeferred(nameof(ApplySpawnPoint));
+    }
+
+    private void ApplySpawnPoint()
+    {
+        if (Checkpoint.ComingFromTown)
+        {
+            var spawnPoint = GetTree().GetFirstNodeInGroup("OutsideGate") as Node2D;
+            if (spawnPoint != null)
+                GlobalPosition = spawnPoint.GlobalPosition;
+            Checkpoint.ComingFromTown = false;
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -100,9 +105,7 @@ public partial class Player : CharacterBody2D
         foreach (var enemyHealth in enemiesInLamp)
         {
             if (GodotObject.IsInstanceValid(enemyHealth))
-            {
                 enemyHealth.TakeDamage(actualDamage);
-            }
         }
 
         enemiesInLamp.RemoveAll(e => !GodotObject.IsInstanceValid(e));
@@ -119,33 +122,51 @@ public partial class Player : CharacterBody2D
 
     private void PlayFootstepSound(double delta)
     {
-        if (Velocity == Vector2.Zero || tileMap == null)
+        bool isMoving = Velocity != Vector2.Zero;
+
+        if (!isMoving)
+        {
+            footstepTimer = footstepInterval;
+            wasMoving = false;
             return;
+        }
+
+        if (grassLayer == null) grassLayer = GetTree().GetFirstNodeInGroup("GrassLayer") as TileMapLayer;
+        if (dirtLayer == null) dirtLayer = GetTree().GetFirstNodeInGroup("DirtLayer") as TileMapLayer;
+        if (stoneLayer == null) stoneLayer = GetTree().GetFirstNodeInGroup("StoneLayer") as TileMapLayer;
+
+        if (!wasMoving)
+        {
+            wasMoving = true;
+            footstepTimer = footstepInterval;
+            PlayCurrentSurface();
+            return;
+        }
 
         footstepTimer -= (float)delta;
         if (footstepTimer > 0)
             return;
 
         footstepTimer = footstepInterval;
+        PlayCurrentSurface();
+    }
 
-        Vector2I tilePos = tileMap.LocalToMap(tileMap.ToLocal(GlobalPosition));
-        TileData tileData = tileMap.GetCellTileData(tilePos);
-
-        GD.Print($"TilePos: {tilePos}, TileData: {tileData}, tileMap: {tileMap.Name}");
-
-        if (tileData == null)
-            return;
-
-        string surface = tileData.GetCustomData("surface").AsString();
-        GD.Print($"Surface: {surface}");
-
-        int sourceId = tileMap.GetCellSourceId(tilePos);
-
-        switch (sourceId)
+    private void PlayCurrentSurface()
+    {
+        if (grassLayer != null)
         {
-            case 0: grassSound?.Play(); break;
-            case 1:
-            case 2: stoneSound?.Play(); break;
+            Vector2I tilePos = grassLayer.LocalToMap(grassLayer.ToLocal(GlobalPosition));
+            if (grassLayer.GetCellSourceId(tilePos) != -1) { grassSound?.Play(); return; }
+        }
+        if (dirtLayer != null)
+        {
+            Vector2I tilePos = dirtLayer.LocalToMap(dirtLayer.ToLocal(GlobalPosition));
+            if (dirtLayer.GetCellSourceId(tilePos) != -1) { dirtSound?.Play(); return; }
+        }
+        if (stoneLayer != null)
+        {
+            Vector2I tilePos = stoneLayer.LocalToMap(stoneLayer.ToLocal(GlobalPosition));
+            if (stoneLayer.GetCellSourceId(tilePos) != -1) { stoneSound?.Play(); return; }
         }
     }
 
@@ -161,19 +182,16 @@ public partial class Player : CharacterBody2D
         hurtSound?.Play();
         Sprite.Play(armorPrefix + "death");
         await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-
         Respawn();
     }
+
     private void Respawn()
     {
         GlobalPosition = respawnPosition;
         Velocity = Vector2.Zero;
         enemiesInLamp.Clear();
-
         health.Reset();
-
         GetTree().ChangeSceneToFile("res://scenes/death_screen.tscn");
-
         SetPhysicsProcess(true);
         SetProcess(true);
     }
@@ -187,10 +205,6 @@ public partial class Player : CharacterBody2D
             armorPrefix = "steel_";
         else if (durabilityBonus >= 10f)
             armorPrefix = "iron_";
-
-        GD.Print($"Armor equipped! DUR: {durabilityMultiplier}x, ATK: {attackMultiplier}x");
-        GD.Print($"Current stats - Durability: {CurrentDurability}, Attack: {CurrentDamage}");
-        GD.Print($"Animation prefix set to: {armorPrefix}");
     }
 
     private void OnBodyEnteredLampArea(Node body)
@@ -198,7 +212,6 @@ public partial class Player : CharacterBody2D
         if (body.IsInGroup("enemy") || body.IsInGroup("boss"))
         {
             var enemyHealth = body.GetNodeOrNull<Health>("Health");
-
             if (enemyHealth != null)
                 enemiesInLamp.Add(enemyHealth);
         }
@@ -210,15 +223,16 @@ public partial class Player : CharacterBody2D
         {
             var enemyHealth = body.GetNodeOrNull<Health>("Health");
             if (enemyHealth != null)
-            {
                 enemiesInLamp.Remove(enemyHealth);
-            }
         }
     }
 
     private void OnHealthChanged(float current, float max)
     {
-        GD.Print($"Player health changed: {(int)current}");
+        if (healthBar == null)
+            healthBar = GetTree().GetFirstNodeInGroup("HealthBar") as HealthBar;
+
+        healthBar?.UpdateHealth(current, max);
         hurtSound?.Play();
         Hurt.Play("Hurt");
     }
@@ -233,13 +247,9 @@ public partial class Player : CharacterBody2D
             lastPosition = inputDirection;
 
             if (Mathf.Abs(inputDirection.X) > Mathf.Abs(inputDirection.Y))
-            {
                 currentPlayerDirection = inputDirection.X > 0 ? PlayerEnumDirection.Right : PlayerEnumDirection.Left;
-            }
             else
-            {
                 currentPlayerDirection = inputDirection.Y > 0 ? PlayerEnumDirection.Down : PlayerEnumDirection.Up;
-            }
         }
 
         return inputDirection;
@@ -254,15 +264,12 @@ public partial class Player : CharacterBody2D
             case PlayerEnumDirection.Up:
                 Sprite.Play(armorPrefix + (isMoving ? "walk_up" : "idle_up"));
                 break;
-
             case PlayerEnumDirection.Down:
                 Sprite.Play(armorPrefix + (isMoving ? "walk_down" : "idle_down"));
                 break;
-
             case PlayerEnumDirection.Left:
                 Sprite.Play(armorPrefix + (isMoving ? "walk_left" : "idle_left"));
                 break;
-
             case PlayerEnumDirection.Right:
                 Sprite.Play(armorPrefix + (isMoving ? "walk_right" : "idle_right"));
                 break;
@@ -285,9 +292,7 @@ public partial class Player : CharacterBody2D
             attackInstance.GlobalPosition = GlobalPosition;
             Vector2 directionVector = lastPosition.Normalized();
             attackInstance.GlobalPosition = GlobalPosition + directionVector * attackDistance;
-
             attackInstance.SetDamage(CurrentDamage);
-
             attackInstance.SetDirection();
             attackInstance.Connect("AttackFinished", new Callable(this, "OnAttackFinished"));
             isAttacking = true;

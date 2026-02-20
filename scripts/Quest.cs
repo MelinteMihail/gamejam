@@ -6,12 +6,6 @@ public partial class Quest : Node2D
     [Export]
     public QuestData QuestDataTemplate;
 
-    [Export]
-    public NodePath PlayerPath = "/root/game/Player";
-
-    [Export]
-    public NodePath QuestDialogPath = "/root/game/UI/QuestDialog";
-
     private QuestData questInstance;
     private QuestDialog questDialog;
     private Node2D player;
@@ -23,32 +17,19 @@ public partial class Quest : Node2D
     {
         GD.Print($"Quest _Ready for NPC: {GetParent().Name}");
 
-        if (!PlayerPath.IsEmpty)
-        {
-            player = GetNodeOrNull<Node2D>(PlayerPath);
-            if (player == null)
-            {
-                GD.PrintErr($"Quest: Could not find Player at path: {PlayerPath}");
-            }
-        }
+        player = GetTree().GetFirstNodeInGroup("player") as Node2D;
+        if (player == null)
+            GD.PrintErr("Quest: Could not find Player in group 'player'");
 
-        if (!QuestDialogPath.IsEmpty)
-        {
-            questDialog = GetNodeOrNull<QuestDialog>(QuestDialogPath);
-            if (questDialog == null)
-            {
-                GD.PrintErr($"Quest: Could not find QuestDialog at path: {QuestDialogPath}");
-            }
-            else
-            {
-                GD.Print($"Quest: Found QuestDialog successfully");
-            }
-        }
+        questDialog = GetTree().GetFirstNodeInGroup("QuestDialog") as QuestDialog;
+        if (questDialog == null)
+            GD.PrintErr("Quest: Could not find QuestDialog in group 'QuestDialog'");
+        else
+            GD.Print("Quest: Found QuestDialog successfully");
 
         if (QuestDataTemplate != null)
         {
             questInstance = QuestDataTemplate.Duplicate();
-
             questInstance.NpcName = GetParent().Name;
             GD.Print($"Quest: Created instance with ID: {questInstance.QuestId}, NPC: {questInstance.NpcName}");
         }
@@ -204,10 +185,10 @@ public partial class Quest : Node2D
     private void OnQuestAccepted()
     {
         GD.Print($"OnQuestAccepted called for: {questInstance.QuestId}");
-
         if (QuestManager.Instance != null && questInstance != null)
         {
             QuestManager.Instance.AddQuest(questInstance);
+            QuestChain.Instance?.OnCivilianSpokenTo();
             GD.Print("Quest added to manager");
         }
         else
@@ -231,6 +212,7 @@ public partial class Quest : Node2D
             GD.Print($"Quest turned in: {questInstance.QuestTitle}");
 
             QuestManager.Instance.CompleteQuest(questInstance);
+            QuestChain.Instance?.OnQuestsTurnedIn();
             questAccepted = false;
             LockInput.inputLocked = false;
         }

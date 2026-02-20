@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ba0isjyydyeax" path="res://scripts/Checkpoint.cs" id="1_yyywg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xam77"]
-size = Vector2(32, 28)
+size = Vector2(50, 42)
 
 [node name="Checkpoint" type="Area2D" unique_id=878379604]
 script = ExtResource("1_yyywg")
