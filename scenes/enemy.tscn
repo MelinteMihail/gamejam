@@ -419,6 +419,17 @@ height = 22.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_5uy6h"]
 radius = 74.00676
 
+[sub_resource type="Gradient" id="Gradient_rv78h"]
+offsets = PackedFloat32Array(0, 0.13253012, 0.27108434)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5uy6h"]
+gradient = SubResource("Gradient_rv78h")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Enemy" type="CharacterBody2D" unique_id=1579080019 node_paths=PackedStringArray("animatedSprite")]
 z_index = 2
 collision_layer = 2
@@ -455,6 +466,9 @@ shape = SubResource("CircleShape2D_5uy6h")
 [node name="Health" parent="." unique_id=635338871 instance=ExtResource("5_c4w8v")]
 maxHealth = 50
 
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=72087692]
+energy = 0.25
+texture = SubResource("GradientTexture2D_5uy6h")
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=1663893710]
 stream = ExtResource("5_xwavj")
 volume_db = -10.0

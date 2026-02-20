@@ -1146,12 +1146,11 @@ drag_bottom_margin = 0.01
 
 [node name="Health" parent="." unique_id=635338871 instance=ExtResource("4_dqkch")]
 
-[node name="LanternPivot" type="Node2D" parent="." unique_id=454673647 node_paths=PackedStringArray("playerClass", "lanternSprite")]
+[node name="LanternPivot" type="Node2D" parent="." unique_id=454673647 node_paths=PackedStringArray("lanternSprite")]
 z_index = 1
 position = Vector2(0, 9)
 script = ExtResource("5_tuyoq")
 offset = Vector2(2.5, 3.5)
-playerClass = NodePath("..")
 lanternSprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="LanternPivot" unique_id=180631090]
@@ -1174,11 +1173,12 @@ shape = SubResource("RectangleShape2D_tuyoq")
 position = Vector2(-2.87e-42, -1.9073486e-06)
 scale = Vector2(0.96875, 1.015625)
 color = Color(0.7886799, 0.49189848, 0.28759003, 1)
-energy = 5.0
+energy = 2.5
 texture = SubResource("GradientTexture2D_ur7pv")
 
 [node name="Hurt" type="AnimatedSprite2D" parent="." unique_id=1770764777]
-position = Vector2(-1, 0)
+position = Vector2(-7.1525574e-07, 0)
+scale = Vector2(1.4545454, 1.4615386)
 sprite_frames = SubResource("SpriteFrames_51ujp")
 animation = &"Hurt"
 frame = 6

@@ -53,7 +53,7 @@ public partial class Player : CharacterBody2D
     public override void _Ready()
     {
         respawnPosition = GlobalPosition;
-
+        AddToGroup("player");
         LampArea = GetNode<Area2D>("LampArea");
         health = GetNode<Health>("Health");
         attackSound = GetNode<AudioStreamPlayer2D>("AttackSound");
@@ -89,11 +89,13 @@ public partial class Player : CharacterBody2D
 
         foreach (var enemyHealth in enemiesInLamp)
         {
-            if (enemyHealth != null && !enemyHealth.IsQueuedForDeletion())
+            if (GodotObject.IsInstanceValid(enemyHealth))
+            {
                 enemyHealth.TakeDamage(actualDamage);
+            }
         }
 
-        enemiesInLamp.RemoveAll(e => e == null || e.IsQueuedForDeletion());
+        enemiesInLamp.RemoveAll(e => !GodotObject.IsInstanceValid(e));
     }
 
     public override void _Process(double delta)

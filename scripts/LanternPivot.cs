@@ -4,30 +4,32 @@ using System.ComponentModel.Design;
 
 public partial class LanternPivot : Node2D
 {
-    private CharacterBody2D player;
+    private Player player;
 
     [Export] private float swingAmount = 0.003f;
     [Export] private float swingSmoothness = 8f;
     [Export] private Vector2 offset = new Vector2(0.1f, 0.1f);
-    [Export] private Player playerClass;
     [Export] private AnimatedSprite2D lanternSprite;
     private Vector2 currentOffset;
     private Vector2 Velocity;
     float targetRotation;
     public override void _Ready()
     {
-        player = GetTree().GetFirstNodeInGroup("player") as CharacterBody2D;
+        player = GetTree().GetFirstNodeInGroup("player") as Player;
         Position = offset with { X = -offset.X };
     }
     public override void _Process(double delta)
     {
         if (player == null)
-            return;
+        {
+            player = GetTree().GetFirstNodeInGroup("player") as Player;
+            if (player == null)
+                return;
+        }
         Velocity = player.Velocity;
         targetRotation = Velocity.X * swingAmount;
         Rotation = Mathf.Lerp(Rotation, targetRotation, swingSmoothness * (float)delta);
-        Player.PlayerEnumDirection currentDir = playerClass.GetCurrentDirection();
-
+        var currentDir = player.GetCurrentDirection();
         float horizontalOffset = currentDir == Player.PlayerEnumDirection.Up ? -offset.X :
               currentDir == Player.PlayerEnumDirection.Down ? offset.X : 0;
 

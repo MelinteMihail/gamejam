@@ -1,9 +1,20 @@
-[gd_scene format=3 uid="uid://c8s8b0ki2vfiv"]
+[gd_scene format=3 uid="uid://cnwrlh3hsqf5f"]
 
 [ext_resource type="Script" uid="uid://doss0120fddb0" path="res://scripts/QuestCollectible.cs" id="1_p81tb"]
 [ext_resource type="Texture2D" uid="uid://dbdd5uw6re0r" path="res://assets/extras/herb.png" id="2_efq6k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o65pf"]
+
+[sub_resource type="Gradient" id="Gradient_p81tb"]
+offsets = PackedFloat32Array(0, 0.13253012, 0.27108434)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_efq6k"]
+gradient = SubResource("Gradient_p81tb")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="QuestCollectible" type="Area2D" unique_id=1448573231]
 script = ExtResource("1_p81tb")
@@ -12,7 +23,7 @@ script = ExtResource("1_p81tb")
 shape = SubResource("RectangleShape2D_o65pf")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1192400834]
-z_index = -5
+z_index = 1
 position = Vector2(0, 4.2915344e-06)
 scale = Vector2(0.905, 1)
 texture = ExtResource("2_efq6k")
@@ -20,3 +31,7 @@ texture = ExtResource("2_efq6k")
 [node name="Label" type="Label" parent="." unique_id=500308509]
 offset_right = 40.0
 offset_bottom = 30.0
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1183891095]
+energy = 0.25
+texture = SubResource("GradientTexture2D_efq6k")

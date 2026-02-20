@@ -51,9 +51,14 @@ public partial class Attack : Node2D
         if (body.IsInGroup("enemy") || body.IsInGroup("boss"))
         {
             var health = body.GetNodeOrNull<Health>("Health");
-
+            var enemy = body as Enemy;
+            var boss = body as Boss;
             if (health != null)
             {
+                if (attackDamage < health.CurrentHealth)
+                    enemy?.Flicker();
+                if (attackDamage < health.CurrentHealth)
+                    boss?.Flicker();
                 health.TakeDamage(attackDamage);
                 GD.Print($"Dealt {attackDamage} damage to {body.Name}");
             }
