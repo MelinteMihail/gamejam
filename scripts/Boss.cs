@@ -52,7 +52,7 @@ public partial class Boss : CharacterBody2D
 
         animatedSprite.AnimationFinished += OnAnimationFinished;
 
-        NameLabel.Text = "Boss";
+        NameLabel.Text = "Goblin King";
         HealthBar.MinValue = 0;
         HealthBar.MaxValue = health.maxHealth;
         HealthBar.Value = health.CurrentHealth;

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Coin : Node2D
+public partial class Coin : Control
 {
 	public static Coin Instance { get; private set; }
 
@@ -11,7 +11,7 @@ public partial class Coin : Node2D
 	public override void _Ready()
 	{
 		Instance = this;
-		counter = GetNode<Label>("Counter");
+		counter = GetNode<Label>("HBoxContainer/Counter");
 		UpdateDisplay();
 	}
 
