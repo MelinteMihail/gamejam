@@ -13,17 +13,17 @@
 [ext_resource type="Resource" uid="uid://cqft7x0c67g45" path="res://resources/herb_quest_2.tres" id="9_vtaks"]
 [ext_resource type="Script" uid="uid://c6bhvgbkr6fjc" path="res://scripts/HealthBar.cs" id="10_ir15t"]
 [ext_resource type="Texture2D" uid="uid://cr7hwbiu7vrad" path="res://assets/extras/health_bar_decoration.png" id="11_rysoc"]
-[ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="12_dinhu"]
+[ext_resource type="PackedScene" path="res://scenes/coin.tscn" id="12_dinhu"]
 [ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="12_ssvqc"]
-[ext_resource type="PackedScene" uid="uid://c2helh2ilwbxe" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
+[ext_resource type="PackedScene" path="res://scenes/blacksmith.tscn" id="13_kvuet"]
 [ext_resource type="Script" uid="uid://tahvhhrt5s4u" path="res://scripts/QuestArrowManager.cs" id="15_pl11u"]
-[ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="19_264po"]
+[ext_resource type="PackedScene" path="res://scenes/checkpoint.tscn" id="19_264po"]
 [ext_resource type="Texture2D" uid="uid://2ra30empomyl" path="res://assets/extras/black.png" id="20_5newe"]
 [ext_resource type="Texture2D" uid="uid://bw8htgh7a0i7k" path="res://assets/extras/little_whiter.png" id="21_37s47"]
 [ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="22_37s47"]
 [ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="23_bt5mj"]
-[ext_resource type="PackedScene" uid="uid://c8s8b0ki2vfiv" path="res://scenes/quest_collectible.tscn" id="23_e1j6l"]
-[ext_resource type="PackedScene" uid="uid://cocb7xk2pxj3j" path="res://scenes/boss.tscn" id="24_e1j6l"]
+[ext_resource type="PackedScene" path="res://scenes/quest_collectible.tscn" id="23_e1j6l"]
+[ext_resource type="PackedScene" uid="uid://b6ade2grjyqov" path="res://scenes/boss.tscn" id="24_e1j6l"]
 
 [node name="game" type="Node2D" unique_id=561111296 node_paths=PackedStringArray("dialogue", "pointA", "pointB", "player")]
 script = ExtResource("1_ssvqc")
@@ -170,4 +170,4 @@ position = Vector2(-101, -121)
 position = Vector2(-47, -121)
 
 [node name="Boss" parent="." unique_id=577010878 instance=ExtResource("24_e1j6l")]
-position = Vector2(-195, -123)
+position = Vector2(236, -408)

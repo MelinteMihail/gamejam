@@ -196,4 +196,26 @@ public partial class Boss : CharacterBody2D
         animatedSprite.AnimationFinished -= OnAnimationFinished;
         animatedSprite.AnimationFinished += () => QueueFree();
     }
+    public async void Flicker(float duration = 0.4f, float interval = 0.05f)
+    {
+        if (animatedSprite == null)
+            return;
+
+        Color originalColor = animatedSprite.Modulate;
+        Color flashColor = new Color(3f, 3f, 3f);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            animatedSprite.Modulate = flashColor;
+            await ToSignal(GetTree().CreateTimer(interval), "timeout");
+
+            animatedSprite.Modulate = originalColor;
+            await ToSignal(GetTree().CreateTimer(interval), "timeout");
+
+            elapsed += interval * 2;
+        }
+
+        animatedSprite.Modulate = originalColor;
+    }
 }

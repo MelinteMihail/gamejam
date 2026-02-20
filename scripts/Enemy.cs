@@ -75,7 +75,6 @@ public partial class Enemy : CharacterBody2D
     private void OnEnemyHealthChanged(float current, float max)
     {
         GD.Print($"Enemy health changed: {current}");
-
     }
     private void OnBodyEntered(Node body)
 	{
@@ -210,5 +209,26 @@ public partial class Enemy : CharacterBody2D
             }
         }
     }
+    public async void Flicker(float duration = 0.4f, float interval = 0.05f)
+    {
+        if (animatedSprite == null)
+            return;
 
+        Color originalColor = animatedSprite.Modulate;
+        Color flashColor = new Color(3f, 3f, 3f);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            animatedSprite.Modulate = flashColor;
+            await ToSignal(GetTree().CreateTimer(interval), "timeout");
+
+            animatedSprite.Modulate = originalColor;
+            await ToSignal(GetTree().CreateTimer(interval), "timeout");
+
+            elapsed += interval * 2;
+        }
+
+        animatedSprite.Modulate = originalColor;
+    }
 }
