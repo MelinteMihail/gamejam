@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 QuestManager="*uid://b6knk6gpi1efc"
 LockInput="*uid://tcr7wwt5nqhd"
 GuardState="*uid://jqh3hjlf5w6k"
+LanternState="*uid://dlbjhpxwt62hf"
+
+[display]
+
+window/size/mode=3
 
 [dotnet]
 
