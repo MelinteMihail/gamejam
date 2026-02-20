@@ -28,7 +28,8 @@ public partial class Player : CharacterBody2D
     public float CurrentDamage => baseDamage * attackMultiplier;
 
     public HealthBar healthBar;
-
+    private AudioStreamPlayer2D attackSound;
+    private AudioStreamPlayer2D hurtSound;
     private Health health;
     private Area2D LampArea;
     private List<Health> enemiesInLamp = new();
@@ -55,6 +56,8 @@ public partial class Player : CharacterBody2D
         AddToGroup("player");
         LampArea = GetNode<Area2D>("LampArea");
         health = GetNode<Health>("Health");
+        attackSound = GetNode<AudioStreamPlayer2D>("AttackSound");
+        hurtSound = GetNode<AudioStreamPlayer2D>("HurtSound");
 
         health.Died += OnPlayerDied;
         health.HealthChanged += OnHealthChanged;
@@ -113,7 +116,7 @@ public partial class Player : CharacterBody2D
     {
         SetPhysicsProcess(false);
         SetProcess(false);
-
+        hurtSound?.Play();
         Sprite.Play(armorPrefix + "death");
         await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 
@@ -161,7 +164,7 @@ public partial class Player : CharacterBody2D
 
     private void OnBodyExitedLampArea(Node body)
     {
-        if (body.IsInGroup("enemy"))
+        if (body.IsInGroup("enemy") || body.IsInGroup("boss"))
         {
             var enemyHealth = body.GetNodeOrNull<Health>("Health");
             if (enemyHealth != null)
@@ -174,6 +177,7 @@ public partial class Player : CharacterBody2D
     private void OnHealthChanged(float current, float max)
     {
         GD.Print($"Player health changed: {(int)current}");
+        hurtSound?.Play();
         Hurt.Play("Hurt");
     }
 
@@ -233,6 +237,7 @@ public partial class Player : CharacterBody2D
         var scene = GD.Load<PackedScene>("res://scenes/Attack.tscn");
         if (scene != null)
         {
+            attackSound?.Play();
             var attackInstance = scene.Instantiate<Attack>();
             GetParent().AddChild(attackInstance);
             attackInstance.GlobalPosition = GlobalPosition;

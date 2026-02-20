@@ -13,6 +13,9 @@ public partial class Dialogue : Control
     private Label textLabel;
     private Label promptLabel;
 
+    private bool _justAdvanced = false;
+
+
     private Queue<(string speaker, string text)> dialogueQueue = new();
 
     public override void _Ready()
@@ -29,10 +32,17 @@ public partial class Dialogue : Control
     {
         if (!Visible)
             return;
-
         if (Input.IsActionJustPressed("interact"))
+        {
+            if (_justAdvanced)
+            {
+                _justAdvanced = false;
+                return;
+            }
             Advance();
+        }
     }
+
 
     public void ShowDialogue((string speaker, string text)[] lines)
     {
@@ -40,9 +50,10 @@ public partial class Dialogue : Control
 
         foreach (var line in lines)
             dialogueQueue.Enqueue(line);
-
+        
         LockInput.inputLocked = true;
-
+        
+        _justAdvanced = true; // block the first _Input from also firing
         Advance();
     }
 
@@ -50,20 +61,18 @@ public partial class Dialogue : Control
     {
         if (dialogueQueue.Count == 0)
         {
+            GD.Print("Queue empty, closing dialogue");
             Hide();
             LockInput.inputLocked = false;
             EmitSignal(SignalName.DialogueClosed);
             return;
         }
-
         var (speaker, text) = dialogueQueue.Dequeue();
-
+        GD.Print($"Showing line: {speaker}: {text}");
         speakerLabel.Text = speaker;
         speakerLabel.Visible = !string.IsNullOrEmpty(speaker);
         textLabel.Text = text;
-
         promptLabel.Text = dialogueQueue.Count == 0 ? "Press [E] to close" : "Press [E] to continue";
         Show();
-
     }
 }

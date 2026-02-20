@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bhtjspfdyt8h1" path="res://assets/enemy/gamejam_enemy_eye_death.png" id="4_exidn"]
 [ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_xasvo"]
 [ext_resource type="PackedScene" uid="uid://dacekq42yenco" path="res://scenes/projectile.tscn" id="5_1mtdb"]
+[ext_resource type="AudioStream" uid="uid://b45jmegars31w" path="res://assets/sound-effects/laserShoot.mp3" id="7_u6tux"]
+[ext_resource type="AudioStream" uid="uid://deopb1dpit5l1" path="res://assets/sound-effects/hurt-death.mp3" id="8_vjml7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ibab6"]
 atlas = ExtResource("1_fox8h")
@@ -310,3 +312,9 @@ shape = SubResource("CapsuleShape2D_1mtdb")
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=707794500]
 energy = 0.25
 texture = SubResource("GradientTexture2D_u6tux")
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=1596272532]
+stream = ExtResource("7_u6tux")
+volume_db = -10.0
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="." unique_id=1423790400]
+stream = ExtResource("8_vjml7")

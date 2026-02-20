@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://ce624tekde6uv" path="res://assets/lantern/Lanterns - Smaller Versions/Lantern 1/Bronze/Lantern 1 Small - Bronze and Orange.png" id="5_qlg0r"]
 [ext_resource type="Script" uid="uid://fahcumd5wwi8" path="res://scripts/LanternPivot.cs" id="5_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://3cs4yygtma33" path="res://assets/player/attack/hurt.png" id="9_ur7pv"]
+[ext_resource type="AudioStream" uid="uid://cs6u8bgiwgoac" path="res://assets/sound-effects/sword-slash.mp3" id="10_y4r1p"]
+[ext_resource type="AudioStream" uid="uid://deopb1dpit5l1" path="res://assets/sound-effects/hurt-death.mp3" id="11_d2wvv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fdfoy"]
 atlas = ExtResource("2_smehm")
@@ -1181,3 +1183,11 @@ sprite_frames = SubResource("SpriteFrames_51ujp")
 animation = &"Hurt"
 frame = 6
 frame_progress = 1.0
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=1263550800]
+stream = ExtResource("10_y4r1p")
+volume_db = -10.0
+pitch_scale = 0.75
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="." unique_id=304526612]
+stream = ExtResource("11_d2wvv")

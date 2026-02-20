@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://1qotsqifneyj" path="res://assets/enemy/gamejam_enemy-Sheet.png" id="2_5uy6h"]
 [ext_resource type="Script" uid="uid://dhefwwq44jm6q" path="res://scripts/Collision.cs" id="4_5uy6h"]
 [ext_resource type="PackedScene" uid="uid://bly3uggn2bxsu" path="res://scenes/Health.tscn" id="5_c4w8v"]
+[ext_resource type="AudioStream" uid="uid://bsk5ln8nm16xm" path="res://assets/sound-effects/goblin-attack.mp3" id="5_xwavj"]
+[ext_resource type="AudioStream" uid="uid://deopb1dpit5l1" path="res://assets/sound-effects/hurt-death.mp3" id="6_xwavj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qaulx"]
 atlas = ExtResource("2_5uy6h")
@@ -467,3 +469,9 @@ maxHealth = 50
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=72087692]
 energy = 0.25
 texture = SubResource("GradientTexture2D_5uy6h")
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=1663893710]
+stream = ExtResource("5_xwavj")
+volume_db = -10.0
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="." unique_id=1454446388]
+stream = ExtResource("6_xwavj")
