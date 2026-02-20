@@ -23,7 +23,8 @@
 [ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="22_37s47"]
 [ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="23_bt5mj"]
 [ext_resource type="PackedScene" uid="uid://c8s8b0ki2vfiv" path="res://scenes/quest_collectible.tscn" id="23_e1j6l"]
-[ext_resource type="PackedScene" uid="uid://cocb7xk2pxj3j" path="res://scenes/boss.tscn" id="24_e1j6l"]
+[ext_resource type="PackedScene" uid="uid://b6ade2grjyqov" path="res://scenes/boss.tscn" id="24_e1j6l"]
+[ext_resource type="PackedScene" uid="uid://2nim5xr3c6cl" path="res://scenes/guard.tscn" id="25_pl11u"]
 
 [node name="game" type="Node2D" unique_id=561111296 node_paths=PackedStringArray("dialogue", "pointA", "pointB", "player")]
 script = ExtResource("1_ssvqc")
@@ -171,3 +172,6 @@ position = Vector2(-47, -121)
 
 [node name="Boss" parent="." unique_id=577010878 instance=ExtResource("24_e1j6l")]
 position = Vector2(-195, -123)
+
+[node name="Guard" parent="." unique_id=2030267479 instance=ExtResource("25_pl11u")]
+position = Vector2(-129, 63)
