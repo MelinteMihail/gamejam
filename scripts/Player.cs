@@ -139,10 +139,13 @@ public partial class Player : CharacterBody2D
         string surface = tileData.GetCustomData("surface").AsString();
         GD.Print($"Surface: {surface}");
 
-        switch (surface)
+        int sourceId = tileMap.GetCellSourceId(tilePos);
+
+        switch (sourceId)
         {
-            case "grass": grassSound?.Play(); break;
-            case "stone": stoneSound?.Play(); break;
+            case 0: grassSound?.Play(); break;
+            case 1:
+            case 2: stoneSound?.Play(); break;
         }
     }
 
