@@ -30,10 +30,15 @@ public partial class Player : CharacterBody2D
     public HealthBar healthBar;
     private AudioStreamPlayer2D attackSound;
     private AudioStreamPlayer2D hurtSound;
+    private AudioStreamPlayer2D grassSound;
+    private AudioStreamPlayer2D stoneSound;
+    private TileMapLayer tileMap;
     private Health health;
     private Area2D LampArea;
     private List<Health> enemiesInLamp = new();
 
+    private float footstepTimer = 0f;
+    private float footstepInterval = 0.4f;
     private Vector2 lastPosition;
     private Vector2 respawnPosition;
     public PlayerEnumDirection currentPlayerDirection = PlayerEnumDirection.Down;
@@ -58,6 +63,9 @@ public partial class Player : CharacterBody2D
         health = GetNode<Health>("Health");
         attackSound = GetNode<AudioStreamPlayer2D>("AttackSound");
         hurtSound = GetNode<AudioStreamPlayer2D>("HurtSound");
+        grassSound = GetNode<AudioStreamPlayer2D>("GrassSound");
+        stoneSound = GetNode<AudioStreamPlayer2D>("StoneSound");
+        tileMap = GetTree().GetFirstNodeInGroup("GroundLayer") as TileMapLayer;
 
         health.Died += OnPlayerDied;
         health.HealthChanged += OnHealthChanged;
@@ -78,6 +86,8 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        PlayFootstepSound(delta);
+
         if (LockInput.inputLocked)
             return;
 
@@ -105,6 +115,35 @@ public partial class Player : CharacterBody2D
 
         AnimatePlayer();
         Attack();
+    }
+
+    private void PlayFootstepSound(double delta)
+    {
+        if (Velocity == Vector2.Zero || tileMap == null)
+            return;
+
+        footstepTimer -= (float)delta;
+        if (footstepTimer > 0)
+            return;
+
+        footstepTimer = footstepInterval;
+
+        Vector2I tilePos = tileMap.LocalToMap(tileMap.ToLocal(GlobalPosition));
+        TileData tileData = tileMap.GetCellTileData(tilePos);
+
+        GD.Print($"TilePos: {tilePos}, TileData: {tileData}, tileMap: {tileMap.Name}");
+
+        if (tileData == null)
+            return;
+
+        string surface = tileData.GetCustomData("surface").AsString();
+        GD.Print($"Surface: {surface}");
+
+        switch (surface)
+        {
+            case "grass": grassSound?.Play(); break;
+            case "stone": stoneSound?.Play(); break;
+        }
     }
 
     public void SetCheckpoint(Vector2 position)
