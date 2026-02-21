@@ -1,7 +1,7 @@
 using Godot;
 using System.Threading.Tasks;
 
-public partial class Outside : Node2D // or whatever your root is
+public partial class Outside : Node2D
 {
     private ColorRect fadeOverlay;
 
@@ -20,6 +20,6 @@ public partial class Outside : Node2D // or whatever your root is
 
         await ToSignal(tween, Tween.SignalName.Finished);
 
-        fadeOverlay.QueueFree(); // optional
+        fadeOverlay.QueueFree();
     }
 }
