@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class Boss : CharacterBody2D
 {
@@ -207,16 +208,20 @@ public partial class Boss : CharacterBody2D
         animatedSprite.AnimationFinished -= OnAnimationFinished;
         animatedSprite.AnimationFinished += () => QueueFree();
     }
-    public async void Flicker(float duration = 0.4f, float interval = 0.05f)
+    private bool _isFlickering = false;
+
+    public async Task Flicker(float duration = 0.4f, float interval = 0.05f)
     {
-        if (animatedSprite == null)
+        if (animatedSprite == null || _isFlickering)
             return;
+
+        _isFlickering = true;
 
         Color originalColor = animatedSprite.Modulate;
         Color flashColor = new Color(3f, 3f, 3f);
         float elapsed = 0f;
 
-        while (elapsed < duration)
+        while (elapsed < duration && IsInsideTree())
         {
             animatedSprite.Modulate = flashColor;
             await ToSignal(GetTree().CreateTimer(interval), "timeout");
@@ -227,6 +232,9 @@ public partial class Boss : CharacterBody2D
             elapsed += interval * 2;
         }
 
-        animatedSprite.Modulate = originalColor;
+        if (animatedSprite != null)
+            animatedSprite.Modulate = originalColor;
+
+        _isFlickering = false;
     }
 }
