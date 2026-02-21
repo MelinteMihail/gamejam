@@ -29,6 +29,7 @@ public partial class LanternPickup : Area2D
         {
             var lanternState = GetNode<LanternState>("/root/LanternState");
             lanternState.HasLantern = true;
+            player.lampLight.Energy = 2.5f;
             player.EnableLantern();
             QuestChain.Instance?.OnLanternPickedUp();
             QueueFree();

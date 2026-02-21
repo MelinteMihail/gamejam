@@ -35,7 +35,7 @@ public partial class Player : CharacterBody2D
     private TileMapLayer stoneLayer;
     private Health health;
     private Area2D LampArea;
-
+    public PointLight2D lampLight;
     private float footstepTimer = 0f;
     private float footstepInterval = 0.4f;
     private bool wasMoving = false;
@@ -64,6 +64,7 @@ public partial class Player : CharacterBody2D
     {
         respawnPosition = GlobalPosition;
         AddToGroup("player");
+        lampLight = GetNode<PointLight2D>("LanternLight");
         LampArea = GetNode<Area2D>("LampArea");
         health = GetNode<Health>("Health");
         attackSound = GetNode<AudioStreamPlayer2D>("AttackSound");
@@ -76,7 +77,7 @@ public partial class Player : CharacterBody2D
         health.HealthChanged += OnHealthChanged;
 
         CurrentDamage = baseDamage;
-
+        
         // Hide lantern pivot and lamp area by default
         if (LanternPivot != null)
             LanternPivot.Visible = false;
@@ -87,7 +88,8 @@ public partial class Player : CharacterBody2D
         var lanternState = GetNodeOrNull<LanternState>("/root/LanternState");
         if (lanternState != null && lanternState.HasLantern)
             EnableLantern();
-
+        if (lanternState.HasLantern == false)
+            lampLight.Energy = 0.2f;
         // Restore armor if already bought
         var armorState = GetNodeOrNull<ArmorState>("/root/ArmorState");
         if (armorState != null && armorState.HasArmor)

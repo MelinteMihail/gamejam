@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://bpptx3t0dca04"]
+[gd_scene format=4 uid="uid://iygjgdy7ldqg"]
 
 [ext_resource type="Texture2D" uid="uid://b80ik8mtpdv56" path="res://assets/player/16x32 colored/gamejam_test-Sheet.png" id="1_edmg7"]
 [ext_resource type="Script" uid="uid://hd4ock7lfq0k" path="res://scripts/Cutscene.cs" id="1_fs8wb"]
@@ -227,7 +227,7 @@ upTarget = NodePath("UpTarget")
 ambientSound = NodePath("AnimatedSprite2D/AudioStreamPlayer2D")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1533888629]
-zoom = Vector2(6, 6)
+zoom = Vector2(5.1, 5.1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=254024660]
 z_index = 1
