@@ -23,12 +23,11 @@ public partial class Health : Node
         EmitSignal(SignalName.HealthChanged, currentHealth, effectiveMaxHealth);
     }
 
-    // Call this after equipping armor to increase max health
     public void ApplyHealthBonus(float percentBonus)
     {
         float bonus = maxHealth * (percentBonus / 100f);
         effectiveMaxHealth = maxHealth + bonus;
-        currentHealth = effectiveMaxHealth; // restore to full on equip
+        currentHealth = effectiveMaxHealth;
         EmitSignal(SignalName.HealthChanged, currentHealth, effectiveMaxHealth);
     }
 

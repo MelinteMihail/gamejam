@@ -77,25 +77,21 @@ public partial class Player : CharacterBody2D
         health.HealthChanged += OnHealthChanged;
 
         CurrentDamage = baseDamage;
-        
-        // Hide lantern pivot and lamp area by default
         if (LanternPivot != null)
             LanternPivot.Visible = false;
         if (LampArea != null)
             LampArea.Visible = false;
 
-        // Restore lantern if already picked up
         var lanternState = GetNodeOrNull<LanternState>("/root/LanternState");
         if (lanternState != null && lanternState.HasLantern)
             EnableLantern();
         if (lanternState.HasLantern == false)
             lampLight.Energy = 0.2f;
-        // Restore armor if already bought
+
         var armorState = GetNodeOrNull<ArmorState>("/root/ArmorState");
         if (armorState != null && armorState.HasArmor)
             RestoreArmor(armorState);
 
-        // Restore respawn position if already set
         if (RespawnState.LastPosition != Vector2.Zero)
             respawnPosition = RespawnState.LastPosition;
 
@@ -257,11 +253,10 @@ public partial class Player : CharacterBody2D
         if (healthBar == null)
             healthBar = GetTree().GetFirstNodeInGroup("HealthBar") as HealthBar;
 
-        if (healthBar == null) return; // still not found, skip
+        if (healthBar == null) return;
 
         healthBar.UpdateHealth(current, max);
 
-        // Only play hurt effects if not at full health (avoids playing on init)
         if (current < max)
         {
             hurtSound?.Play();

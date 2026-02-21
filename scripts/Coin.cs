@@ -12,7 +12,6 @@ public partial class Coin : Control
         Instance = this;
         counter = GetNode<Label>("HBoxContainer/Counter");
 
-        // Restore coins from WorldState
         var worldState = GetNodeOrNull<WorldState>("/root/WorldState");
         if (worldState != null)
             coinAmount = worldState.Coins;

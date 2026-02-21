@@ -9,19 +9,15 @@ public partial class MainMenu : Control
     {
         fadeOverlay = GetNode<ColorRect>("FadeOverlay");
 
-        // Get buttons
         var playButton = GetNode<Button>("CenterContainer/VBoxContainer/PlayButton");
         var quitButton = GetNode<Button>("CenterContainer/VBoxContainer/QuitButton");
 
-        // Set text
         playButton.Text = "Play";
         quitButton.Text = "Quit";
 
-        // Apply style to both buttons
         StyleButton(playButton);
         StyleButton(quitButton);
 
-        // Connect signals
         playButton.Pressed += OnPlayPressed;
         quitButton.Pressed += OnQuitPressed;
     }
@@ -31,7 +27,6 @@ public partial class MainMenu : Control
         button.CustomMinimumSize = new Vector2(200, 50);
         button.AddThemeFontSizeOverride("font_size", 18);
 
-        // Normal style
         var normal = new StyleBoxFlat();
         normal.BgColor = new Color(0.1f, 0.1f, 0.15f);
         normal.BorderColor = new Color(0.6f, 0.5f, 0.8f);
@@ -45,7 +40,6 @@ public partial class MainMenu : Control
         normal.CornerRadiusBottomRight = 6;
         button.AddThemeStyleboxOverride("normal", normal);
 
-        // Hover style
         var hover = new StyleBoxFlat();
         hover.BgColor = new Color(0.25f, 0.2f, 0.35f);
         hover.BorderColor = new Color(0.8f, 0.7f, 1f);
@@ -59,7 +53,6 @@ public partial class MainMenu : Control
         hover.CornerRadiusBottomRight = 6;
         button.AddThemeStyleboxOverride("hover", hover);
 
-        // Font color
         button.AddThemeColorOverride("font_color", new Color(0.9f, 0.9f, 1f));
         button.AddThemeColorOverride("font_hover_color", new Color(1f, 1f, 1f));
     }

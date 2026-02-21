@@ -16,11 +16,9 @@ public partial class BlacksmithShop : Control
     [Export]
     public string ArmorSet2IconPath = "res://assets/extras/Steel_Armor_Weapon.png";
 
-    // Iron Armor: 15% max health bonus, 20 flat damage
     private const float IronHealthBonus = 15f;
     private const float IronDamage = 20f;
 
-    // Steel Armor: 25% max health bonus, 30 flat damage
     private const float SteelHealthBonus = 25f;
     private const float SteelDamage = 30f;
 
