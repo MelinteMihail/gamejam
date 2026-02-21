@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://f6s2clhetoem" path="res://scenes/enemy.tscn" id="9_lt7nq"]
 [ext_resource type="PackedScene" uid="uid://cnwrlh3hsqf5f" path="res://scenes/quest_collectible.tscn" id="11_v7x2m"]
 [ext_resource type="PackedScene" uid="uid://2nim5xr3c6cl" path="res://scenes/guard.tscn" id="13_x3una"]
-[ext_resource type="Script" uid="uid://devvm4ih6lvry" path="res://scripts/QuestSpawnGroup.cs" id="14_nxbbw"]
+[ext_resource type="PackedScene" uid="uid://ct54ghg14ppqv" path="res://scenes/lantern.tscn" id="14_nxbbw"]
 [ext_resource type="PackedScene" uid="uid://ct21lad8m8odr" path="res://scenes/quest_dialog.tscn" id="14_xi7x6"]
 [ext_resource type="Script" uid="uid://lmmdfpe00ocn" path="res://scripts/QuestUI.cs" id="15_s22lx"]
 [ext_resource type="Script" uid="uid://c00rglak8othv" path="res://scripts/BlacksmithShop.cs" id="16_2xi43"]
@@ -22,7 +22,6 @@
 [ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="20_xe0xi"]
 [ext_resource type="Script" uid="uid://tahvhhrt5s4u" path="res://scripts/QuestArrowManager.cs" id="21_fh1te"]
 [ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="22_bcrnr"]
-[ext_resource type="PackedScene" uid="uid://ct54ghg14ppqv" path="res://scenes/lantern.tscn" id="14_nxbbw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxbbw"]
 texture = ExtResource("7_x3una")
@@ -378,19 +377,12 @@ tile_set = SubResource("TileSet_nxbbw")
 color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 
 [node name="Player" parent="." unique_id=1439945288 groups=["player"] instance=ExtResource("7_uaw8k")]
-position = Vector2(-216, 196)
-[node name="NPC" parent="." unique_id=1047270165 instance=ExtResource("6_bkgx0")]
-position = Vector2(-109, 119)
-
-[node name="Player" parent="." unique_id=1439945288 instance=ExtResource("7_uaw8k")]
-position = Vector2(-66, 757)
+position = Vector2(-60, 662)
 
 [node name="QuestAreas" type="Node2D" parent="." unique_id=824545844]
 
 [node name="Mobs" type="Node2D" parent="QuestAreas" unique_id=1713397907 groups=["MobArea"]]
 position = Vector2(-925, -217)
-script = ExtResource("14_nxbbw")
-TrackedQuestId = "mobs"
 
 [node name="Enemy" parent="QuestAreas/Mobs" unique_id=1382627107 instance=ExtResource("9_lt7nq")]
 position = Vector2(86, 0)
@@ -408,8 +400,6 @@ position = Vector2(0, -58)
 
 [node name="Collectibles" type="Node2D" parent="QuestAreas" unique_id=197851529 groups=["CollectibleArea"]]
 position = Vector2(615, -232)
-script = ExtResource("14_nxbbw")
-TrackedQuestId = "herbs"
 
 [node name="QuestCollectible" parent="QuestAreas/Collectibles" unique_id=1208429657 instance=ExtResource("11_v7x2m")]
 position = Vector2(91, 0)
@@ -495,6 +485,7 @@ grow_horizontal = 0
 
 [node name="OutsideGate" type="Node2D" parent="." unique_id=93167208 groups=["OutsideGate"]]
 position = Vector2(0, 85)
+
 [node name="QuestCollectible4" parent="." unique_id=30500554 instance=ExtResource("11_v7x2m")]
 position = Vector2(-412, 591)
 
