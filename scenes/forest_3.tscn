@@ -3,7 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://odooeoil16l3" path="res://assets/map/Tiles/Grass_Middle.png" id="1_a2xgh"]
 [ext_resource type="Texture2D" uid="uid://c0jp7nf5p8jnp" path="res://assets/map/Outdoor decoration/Oak_Tree.png" id="2_jdm2n"]
 [ext_resource type="Texture2D" uid="uid://c15k5ei465wog" path="res://assets/map/Outdoor decoration/Oak_Tree_Small.png" id="3_7e4xt"]
+[ext_resource type="Texture2D" uid="uid://bo13qnaa3spwg" path="res://assets/map/Outdoor decoration/Outdoor_Decor_Free.png" id="4_lyd4p"]
 [ext_resource type="PackedScene" uid="uid://b15tgnborxqam" path="res://scenes/player.tscn" id="4_og6i6"]
+[ext_resource type="PackedScene" uid="uid://b6ade2grjyqov" path="res://scenes/boss.tscn" id="5_og6i6"]
+[ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="6_3kmlp"]
+[ext_resource type="Script" uid="uid://bmnf3gvmfvlt0" path="res://scripts/EnemyManager.cs" id="6_pkype"]
+[ext_resource type="PackedScene" uid="uid://f6s2clhetoem" path="res://scenes/enemy.tscn" id="7_lyd4p"]
+[ext_resource type="Texture2D" uid="uid://brtmy648uvogx" path="res://assets/map/Outdoor decoration/PORTAL BLUE-Sheet.png" id="7_pkype"]
 [ext_resource type="AudioStream" uid="uid://emtvk47l1f1d" path="res://assets/osts/boss battle.mp3" id="5_jdm2n"]
 [ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="6_7e4xt"]
 
@@ -88,6 +94,135 @@ physics_layer_0/collision_layer = 3
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_tovv8")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r13l0"]
+texture = ExtResource("4_lyd4p")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+6:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+4:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+4:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_tovv8"]
+sources/0 = SubResource("TileSetAtlasSource_r13l0")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pkype"]
+atlas = ExtResource("7_pkype")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r13l0"]
+atlas = ExtResource("7_pkype")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tovv8"]
+atlas = ExtResource("7_pkype")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vaqa"]
+atlas = ExtResource("7_pkype")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tiej7"]
+atlas = ExtResource("7_pkype")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kan2c"]
+atlas = ExtResource("7_pkype")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pg3c8"]
+atlas = ExtResource("7_pkype")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lx6n1"]
+atlas = ExtResource("7_pkype")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lyd4p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pkype")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r13l0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tovv8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vaqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tiej7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kan2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pg3c8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lx6n1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="forest3" type="Node2D" unique_id=1596661200]
 
 [node name="GrassLayer" type="TileMapLayer" parent="." unique_id=239593911]
@@ -104,13 +239,39 @@ tile_map_data = PackedByteArray("AAAKAB8AAAACAAAAAAAKACAAAAACAAEAAAAKACEAAAACAAI
 tile_set = SubResource("TileSet_0vaqa")
 
 [node name="Details" type="TileMapLayer" parent="." unique_id=1175951638]
+z_index = 1
+tile_map_data = PackedByteArray("AADp//b/AAAAAAEAAADw/+3/AAAAAAEAAADr/+7/AAAAAAEAAADy/+P/AAAAAAEAAADn/9r/AAAAAAEAAAALAN//AAAAAAEAAAAWAO3/AAAAAAEAAAAaAPv/AAAAAAEAAAAQAO3/AAAAAAEAAAAcAP3/AAAAAAEAAAAVAAwAAAAAAAEAAAAVAAsAAAAAAAEAAAAAAAgAAAAAAAEAAAD//wgAAAAAAAEAAAD9/w0AAAACAAEAAADw//P/AAACAAEAAADw//L/AAACAAEAAADw//H/AAACAAEAAAALAOv/AAACAAEAAAAAAP//AAACAAEAAAD2//T/AAACAAEAAAD2//P/AAACAAEAAAAMAOr/AAACAAEAAAAIAP7/AAACAAEAAAAJAP7/AAACAAEAAAD1//j/AAACAAEAAAD6/woAAAAAAAcAAAD7/woAAAABAAcAAAAPAPX/AAAAAAcAAAAQAPX/AAABAAcAAADx/+n/AAAAAAcAAADy/+n/AAABAAcAAADu/wEAAAAAAAcAAADv/wEAAAABAAcAAAAJAAcAAAAAAAIAAAAPAPD/AAAAAAIAAADs/+H/AAAAAAIAAADl/+n/AAAAAAIAAADV//r/AAAAAAIAAADS/+z/AAAAAAIAAADU/xAAAAAAAAIAAADr/xQAAAAAAAIAAAANABUAAAAAAAIAAAAjAAoAAAAAAAIAAAAFAA4AAAABAAgAAAARAPz/AAABAAgAAAAPAO//AAABAAgAAAD2/+P/AAABAAgAAADi//D/AAABAAgAAADi/+//AAABAAgAAADt/wUAAAABAAgAAAAGAA0AAAABAAgAAAAOAAsAAAAAAAkAAAD2/+b/AAAAAAkAAAD2/+X/AAAAAAkAAAACAOD/AAAAAAkAAAADAOD/AAAAAAkAAAATAPP/AAAAAAkAAAAHAPr/AAAAAAkAAAADAPT/AAAAAAkAAAD+//P/AAAAAAkAAAD8/wUAAAABAAsAAAAHAPz/AAABAAsAAAD2/+v/AAABAAsAAAD3//v/AAABAAsAAADu/wYAAAABAAsAAADu/wcAAAABAAsAAADv/wcAAAABAAsAAAALAPv/AAABAAsAAAANAO//AAABAAsAAAADAOj/AAABAAsAAAADAOf/AAABAAsAAAA=")
+tile_set = SubResource("TileSet_tovv8")
 
 [node name="Player" parent="." unique_id=1439945288 instance=ExtResource("4_og6i6")]
 position = Vector2(10, -705)
+baseDamage = 100.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1035518840]
 color = Color(0.138972, 0.11546916, 0.11546916, 1)
 
+[node name="EnemyManager" type="Node2D" parent="." unique_id=2025465502 node_paths=PackedStringArray("portalSpawnPoint")]
+script = ExtResource("6_pkype")
+spawnPortalOnClear = true
+portalFrames = SubResource("SpriteFrames_lyd4p")
+portalSpawnPoint = NodePath("../mobs/Boss")
+
+[node name="mobs" type="Node2D" parent="." unique_id=2040110112]
+
+[node name="Boss" parent="mobs" unique_id=577010878 instance=ExtResource("5_og6i6")]
+position = Vector2(1, 0)
+
+[node name="Enemy_eye" parent="mobs" unique_id=365287305 instance=ExtResource("6_3kmlp")]
+position = Vector2(-66, -458)
+
+[node name="Enemy_eye2" parent="mobs" unique_id=455851685 instance=ExtResource("6_3kmlp")]
+position = Vector2(81, -462)
+
+[node name="Enemy" parent="mobs" unique_id=1579080019 instance=ExtResource("7_lyd4p")]
+position = Vector2(-32, -545)
+
+[node name="Enemy2" parent="mobs" unique_id=1226734689 instance=ExtResource("7_lyd4p")]
+position = Vector2(66, -544)
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1883255842]
 stream = ExtResource("5_jdm2n")
 volume_db = -20.0

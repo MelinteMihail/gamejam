@@ -216,6 +216,20 @@ size = Vector2(76, 24)
 
 [node name="forest1" type="Node2D" unique_id=1160876552]
 
+[node name="mobs" type="Node2D" parent="." unique_id=1245828598]
+
+[node name="Enemy" parent="mobs" unique_id=1579080019 instance=ExtResource("7_lv00r")]
+position = Vector2(105, 21)
+
+[node name="Enemy2" parent="mobs" unique_id=1772789765 instance=ExtResource("7_lv00r")]
+position = Vector2(199, -14)
+
+[node name="Enemy3" parent="mobs" unique_id=793384908 instance=ExtResource("7_lv00r")]
+position = Vector2(-20, 18)
+
+[node name="Enemy4" parent="mobs" unique_id=2093648972 instance=ExtResource("7_lv00r")]
+position = Vector2(81, -65)
+
 [node name="Fence" type="TileMapLayer" parent="." unique_id=667979907]
 z_index = 2
 tile_map_data = PackedByteArray("AAAIAA0AAAABAAEAAAAJAA0AAAACAAEAAAAOAA0AAAADAAEAAAANAA0AAAACAAEAAAAMAA0AAAACAAEAAAALAA0AAAACAAEAAAAKAA0AAAACAAEAAAA=")
@@ -248,18 +262,6 @@ position = Vector2(30, -280)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1852555587]
 color = Color(0.1728327, 0.17283267, 0.17283267, 1)
-
-[node name="Enemy" parent="." unique_id=1579080019 instance=ExtResource("7_lv00r")]
-position = Vector2(105, 21)
-
-[node name="Enemy2" parent="." unique_id=1772789765 instance=ExtResource("7_lv00r")]
-position = Vector2(199, -14)
-
-[node name="Enemy3" parent="." unique_id=793384908 instance=ExtResource("7_lv00r")]
-position = Vector2(-20, 18)
-
-[node name="Enemy4" parent="." unique_id=2093648972 instance=ExtResource("7_lv00r")]
-position = Vector2(81, -65)
 
 [node name="EnemyManager" type="Node2D" parent="." unique_id=1928699821 node_paths=PackedStringArray("blockedLayer")]
 script = ExtResource("9_r7aq4")
