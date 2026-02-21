@@ -10,6 +10,8 @@
 [ext_resource type="Script" uid="uid://bmnf3gvmfvlt0" path="res://scripts/EnemyManager.cs" id="6_pkype"]
 [ext_resource type="PackedScene" uid="uid://f6s2clhetoem" path="res://scenes/enemy.tscn" id="7_lyd4p"]
 [ext_resource type="Texture2D" uid="uid://brtmy648uvogx" path="res://assets/map/Outdoor decoration/PORTAL BLUE-Sheet.png" id="7_pkype"]
+[ext_resource type="AudioStream" uid="uid://emtvk47l1f1d" path="res://assets/osts/boss battle.mp3" id="5_jdm2n"]
+[ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="6_7e4xt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3kmlp"]
 texture = ExtResource("1_a2xgh")
@@ -270,3 +272,11 @@ position = Vector2(-32, -545)
 
 [node name="Enemy2" parent="mobs" unique_id=1226734689 instance=ExtResource("7_lyd4p")]
 position = Vector2(66, -544)
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1883255842]
+stream = ExtResource("5_jdm2n")
+volume_db = -20.0
+autoplay = true
+parameters/looping = true
+
+[node name="Checkpoint" parent="." unique_id=878379604 instance=ExtResource("6_7e4xt")]
+position = Vector2(10, -705)

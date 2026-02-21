@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="7_22enq"]
 [ext_resource type="Script" uid="uid://bmnf3gvmfvlt0" path="res://scripts/EnemyManager.cs" id="8_22enq"]
 [ext_resource type="Texture2D" uid="uid://cbg2koovue53k" path="res://assets/map/Outdoor decoration/Fences.png" id="9_qxyfj"]
+[ext_resource type="AudioStream" uid="uid://kr1hmvitx5be" path="res://assets/osts/forest.mp3" id="6_pak5m"]
+[ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="7_vyi1x"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lv00r"]
 texture = ExtResource("1_f5xcv")
@@ -197,7 +199,7 @@ tile_map_data = PackedByteArray("AADt/+7/AAACAAAAAADt/+//AAACAAEAAADt//D/AAACAAI
 tile_set = SubResource("TileSet_70u8r")
 
 [node name="Player" parent="." unique_id=1439945288 instance=ExtResource("5_qxyfj")]
-position = Vector2(39, -280)
+position = Vector2(38, -280)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1852555587]
 color = Color(0.138972, 0.11546916, 0.11546916, 1)
@@ -223,3 +225,11 @@ blockedLayer = NodePath("../Fence")
 [node name="Fence" type="TileMapLayer" parent="." unique_id=304933180]
 tile_map_data = PackedByteArray("AAAEAAwAAAABAAEAAAAFAAwAAAACAAEAAAAGAAwAAAACAAEAAAAHAAwAAAACAAEAAAAIAAwAAAACAAEAAAAJAAwAAAACAAEAAAAKAAwAAAACAAEAAAALAAwAAAADAAEAAAA=")
 tile_set = SubResource("TileSet_bar7d")
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=590610843]
+stream = ExtResource("6_pak5m")
+volume_db = -20.0
+autoplay = true
+parameters/looping = true
+
+[node name="Checkpoint" parent="." unique_id=878379604 instance=ExtResource("7_vyi1x")]
+position = Vector2(38, -280)

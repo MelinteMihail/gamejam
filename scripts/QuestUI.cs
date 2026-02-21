@@ -28,7 +28,7 @@ public partial class QuestUI : Control
         vbox.AddChild(header);
 
         var titleLabel = new Label();
-        titleLabel.Text = "Active Quests";
+        titleLabel.Text = "Quests";
         titleLabel.AddThemeColorOverride("font_color", new Color(1, 1, 0));
         titleLabel.AddThemeFontSizeOverride("font_size", 10);
         titleLabel.SizeFlagsHorizontal = SizeFlags.ExpandFill;
@@ -88,14 +88,23 @@ public partial class QuestUI : Control
         questListContainer.Visible = isExpanded;
     }
 
-    private void OnQuestAdded(QuestData questData)
-    {
-        RefreshQuestList();
-    }
+    private void OnQuestAdded(QuestData questData) => RefreshQuestList();
+    private void OnQuestCompleted(QuestData questData) => RefreshQuestList();
 
-    private void OnQuestCompleted(QuestData questData)
+    private string GetStageTitle()
     {
-        RefreshQuestList();
+        if (QuestChain.Instance == null) return null;
+        return QuestChain.Instance.CurrentStage switch
+        {
+            QuestChain.StoryStage.PickupLantern => "Pick Up the Lantern",
+            QuestChain.StoryStage.GoToTown => "Go to Town",
+            QuestChain.StoryStage.TalkToCivilians => $"Talk to Civilians ({QuestChain.Instance.CiviliansSpokenTo}/3)",
+            QuestChain.StoryStage.DoQuests => null, 
+            QuestChain.StoryStage.BuyArmor => "Buy Armor from the Blacksmith",
+            QuestChain.StoryStage.GoToForest => "Go to the Forest",
+            QuestChain.StoryStage.Done => null,
+            _ => null
+        };
     }
 
     private void RefreshQuestList()
@@ -104,60 +113,72 @@ public partial class QuestUI : Control
             return;
 
         foreach (Node child in questListContainer.GetChildren())
-        {
             child.QueueFree();
-        }
 
-        if (QuestManager.Instance == null)
-            return;
+        int totalCount = 0;
 
-        var activeQuests = QuestManager.Instance.GetActiveQuests();
-        questCountLabel.Text = $"({activeQuests.Count})";
-
-        Visible = activeQuests.Count > 0;
-
-        foreach (var quest in activeQuests)
+        string stageTitle = GetStageTitle();
+        if (stageTitle != null)
         {
-            var questItem = new PanelContainer();
-            questItem.AddThemeStyleboxOverride("panel", new StyleBoxFlat
-            {
-                BgColor = new Color(0.2f, 0.2f, 0.2f, 0.8f),
-                CornerRadiusTopLeft = 3,
-                CornerRadiusTopRight = 3,
-                CornerRadiusBottomLeft = 3,
-                CornerRadiusBottomRight = 3
-            });
-
-            var itemMargin = new MarginContainer();
-            itemMargin.AddThemeConstantOverride("margin_left", 4);
-            itemMargin.AddThemeConstantOverride("margin_right", 4);
-            itemMargin.AddThemeConstantOverride("margin_top", 3);
-            itemMargin.AddThemeConstantOverride("margin_bottom", 3);
-            questItem.AddChild(itemMargin);
-
-            var questVBox = new VBoxContainer();
-            questVBox.AddThemeConstantOverride("separation", 1);
-            itemMargin.AddChild(questVBox);
-
-            var titleLabel = new Label();
-            titleLabel.Text = quest.QuestTitle;
-            titleLabel.AddThemeColorOverride("font_color", new Color(1, 0.9f, 0.6f));
-            titleLabel.AddThemeFontSizeOverride("font_size", 10);
-            titleLabel.AutowrapMode = TextServer.AutowrapMode.Word;
-            titleLabel.CustomMinimumSize = new Vector2(120, 0);
-            questVBox.AddChild(titleLabel);
-
-            var progressLabel = new Label();
-            progressLabel.Text = quest.GetProgressText();
-            progressLabel.AddThemeFontSizeOverride("font_size", 9);
-
-            if (quest.IsCompleted())
-                progressLabel.AddThemeColorOverride("font_color", new Color(0, 1, 0));
-            else
-                progressLabel.AddThemeColorOverride("font_color", new Color(0.8f, 0.8f, 0.8f));
-
-            questVBox.AddChild(progressLabel);
-            questListContainer.AddChild(questItem);
+            AddQuestItem(stageTitle, "", false);
+            totalCount++;
         }
+
+        if (QuestManager.Instance != null)
+        {
+            var activeQuests = QuestManager.Instance.GetActiveQuests();
+            totalCount += activeQuests.Count;
+
+            foreach (var quest in activeQuests)
+                AddQuestItem(quest.QuestTitle, quest.GetProgressText(), quest.IsCompleted());
+        }
+
+        questCountLabel.Text = $"({totalCount})";
+        Visible = totalCount > 0;
+    }
+
+    private void AddQuestItem(string title, string progress, bool completed)
+    {
+        var questItem = new PanelContainer();
+        questItem.AddThemeStyleboxOverride("panel", new StyleBoxFlat
+        {
+            BgColor = new Color(0.2f, 0.2f, 0.2f, 0.8f),
+            CornerRadiusTopLeft = 3,
+            CornerRadiusTopRight = 3,
+            CornerRadiusBottomLeft = 3,
+            CornerRadiusBottomRight = 3
+        });
+
+        var itemMargin = new MarginContainer();
+        itemMargin.AddThemeConstantOverride("margin_left", 4);
+        itemMargin.AddThemeConstantOverride("margin_right", 4);
+        itemMargin.AddThemeConstantOverride("margin_top", 3);
+        itemMargin.AddThemeConstantOverride("margin_bottom", 3);
+        questItem.AddChild(itemMargin);
+
+        var questVBox = new VBoxContainer();
+        questVBox.AddThemeConstantOverride("separation", 1);
+        itemMargin.AddChild(questVBox);
+
+        var titleLabel = new Label();
+        titleLabel.Text = title;
+        titleLabel.AddThemeColorOverride("font_color", new Color(1, 0.9f, 0.6f));
+        titleLabel.AddThemeFontSizeOverride("font_size", 10);
+        titleLabel.AutowrapMode = TextServer.AutowrapMode.Word;
+        titleLabel.CustomMinimumSize = new Vector2(120, 0);
+        questVBox.AddChild(titleLabel);
+
+        if (!string.IsNullOrEmpty(progress))
+        {
+            var progressLabel = new Label();
+            progressLabel.Text = progress;
+            progressLabel.AddThemeFontSizeOverride("font_size", 9);
+            progressLabel.AddThemeColorOverride("font_color", completed
+                ? new Color(0, 1, 0)
+                : new Color(0.8f, 0.8f, 0.8f));
+            questVBox.AddChild(progressLabel);
+        }
+
+        questListContainer.AddChild(questItem);
     }
 }

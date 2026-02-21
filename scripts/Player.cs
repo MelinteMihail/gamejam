@@ -1,5 +1,7 @@
 using Godot;
+using System;
 using System.Collections.Generic;
+using static Player;
 
 public partial class Player : CharacterBody2D
 {
@@ -14,11 +16,11 @@ public partial class Player : CharacterBody2D
     [Export]
     public CollisionShape2D CollisionShape;
     [Export]
-    public float LampDamagePerSecond = 10.0f;
-    [Export]
     public float attackDistance = 20.0f;
     [Export]
     public AnimatedSprite2D Hurt;
+    [Export]
+    public Node2D LanternPivot;
     public float durabilityMultiplier = 1.0f;
     public float attackMultiplier = 1.0f;
 
@@ -36,9 +38,6 @@ public partial class Player : CharacterBody2D
     private TileMapLayer stoneLayer;
     private Health health;
     private Area2D LampArea;
-    private List<Health> enemiesInLamp = new();
-    private Node2D lanternpivot;
-    private PointLight2D lanternLight;
 
     private float footstepTimer = 0f;
     private float footstepInterval = 0.4f;
@@ -59,15 +58,13 @@ public partial class Player : CharacterBody2D
         Right
     }
 
+    private bool IsInTown()
+    {
+        return GetTree().CurrentScene?.SceneFilePath.Contains("town") == true;
+    }
+
     public override void _Ready()
     {
-        lanternpivot = GetNode<Node2D>("LanternPivot");
-        lanternpivot.Visible = false;
-        var gameState = GetNodeOrNull<LanternState>("/root/Lantern");
-        if (gameState != null && gameState.HasLantern)
-            lanternpivot.Visible = true;
-        lanternLight = GetNode<PointLight2D>("LanternLight");
-        lanternLight.Energy = 0.5f;
         respawnPosition = GlobalPosition;
         AddToGroup("player");
         LampArea = GetNode<Area2D>("LampArea");
@@ -81,8 +78,21 @@ public partial class Player : CharacterBody2D
         health.Died += OnPlayerDied;
         health.HealthChanged += OnHealthChanged;
 
-        LampArea.BodyEntered += OnBodyEnteredLampArea;
-        LampArea.BodyExited += OnBodyExitedLampArea;
+        if (LanternPivot != null)
+            LanternPivot.Visible = false;
+        if (LampArea != null)
+            LampArea.Visible = false;
+
+        var lanternState = GetNodeOrNull<LanternState>("/root/LanternState");
+        if (lanternState != null && lanternState.HasLantern)
+            EnableLantern();
+
+        var armorState = GetNodeOrNull<ArmorState>("/root/ArmorState");
+        if (armorState != null && armorState.HasArmor)
+            RestoreArmor(armorState);
+
+        if (RespawnState.LastPosition != Vector2.Zero)
+            respawnPosition = RespawnState.LastPosition;
 
         CallDeferred(nameof(ApplySpawnPoint));
     }
@@ -98,6 +108,25 @@ public partial class Player : CharacterBody2D
         }
     }
 
+    public void EnableLantern()
+    {
+        if (LanternPivot != null)
+            LanternPivot.Visible = true;
+        if (LampArea != null)
+            LampArea.Visible = !IsInTown();
+    }
+
+    private void RestoreArmor(ArmorState armorState)
+    {
+        durabilityMultiplier = 1.0f + (armorState.DurabilityBonus / 100.0f);
+        attackMultiplier = 1.0f + (armorState.AttackBonus / 100.0f);
+
+        if (armorState.ArmorSetIndex == 2)
+            armorPrefix = "steel_";
+        else if (armorState.ArmorSetIndex == 1)
+            armorPrefix = "iron_";
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         PlayFootstepSound(delta);
@@ -107,17 +136,6 @@ public partial class Player : CharacterBody2D
 
         GetInputDirection();
         MoveAndSlide();
-
-        float baseDamage = LampDamagePerSecond * (float)delta;
-        float actualDamage = baseDamage * attackMultiplier;
-
-        foreach (var enemyHealth in enemiesInLamp)
-        {
-            if (GodotObject.IsInstanceValid(enemyHealth))
-                enemyHealth.TakeDamage(actualDamage);
-        }
-
-        enemiesInLamp.RemoveAll(e => !GodotObject.IsInstanceValid(e));
     }
 
     public override void _Process(double delta)
@@ -126,7 +144,9 @@ public partial class Player : CharacterBody2D
             return;
 
         AnimatePlayer();
-        Attack();
+
+        if (!IsInTown())
+            Attack();
     }
 
     private void PlayFootstepSound(double delta)
@@ -162,17 +182,17 @@ public partial class Player : CharacterBody2D
 
     private void PlayCurrentSurface()
     {
-        if (grassLayer != null)
+        if (grassLayer != null && grassLayer.TileSet != null)
         {
             Vector2I tilePos = grassLayer.LocalToMap(grassLayer.ToLocal(GlobalPosition));
             if (grassLayer.GetCellSourceId(tilePos) != -1) { grassSound?.Play(); return; }
         }
-        if (dirtLayer != null)
+        if (dirtLayer != null && dirtLayer.TileSet != null)
         {
             Vector2I tilePos = dirtLayer.LocalToMap(dirtLayer.ToLocal(GlobalPosition));
             if (dirtLayer.GetCellSourceId(tilePos) != -1) { dirtSound?.Play(); return; }
         }
-        if (stoneLayer != null)
+        if (stoneLayer != null && stoneLayer.TileSet != null)
         {
             Vector2I tilePos = stoneLayer.LocalToMap(stoneLayer.ToLocal(GlobalPosition));
             if (stoneLayer.GetCellSourceId(tilePos) != -1) { stoneSound?.Play(); return; }
@@ -182,6 +202,8 @@ public partial class Player : CharacterBody2D
     public void SetCheckpoint(Vector2 position)
     {
         respawnPosition = position;
+        RespawnState.LastScene = GetTree().CurrentScene.SceneFilePath;
+        RespawnState.LastPosition = position;
     }
 
     private async void OnPlayerDied()
@@ -196,10 +218,9 @@ public partial class Player : CharacterBody2D
 
     private void Respawn()
     {
-        GlobalPosition = respawnPosition;
         Velocity = Vector2.Zero;
-        enemiesInLamp.Clear();
         health.Reset();
+        LoadingScreen.NextScenePath = RespawnState.LastScene;
         GetTree().ChangeSceneToFile("res://scenes/death_screen.tscn");
         SetPhysicsProcess(true);
         SetProcess(true);
@@ -214,25 +235,14 @@ public partial class Player : CharacterBody2D
             armorPrefix = "steel_";
         else if (durabilityBonus >= 10f)
             armorPrefix = "iron_";
-    }
 
-    private void OnBodyEnteredLampArea(Node body)
-    {
-        if (body.IsInGroup("enemy") || body.IsInGroup("boss"))
+        var armorState = GetNodeOrNull<ArmorState>("/root/ArmorState");
+        if (armorState != null)
         {
-            var enemyHealth = body.GetNodeOrNull<Health>("Health");
-            if (enemyHealth != null)
-                enemiesInLamp.Add(enemyHealth);
-        }
-    }
-
-    private void OnBodyExitedLampArea(Node body)
-    {
-        if (body.IsInGroup("enemy") || body.IsInGroup("boss"))
-        {
-            var enemyHealth = body.GetNodeOrNull<Health>("Health");
-            if (enemyHealth != null)
-                enemiesInLamp.Remove(enemyHealth);
+            armorState.HasArmor = true;
+            armorState.DurabilityBonus = durabilityBonus;
+            armorState.AttackBonus = damageBonus;
+            armorState.ArmorSetIndex = durabilityBonus >= 20f ? 2 : 1;
         }
     }
 
@@ -326,10 +336,5 @@ public partial class Player : CharacterBody2D
     private void OnAttackFinished()
     {
         isAttacking = false;
-    }
-    public void EnableLantern()
-    {
-        lanternpivot.Visible = true;
-        lanternLight.Energy = 2.5f;
     }
 }

@@ -15,6 +15,12 @@ public partial class Coin : Control
 		UpdateDisplay();
 	}
 
+    public override void _Process(double delta)
+    {
+        bool inTown = GetTree().CurrentScene?.SceneFilePath.Contains("town") == true;
+        Visible = inTown;
+    }
+
 	public void AddCoins(int amount)
 	{
 		coinAmount += amount;

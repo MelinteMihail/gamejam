@@ -289,7 +289,8 @@ public partial class BlacksmithShop : Control
             Coin.Instance.RemoveCoins(ArmorSet1Cost);
             player.EquipArmorSet(ArmorSet1DurabilityBonus, ArmorSet1AttackBonus);
             armorSet1Purchased = true;
-            GD.Print($"Purchased Iron Armor! +{ArmorSet1DurabilityBonus}% DUR, +{ArmorSet1AttackBonus}% ATK");
+            QuestChain.Instance?.OnArmorBought();
+            GD.Print($"Purchased Iron Armor!");
             UpdateShopState();
         }
     }
@@ -304,7 +305,8 @@ public partial class BlacksmithShop : Control
             Coin.Instance.RemoveCoins(ArmorSet2Cost);
             player.EquipArmorSet(ArmorSet2DurabilityBonus, ArmorSet2AttackBonus);
             armorSet2Purchased = true;
-            GD.Print($"Purchased Steel Armor! +{ArmorSet2DurabilityBonus}% DUR, +{ArmorSet2AttackBonus}% ATK");
+            QuestChain.Instance?.OnArmorBought();
+            GD.Print($"Purchased Steel Armor!");
             UpdateShopState();
         }
     }

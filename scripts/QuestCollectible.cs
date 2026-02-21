@@ -1,9 +1,12 @@
 using Godot;
 using System;
+
 public partial class QuestCollectible : Area2D
 {
     [Export]
     public string QuestItemType = "herbs";
+    [Export]
+    public string UniqueId = "";
 
     private bool hasBeenCollected = false;
     private bool playerInRange = false;
@@ -11,6 +14,13 @@ public partial class QuestCollectible : Area2D
 
     public override void _Ready()
     {
+        var worldState = GetNodeOrNull<WorldState>("/root/WorldState");
+        if (worldState != null && !string.IsNullOrEmpty(UniqueId) && worldState.CollectedItems.Contains(UniqueId))
+        {
+            QueueFree();
+            return;
+        }
+
         BodyEntered += OnPlayerEntered;
         BodyExited += OnPlayerExited;
 
@@ -49,8 +59,10 @@ public partial class QuestCollectible : Area2D
     private void CollectItem()
     {
         if (QuestManager.Instance == null) return;
+
         var activeQuests = QuestManager.Instance.GetActiveQuests();
         bool anyQuestMatched = false;
+
         foreach (var quest in activeQuests)
         {
             if (quest.ProgressType == QuestItemType && !quest.IsCompleted())
@@ -62,8 +74,13 @@ public partial class QuestCollectible : Area2D
                     GD.Print($"Quest completed: {quest.QuestTitle}");
             }
         }
+
         if (anyQuestMatched)
         {
+            var worldState = GetNodeOrNull<WorldState>("/root/WorldState");
+            if (worldState != null && !string.IsNullOrEmpty(UniqueId))
+                worldState.CollectedItems.Add(UniqueId);
+
             hasBeenCollected = true;
             QueueFree();
         }
