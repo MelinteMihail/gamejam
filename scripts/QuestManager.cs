@@ -18,13 +18,16 @@ public partial class QuestManager : Node
     public override void _Ready()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             QueueFree();
-        }
+    }
+
+    public void Reset()
+    {
+        activeQuests.Clear();
+        completedQuestIds.Clear();
+        GD.Print("QuestManager reset");
     }
 
     public void AddQuest(QuestData questData)
@@ -34,15 +37,12 @@ public partial class QuestManager : Node
             GD.PrintErr("QuestManager: Cannot add quest - QuestData is null or QuestId is empty");
             return;
         }
-
         if (completedQuestIds.Contains(questData.QuestId))
         {
             GD.Print($"Quest already completed: {questData.QuestTitle} (ID: {questData.QuestId})");
             return;
         }
-
         bool alreadyExists = activeQuests.Any(q => q.QuestId == questData.QuestId);
-
         if (!alreadyExists)
         {
             activeQuests.Add(questData);
@@ -59,9 +59,7 @@ public partial class QuestManager : Node
     {
         if (questData == null)
             return;
-
         var questToRemove = activeQuests.FirstOrDefault(q => q.QuestId == questData.QuestId);
-
         if (questToRemove != null)
         {
             activeQuests.Remove(questToRemove);
@@ -83,8 +81,7 @@ public partial class QuestManager : Node
 
     public bool HasQuest(QuestData questData)
     {
-        if (questData == null)
-            return false;
+        if (questData == null) return false;
         return activeQuests.Any(q => q.QuestId == questData.QuestId);
     }
 

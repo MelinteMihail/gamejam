@@ -7,7 +7,7 @@ public partial class BlacksmithShop : Control
     public delegate void ShopClosedEventHandler();
 
     [Export]
-    public int ArmorSet1Cost = 3;
+    public int ArmorSet1Cost = 6;
     [Export]
     public string ArmorSet1IconPath = "res://assets/extras/Iron_Armor_Weapon.png";
 
@@ -16,10 +16,10 @@ public partial class BlacksmithShop : Control
     [Export]
     public string ArmorSet2IconPath = "res://assets/extras/Steel_Armor_Weapon.png";
 
-    private const float IronHealthBonus = 15f;
-    private const float IronDamage = 20f;
+    private const float IronHealthBonus = 30f;
+    private const float IronDamage = 15f;
 
-    private const float SteelHealthBonus = 25f;
+    private const float SteelHealthBonus = 15f;
     private const float SteelDamage = 30f;
 
     private Button armorSet1Button;

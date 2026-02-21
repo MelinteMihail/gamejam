@@ -233,7 +233,7 @@ public partial class Player : CharacterBody2D
 
         if (flatDamage >= 30f)
             armorPrefix = "steel_";
-        else if (flatDamage >= 20f)
+        else if (flatDamage >= 15f)
             armorPrefix = "iron_";
 
         health.ApplyHealthBonus(healthBonus);

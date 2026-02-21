@@ -471,6 +471,7 @@ frame_progress = 1.0
 
 [node name="Collision Area" type="Area2D" parent="." unique_id=259614234]
 script = ExtResource("4_2cdgk")
+DamagePerSecond = 25.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision Area" unique_id=1446876795]
 shape = SubResource("CapsuleShape2D_5f346")

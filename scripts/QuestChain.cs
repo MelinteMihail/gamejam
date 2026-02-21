@@ -24,6 +24,13 @@ public partial class QuestChain : Node
         else QueueFree();
     }
 
+    public void Reset()
+    {
+        CurrentStage = StoryStage.PickupLantern;
+        CiviliansSpokenTo = 0;
+        GD.Print("QuestChain reset");
+    }
+
     public void OnLanternPickedUp()
     {
         if (CurrentStage != StoryStage.PickupLantern) return;
@@ -39,7 +46,6 @@ public partial class QuestChain : Node
         GD.Print("Stage: TalkToCivilians");
     }
 
-   
     public void OnCivilianSpokenTo()
     {
         if (CurrentStage != StoryStage.TalkToCivilians) return;

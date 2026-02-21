@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class MainMenu : Control
 {
@@ -8,16 +7,12 @@ public partial class MainMenu : Control
     public override void _Ready()
     {
         fadeOverlay = GetNode<ColorRect>("FadeOverlay");
-
         var playButton = GetNode<Button>("CenterContainer/VBoxContainer/PlayButton");
         var quitButton = GetNode<Button>("CenterContainer/VBoxContainer/QuitButton");
-
         playButton.Text = "Play";
         quitButton.Text = "Quit";
-
         StyleButton(playButton);
         StyleButton(quitButton);
-
         playButton.Pressed += OnPlayPressed;
         quitButton.Pressed += OnQuitPressed;
     }
@@ -57,15 +52,51 @@ public partial class MainMenu : Control
         button.AddThemeColorOverride("font_hover_color", new Color(1f, 1f, 1f));
     }
 
+    private void ResetGameState()
+    {
+        var lanternState = GetNodeOrNull<LanternState>("/root/LanternState");
+        if (lanternState != null)
+            lanternState.HasLantern = false;
+
+        var armorState = GetNodeOrNull<ArmorState>("/root/ArmorState");
+        if (armorState != null)
+        {
+            armorState.HasArmor = false;
+            armorState.DurabilityBonus = 0f;
+            armorState.AttackBonus = 0f;
+            armorState.ArmorSetIndex = 0;
+        }
+
+        var guardState = GetNodeOrNull<GuardState>("/root/GuardState");
+        if (guardState != null)
+            guardState.HasSpokenToGuard = false;
+
+        var worldState = GetNodeOrNull<WorldState>("/root/WorldState");
+        if (worldState != null)
+        {
+            worldState.CollectedItems.Clear();
+            worldState.DefeatedEnemies.Clear();
+            worldState.Coins = 0;
+        }
+
+        QuestChain.Instance?.Reset();
+        QuestManager.Instance?.Reset();
+
+        RespawnState.LastScene = "res://scenes/outside.tscn";
+        RespawnState.LastPosition = Vector2.Zero;
+
+        LockInput.inputLocked = false;
+    }
+
     private async void OnPlayPressed()
     {
-        fadeOverlay.MouseFilter = Control.MouseFilterEnum.Stop;
+        ResetGameState();
 
+        fadeOverlay.MouseFilter = Control.MouseFilterEnum.Stop;
         var tween = CreateTween();
         tween.TweenProperty(fadeOverlay, "color:a", 1.0f, 1.0f)
              .SetTrans(Tween.TransitionType.Sine)
              .SetEase(Tween.EaseType.In);
-
         await ToSignal(tween, Tween.SignalName.Finished);
 
         GetTree().ChangeSceneToFile("res://scenes/cutscene.tscn");
