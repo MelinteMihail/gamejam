@@ -211,6 +211,9 @@ texture = ExtResource("4_d1xxg")
 [sub_resource type="TileSet" id="TileSet_fwof6"]
 sources/0 = SubResource("TileSetAtlasSource_kl31b")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqln5"]
+size = Vector2(76, 24)
+
 [node name="forest1" type="Node2D" unique_id=1160876552]
 
 [node name="Fence" type="TileMapLayer" parent="." unique_id=667979907]
@@ -270,3 +273,9 @@ parameters/looping = true
 
 [node name="Checkpoint" parent="." unique_id=878379604 instance=ExtResource("11_bqln5")]
 position = Vector2(30, -280)
+
+[node name="ExitCheckpoint" type="Area2D" parent="." unique_id=1325302016]
+position = Vector2(174, 210)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitCheckpoint" unique_id=570984784]
+shape = SubResource("RectangleShape2D_bqln5")
