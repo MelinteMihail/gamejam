@@ -8,27 +8,21 @@ public partial class BlacksmithShop : Control
 
     [Export]
     public int ArmorSet1Cost = 3;
-
-    [Export]
-    public float ArmorSet1DurabilityBonus = 10f;
-
-    [Export]
-    public float ArmorSet1AttackBonus = 5f;
-
     [Export]
     public string ArmorSet1IconPath = "res://assets/extras/Iron_Armor_Weapon.png";
 
     [Export]
     public int ArmorSet2Cost = 6;
-
-    [Export]
-    public float ArmorSet2DurabilityBonus = 20f;
-
-    [Export]
-    public float ArmorSet2AttackBonus = 15f;
-
     [Export]
     public string ArmorSet2IconPath = "res://assets/extras/Steel_Armor_Weapon.png";
+
+    // Iron Armor: 15% max health bonus, 20 flat damage
+    private const float IronHealthBonus = 15f;
+    private const float IronDamage = 20f;
+
+    // Steel Armor: 25% max health bonus, 30 flat damage
+    private const float SteelHealthBonus = 25f;
+    private const float SteelDamage = 30f;
 
     private Button armorSet1Button;
     private Button armorSet2Button;
@@ -47,14 +41,26 @@ public partial class BlacksmithShop : Control
     public override void _Ready()
     {
         SetAnchorsPreset(LayoutPreset.FullRect);
-
         OffsetLeft = 0;
         OffsetTop = 0;
         OffsetRight = 0;
         OffsetBottom = 0;
 
         BuildShopUI();
+
+        var armorState = GetNodeOrNull<ArmorState>("/root/ArmorState");
+        if (armorState != null && armorState.HasArmor)
+        {
+            if (armorState.ArmorSetIndex == 1) armorSet1Purchased = true;
+            if (armorState.ArmorSetIndex == 2) armorSet2Purchased = true;
+        }
+
         Hide();
+    }
+
+    private bool CanBuyArmor()
+    {
+        return QuestChain.Instance?.CurrentStage == QuestChain.StoryStage.BuyArmor;
     }
 
     private void BuildShopUI()
@@ -91,30 +97,18 @@ public partial class BlacksmithShop : Control
         vbox.AddChild(optionsContainer);
 
         var armorSet1 = CreateArmorSetOption(
-            "Iron Armor",
-            ArmorSet1IconPath,
-            ArmorSet1DurabilityBonus,
-            ArmorSet1AttackBonus,
-            ArmorSet1Cost,
+            "Iron Armor", ArmorSet1IconPath,
+            $"+{IronHealthBonus}% HP", $"{IronDamage} ATK", ArmorSet1Cost,
             OnArmorSet1Purchase,
-            out armorSet1Button,
-            out armorSet1DurLabel,
-            out armorSet1AtkLabel,
-            out armorSet1PriceLabel
+            out armorSet1Button, out armorSet1DurLabel, out armorSet1AtkLabel, out armorSet1PriceLabel
         );
         optionsContainer.AddChild(armorSet1);
 
         var armorSet2 = CreateArmorSetOption(
-            "Steel Armor",
-            ArmorSet2IconPath,
-            ArmorSet2DurabilityBonus,
-            ArmorSet2AttackBonus,
-            ArmorSet2Cost,
+            "Steel Armor", ArmorSet2IconPath,
+            $"+{SteelHealthBonus}% HP", $"{SteelDamage} ATK", ArmorSet2Cost,
             OnArmorSet2Purchase,
-            out armorSet2Button,
-            out armorSet2DurLabel,
-            out armorSet2AtkLabel,
-            out armorSet2PriceLabel
+            out armorSet2Button, out armorSet2DurLabel, out armorSet2AtkLabel, out armorSet2PriceLabel
         );
         optionsContainer.AddChild(armorSet2);
 
@@ -129,16 +123,10 @@ public partial class BlacksmithShop : Control
     }
 
     private PanelContainer CreateArmorSetOption(
-        string title,
-        string iconPath,
-        float durBonus,
-        float atkBonus,
-        int cost,
+        string title, string iconPath,
+        string durText, string atkText, int cost,
         Action onPurchase,
-        out Button button,
-        out Label durLabel,
-        out Label atkLabel,
-        out Label priceLabel)
+        out Button button, out Label durLabel, out Label atkLabel, out Label priceLabel)
     {
         var optionPanel = new PanelContainer();
         optionPanel.CustomMinimumSize = new Vector2(250, 350);
@@ -174,7 +162,6 @@ public partial class BlacksmithShop : Control
         optionVBox.AddChild(titleLabel);
 
         var iconContainer = new CenterContainer();
-
         if (!string.IsNullOrEmpty(iconPath))
         {
             var iconTexture = new TextureRect();
@@ -191,7 +178,6 @@ public partial class BlacksmithShop : Control
             iconRect.CustomMinimumSize = new Vector2(120, 120);
             iconContainer.AddChild(iconRect);
         }
-
         optionVBox.AddChild(iconContainer);
 
         var statsVBox = new VBoxContainer();
@@ -199,14 +185,14 @@ public partial class BlacksmithShop : Control
         optionVBox.AddChild(statsVBox);
 
         durLabel = new Label();
-        durLabel.Text = $"+{durBonus}% DUR";
+        durLabel.Text = durText;
         durLabel.HorizontalAlignment = HorizontalAlignment.Center;
         durLabel.AddThemeColorOverride("font_color", new Color(0.5f, 0.8f, 1f));
         durLabel.AddThemeFontSizeOverride("font_size", 18);
         statsVBox.AddChild(durLabel);
 
         atkLabel = new Label();
-        atkLabel.Text = $"+{atkBonus}% ATK";
+        atkLabel.Text = atkText;
         atkLabel.HorizontalAlignment = HorizontalAlignment.Center;
         atkLabel.AddThemeColorOverride("font_color", new Color(1f, 0.5f, 0.5f));
         atkLabel.AddThemeFontSizeOverride("font_size", 18);
@@ -251,6 +237,7 @@ public partial class BlacksmithShop : Control
             return;
 
         int currentGold = Coin.Instance.GetCoinAmount();
+        bool canBuy = CanBuyArmor();
 
         if (armorSet1Purchased)
         {
@@ -258,6 +245,11 @@ public partial class BlacksmithShop : Control
             armorSet1Button.Disabled = true;
             armorSet1DurLabel.AddThemeColorOverride("font_color", new Color(0.5f, 0.5f, 0.5f));
             armorSet1AtkLabel.AddThemeColorOverride("font_color", new Color(0.5f, 0.5f, 0.5f));
+        }
+        else if (!canBuy)
+        {
+            armorSet1Button.Text = "Not Available";
+            armorSet1Button.Disabled = true;
         }
         else
         {
@@ -272,6 +264,11 @@ public partial class BlacksmithShop : Control
             armorSet2DurLabel.AddThemeColorOverride("font_color", new Color(0.5f, 0.5f, 0.5f));
             armorSet2AtkLabel.AddThemeColorOverride("font_color", new Color(0.5f, 0.5f, 0.5f));
         }
+        else if (!canBuy)
+        {
+            armorSet2Button.Text = "Not Available";
+            armorSet2Button.Disabled = true;
+        }
         else
         {
             armorSet2Button.Disabled = currentGold < ArmorSet2Cost;
@@ -281,32 +278,32 @@ public partial class BlacksmithShop : Control
 
     private void OnArmorSet1Purchase()
     {
-        if (Coin.Instance == null || player == null || armorSet1Purchased)
+        if (Coin.Instance == null || player == null || armorSet1Purchased || !CanBuyArmor())
             return;
 
         if (Coin.Instance.GetCoinAmount() >= ArmorSet1Cost)
         {
             Coin.Instance.RemoveCoins(ArmorSet1Cost);
-            player.EquipArmorSet(ArmorSet1DurabilityBonus, ArmorSet1AttackBonus);
+            player.EquipArmorSet(IronHealthBonus, IronDamage);
             armorSet1Purchased = true;
             QuestChain.Instance?.OnArmorBought();
-            GD.Print($"Purchased Iron Armor!");
+            GD.Print("Purchased Iron Armor!");
             UpdateShopState();
         }
     }
 
     private void OnArmorSet2Purchase()
     {
-        if (Coin.Instance == null || player == null || armorSet2Purchased)
+        if (Coin.Instance == null || player == null || armorSet2Purchased || !CanBuyArmor())
             return;
 
         if (Coin.Instance.GetCoinAmount() >= ArmorSet2Cost)
         {
             Coin.Instance.RemoveCoins(ArmorSet2Cost);
-            player.EquipArmorSet(ArmorSet2DurabilityBonus, ArmorSet2AttackBonus);
+            player.EquipArmorSet(SteelHealthBonus, SteelDamage);
             armorSet2Purchased = true;
             QuestChain.Instance?.OnArmorBought();
-            GD.Print($"Purchased Steel Armor!");
+            GD.Print("Purchased Steel Armor!");
             UpdateShopState();
         }
     }
@@ -321,13 +318,9 @@ public partial class BlacksmithShop : Control
     public override void _Process(double delta)
     {
         if (Visible && Input.IsActionJustPressed("ui_cancel"))
-        {
             OnClosePressed();
-        }
 
         if (Visible)
-        {
             UpdateShopState();
-        }
     }
 }
