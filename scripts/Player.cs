@@ -332,13 +332,8 @@ public partial class Player : CharacterBody2D
 
     public void Attack()
     {
-        if (Input.IsActionJustPressed("attack") && isAttacking == false)
-        {
-            if (GetViewport().GuiGetHoveredControl() != null)
-                return;
-
+        if (Input.IsActionJustPressed("attack") && !isAttacking)
             SpawnAttack();
-        }
     }
 
     private void OnAttackFinished()
