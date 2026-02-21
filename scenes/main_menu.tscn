@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://cqoqlfciota60"]
+
+[ext_resource type="Script" uid="uid://c2tpk7rgq167p" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://c0l1qy1eshfuh" path="res://assets/extras/background.png" id="2_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://rhdqnln5buh6" path="res://assets/extras/title.png" id="3_bqqt6"]
+
+[node name="MainMenu" type="Control" unique_id=1640963111]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l6cm7")
+
+[node name="Background" type="TextureRect" parent="." unique_id=203646318]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ekxnf")
+stretch_mode = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1624808541]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=162421392]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=1871185200]
+layout_mode = 2
+texture = ExtResource("3_bqqt6")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Spacer" type="Control" parent="CenterContainer/VBoxContainer" unique_id=1249040932]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=498309254]
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=877216783]
+layout_mode = 2
+
+[node name="FadeOverlay" type="ColorRect" parent="." unique_id=35997559]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

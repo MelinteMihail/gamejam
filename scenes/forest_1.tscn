@@ -296,9 +296,11 @@ position = Vector2(30, -280)
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1852555587]
 color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 
-[node name="EnemyManager" type="Node2D" parent="." unique_id=1928699821 node_paths=PackedStringArray("blockedLayer")]
+[node name="EnemyManager" type="Node2D" parent="." unique_id=1928699821 node_paths=PackedStringArray("blockedLayer", "exitCheckpoint")]
 script = ExtResource("9_r7aq4")
 blockedLayer = NodePath("../Fence")
+exitCheckpoint = NodePath("../ExitCheckpoint")
+NextScene = "res://scenes/forest_2.tscn"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=468244459]
 stream = ExtResource("10_iany7")

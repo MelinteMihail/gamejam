@@ -285,7 +285,7 @@ public partial class Player : CharacterBody2D
         return inputDirection;
     }
 
-    private void AnimatePlayer()
+    public void AnimatePlayer()
     {
         bool isMoving = Velocity != Vector2.Zero;
 

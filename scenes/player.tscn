@@ -1268,9 +1268,8 @@ LanternPivot = NodePath("LanternPivot")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2090552940]
 position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_fjrip")
-animation = &"cutscene_idle_left"
+animation = &"cutscene_idle_up"
 autoplay = "idle_down"
-frame_progress = 0.5932084
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1092773889]
 shape = SubResource("CapsuleShape2D_smehm")

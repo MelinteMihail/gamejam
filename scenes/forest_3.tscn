@@ -316,6 +316,7 @@ script = ExtResource("6_pkype")
 spawnPortalOnClear = true
 portalFrames = SubResource("SpriteFrames_kt6ij")
 portalSpawnPoint = NodePath("../PortalSpawnPoint")
+isForest3 = true
 
 [node name="mobs" type="Node2D" parent="." unique_id=2040110112]
 
