@@ -12,6 +12,8 @@ public partial class HealthBar : Control
     }
     public void UpdateHealth(float currentHealth, float maxHealth)
     {
+        if (fillClip == null) return;
+
         float percent = Mathf.Clamp(currentHealth / maxHealth, 0f, 1f);
         float newWidth = currentHealth <= 0 ? 0f : maxClipWidth * percent;
         fillClip.Size = new Vector2(newWidth, fillClip.Size.Y);

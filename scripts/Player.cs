@@ -21,11 +21,8 @@ public partial class Player : CharacterBody2D
     public AnimatedSprite2D Hurt;
     [Export]
     public Node2D LanternPivot;
-    public float durabilityMultiplier = 1.0f;
-    public float attackMultiplier = 1.0f;
 
-    public float CurrentDurability => baseDurability * durabilityMultiplier;
-    public float CurrentDamage => baseDamage * attackMultiplier;
+    public float CurrentDamage = 10f;
 
     public HealthBar healthBar;
     private AudioStreamPlayer2D attackSound;
@@ -78,19 +75,25 @@ public partial class Player : CharacterBody2D
         health.Died += OnPlayerDied;
         health.HealthChanged += OnHealthChanged;
 
+        CurrentDamage = baseDamage;
+
+        // Hide lantern pivot and lamp area by default
         if (LanternPivot != null)
             LanternPivot.Visible = false;
         if (LampArea != null)
             LampArea.Visible = false;
 
+        // Restore lantern if already picked up
         var lanternState = GetNodeOrNull<LanternState>("/root/LanternState");
         if (lanternState != null && lanternState.HasLantern)
             EnableLantern();
 
+        // Restore armor if already bought
         var armorState = GetNodeOrNull<ArmorState>("/root/ArmorState");
         if (armorState != null && armorState.HasArmor)
             RestoreArmor(armorState);
 
+        // Restore respawn position if already set
         if (RespawnState.LastPosition != Vector2.Zero)
             respawnPosition = RespawnState.LastPosition;
 
@@ -118,8 +121,8 @@ public partial class Player : CharacterBody2D
 
     private void RestoreArmor(ArmorState armorState)
     {
-        durabilityMultiplier = 1.0f + (armorState.DurabilityBonus / 100.0f);
-        attackMultiplier = 1.0f + (armorState.AttackBonus / 100.0f);
+        CurrentDamage = armorState.AttackBonus > 0 ? armorState.AttackBonus : baseDamage;
+        health.ApplyHealthBonus(armorState.DurabilityBonus);
 
         if (armorState.ArmorSetIndex == 2)
             armorPrefix = "steel_";
@@ -226,23 +229,24 @@ public partial class Player : CharacterBody2D
         SetProcess(true);
     }
 
-    public void EquipArmorSet(float durabilityBonus, float damageBonus)
+    public void EquipArmorSet(float healthBonus, float flatDamage)
     {
-        durabilityMultiplier += (durabilityBonus / 100.0f);
-        attackMultiplier += (damageBonus / 100.0f);
+        CurrentDamage = flatDamage;
 
-        if (durabilityBonus >= 20f)
+        if (flatDamage >= 30f)
             armorPrefix = "steel_";
-        else if (durabilityBonus >= 10f)
+        else if (flatDamage >= 20f)
             armorPrefix = "iron_";
+
+        health.ApplyHealthBonus(healthBonus);
 
         var armorState = GetNodeOrNull<ArmorState>("/root/ArmorState");
         if (armorState != null)
         {
             armorState.HasArmor = true;
-            armorState.DurabilityBonus = durabilityBonus;
-            armorState.AttackBonus = damageBonus;
-            armorState.ArmorSetIndex = durabilityBonus >= 20f ? 2 : 1;
+            armorState.DurabilityBonus = healthBonus;
+            armorState.AttackBonus = flatDamage;
+            armorState.ArmorSetIndex = flatDamage >= 30f ? 2 : 1;
         }
     }
 
@@ -251,9 +255,16 @@ public partial class Player : CharacterBody2D
         if (healthBar == null)
             healthBar = GetTree().GetFirstNodeInGroup("HealthBar") as HealthBar;
 
-        healthBar?.UpdateHealth(current, max);
-        hurtSound?.Play();
-        Hurt.Play("Hurt");
+        if (healthBar == null) return; // still not found, skip
+
+        healthBar.UpdateHealth(current, max);
+
+        // Only play hurt effects if not at full health (avoids playing on init)
+        if (current < max)
+        {
+            hurtSound?.Play();
+            Hurt?.Play("Hurt");
+        }
     }
 
     private Vector2 GetInputDirection()

@@ -5,4 +5,5 @@ public partial class WorldState : Node
 {
     public HashSet<string> CollectedItems = new();
     public HashSet<string> DefeatedEnemies = new();
+    public int Coins = 0;
 }

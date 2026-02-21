@@ -5,12 +5,20 @@
 [ext_resource type="Texture2D" uid="uid://c0jp7nf5p8jnp" path="res://assets/map/Outdoor decoration/Oak_Tree.png" id="3_vyi1x"]
 [ext_resource type="Texture2D" uid="uid://c15k5ei465wog" path="res://assets/map/Outdoor decoration/Oak_Tree_Small.png" id="4_22enq"]
 [ext_resource type="PackedScene" uid="uid://b15tgnborxqam" path="res://scenes/player.tscn" id="5_qxyfj"]
+[ext_resource type="AudioStream" uid="uid://kr1hmvitx5be" path="res://assets/osts/forest.mp3" id="6_pak5m"]
 [ext_resource type="PackedScene" uid="uid://f6s2clhetoem" path="res://scenes/enemy.tscn" id="6_vyi1x"]
 [ext_resource type="PackedScene" uid="uid://dc8vfd35tdhhy" path="res://scenes/enemy_eye.tscn" id="7_22enq"]
+[ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="7_vyi1x"]
 [ext_resource type="Script" uid="uid://bmnf3gvmfvlt0" path="res://scripts/EnemyManager.cs" id="8_22enq"]
 [ext_resource type="Texture2D" uid="uid://cbg2koovue53k" path="res://assets/map/Outdoor decoration/Fences.png" id="9_qxyfj"]
-[ext_resource type="AudioStream" uid="uid://kr1hmvitx5be" path="res://assets/osts/forest.mp3" id="6_pak5m"]
-[ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="7_vyi1x"]
+[ext_resource type="PackedScene" uid="uid://ct21lad8m8odr" path="res://scenes/quest_dialog.tscn" id="12_digqd"]
+[ext_resource type="Script" uid="uid://lmmdfpe00ocn" path="res://scripts/QuestUI.cs" id="13_quw43"]
+[ext_resource type="Script" uid="uid://c00rglak8othv" path="res://scripts/BlacksmithShop.cs" id="14_pfu72"]
+[ext_resource type="Script" uid="uid://c6bhvgbkr6fjc" path="res://scripts/HealthBar.cs" id="15_fkfbo"]
+[ext_resource type="Texture2D" uid="uid://cr7hwbiu7vrad" path="res://assets/extras/health_bar_decoration.png" id="16_u566y"]
+[ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="17_vrnrg"]
+[ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="18_2lm7u"]
+[ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="19_dwcfh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lv00r"]
 texture = ExtResource("1_f5xcv")
@@ -178,6 +186,9 @@ texture = ExtResource("9_qxyfj")
 [sub_resource type="TileSet" id="TileSet_bar7d"]
 sources/0 = SubResource("TileSetAtlasSource_dl6ia")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bar7d"]
+size = Vector2(127, 25)
+
 [node name="forest2" type="Node2D" unique_id=1160876552]
 
 [node name="Details" type="TileMapLayer" parent="." unique_id=1064947438]
@@ -218,13 +229,16 @@ position = Vector2(257, 32)
 [node name="Enemy" parent="mobs" unique_id=829814210 instance=ExtResource("6_vyi1x")]
 position = Vector2(216, -58)
 
-[node name="EnemyManager" type="Node2D" parent="." unique_id=154629078 node_paths=PackedStringArray("blockedLayer")]
+[node name="EnemyManager" type="Node2D" parent="." unique_id=154629078 node_paths=PackedStringArray("blockedLayer", "exitCheckpoint")]
 script = ExtResource("8_22enq")
 blockedLayer = NodePath("../Fence")
+exitCheckpoint = NodePath("../ExitCheckpoint")
+NextScene = "res://scenes/forest_3.tscn"
 
 [node name="Fence" type="TileMapLayer" parent="." unique_id=304933180]
 tile_map_data = PackedByteArray("AAAEAAwAAAABAAEAAAAFAAwAAAACAAEAAAAGAAwAAAACAAEAAAAHAAwAAAACAAEAAAAIAAwAAAACAAEAAAAJAAwAAAACAAEAAAAKAAwAAAACAAEAAAALAAwAAAADAAEAAAA=")
 tile_set = SubResource("TileSet_bar7d")
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=590610843]
 stream = ExtResource("6_pak5m")
 volume_db = -20.0
@@ -233,3 +247,76 @@ parameters/looping = true
 
 [node name="Checkpoint" parent="." unique_id=878379604 instance=ExtResource("7_vyi1x")]
 position = Vector2(38, -280)
+
+[node name="ExitCheckpoint" type="Area2D" parent="." unique_id=535998446]
+position = Vector2(109, 190)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitCheckpoint" unique_id=1791324706]
+position = Vector2(24.5, 2.5)
+shape = SubResource("RectangleShape2D_bar7d")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2011590543]
+
+[node name="QuestDialog" parent="UI" unique_id=305932241 instance=ExtResource("12_digqd")]
+offset_left = 217.0
+offset_top = 62.0
+offset_right = 217.0
+offset_bottom = 62.0
+
+[node name="QuestUI" type="Control" parent="UI" unique_id=955779468]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("13_quw43")
+
+[node name="BlacksmithShop" type="Control" parent="UI" unique_id=500127008]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 32.0
+offset_right = 40.0
+offset_bottom = 72.0
+script = ExtResource("14_pfu72")
+
+[node name="HealthBar" type="Control" parent="UI" unique_id=1355349985 groups=["HealthBar"]]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 276.0
+offset_bottom = 88.0
+script = ExtResource("15_fkfbo")
+
+[node name="Decoration" type="TextureRect" parent="UI/HealthBar" unique_id=1120934423]
+custom_minimum_size = Vector2(256, 68)
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 68.0
+texture = ExtResource("16_u566y")
+expand_mode = 1
+
+[node name="FillClip" type="Control" parent="UI/HealthBar" unique_id=1342495456]
+clip_contents = true
+anchors_preset = 0
+offset_left = 56.0
+offset_right = 252.0
+offset_bottom = 68.0
+
+[node name="Fill" type="TextureRect" parent="UI/HealthBar/FillClip" unique_id=835524440]
+custom_minimum_size = Vector2(196, 68)
+layout_mode = 1
+offset_right = 196.0
+offset_bottom = 68.0
+texture = ExtResource("17_vrnrg")
+
+[node name="Dialog" parent="UI" unique_id=2072398341 groups=["Dialogue"] instance=ExtResource("18_2lm7u")]
+
+[node name="Coin" parent="UI" unique_id=958254845 instance=ExtResource("19_dwcfh")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0

@@ -11,6 +11,14 @@
 [ext_resource type="Script" uid="uid://bmnf3gvmfvlt0" path="res://scripts/EnemyManager.cs" id="9_r7aq4"]
 [ext_resource type="AudioStream" uid="uid://kr1hmvitx5be" path="res://assets/osts/forest.mp3" id="10_iany7"]
 [ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="11_bqln5"]
+[ext_resource type="PackedScene" uid="uid://ct21lad8m8odr" path="res://scenes/quest_dialog.tscn" id="12_dr833"]
+[ext_resource type="Script" uid="uid://lmmdfpe00ocn" path="res://scripts/QuestUI.cs" id="13_7iajg"]
+[ext_resource type="Script" uid="uid://c00rglak8othv" path="res://scripts/BlacksmithShop.cs" id="14_lyudd"]
+[ext_resource type="Script" uid="uid://c6bhvgbkr6fjc" path="res://scripts/HealthBar.cs" id="15_wg30s"]
+[ext_resource type="Texture2D" uid="uid://cr7hwbiu7vrad" path="res://assets/extras/health_bar_decoration.png" id="16_6q4lx"]
+[ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="17_tip8e"]
+[ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="18_2y2x4"]
+[ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="19_cmas7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d1xxg"]
 texture = ExtResource("4_r7aq4")
@@ -263,9 +271,11 @@ position = Vector2(30, -280)
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1852555587]
 color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 
-[node name="EnemyManager" type="Node2D" parent="." unique_id=1928699821 node_paths=PackedStringArray("blockedLayer")]
+[node name="EnemyManager" type="Node2D" parent="." unique_id=1928699821 node_paths=PackedStringArray("blockedLayer", "exitCheckpoint")]
 script = ExtResource("9_r7aq4")
 blockedLayer = NodePath("../Fence")
+exitCheckpoint = NodePath("../ExitCheckpoint")
+NextScene = "res://scenes/forest_2.tscn"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=468244459]
 stream = ExtResource("10_iany7")
@@ -281,3 +291,69 @@ position = Vector2(174, 210)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitCheckpoint" unique_id=570984784]
 shape = SubResource("RectangleShape2D_bqln5")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=703035251]
+
+[node name="QuestDialog" parent="UI" unique_id=305932241 instance=ExtResource("12_dr833")]
+offset_left = 217.0
+offset_top = 62.0
+offset_right = 217.0
+offset_bottom = 62.0
+
+[node name="QuestUI" type="Control" parent="UI" unique_id=567814588]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("13_7iajg")
+
+[node name="BlacksmithShop" type="Control" parent="UI" unique_id=139577621]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 32.0
+offset_right = 40.0
+offset_bottom = 72.0
+script = ExtResource("14_lyudd")
+
+[node name="HealthBar" type="Control" parent="UI" unique_id=766923152 groups=["HealthBar"]]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 276.0
+offset_bottom = 88.0
+script = ExtResource("15_wg30s")
+
+[node name="Decoration" type="TextureRect" parent="UI/HealthBar" unique_id=916918048]
+custom_minimum_size = Vector2(256, 68)
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 68.0
+texture = ExtResource("16_6q4lx")
+expand_mode = 1
+
+[node name="FillClip" type="Control" parent="UI/HealthBar" unique_id=1810415302]
+clip_contents = true
+anchors_preset = 0
+offset_left = 56.0
+offset_right = 252.0
+offset_bottom = 68.0
+
+[node name="Fill" type="TextureRect" parent="UI/HealthBar/FillClip" unique_id=149952169]
+custom_minimum_size = Vector2(196, 68)
+layout_mode = 1
+offset_right = 196.0
+offset_bottom = 68.0
+texture = ExtResource("17_tip8e")
+
+[node name="Dialog" parent="UI" unique_id=2072398341 groups=["Dialogue"] instance=ExtResource("18_2y2x4")]
+
+[node name="Coin" parent="UI" unique_id=958254845 instance=ExtResource("19_cmas7")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0

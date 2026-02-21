@@ -308,10 +308,12 @@ position = Vector2(-14, 2)
 shape = SubResource("CapsuleShape2D_1mtdb")
 
 [node name="Health" parent="." unique_id=635338871 instance=ExtResource("4_1mtdb")]
+maxHealth = 50
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=707794500]
 energy = 0.25
 texture = SubResource("GradientTexture2D_u6tux")
+
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=1596272532]
 stream = ExtResource("7_u6tux")
 volume_db = -10.0

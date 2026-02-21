@@ -3,17 +3,22 @@ using System;
 
 public partial class Coin : Control
 {
-	public static Coin Instance { get; private set; }
+    public static Coin Instance { get; private set; }
+    private Label counter;
+    private int coinAmount = 0;
 
-	private Label counter;
-	private int coinAmount = 0;
+    public override void _Ready()
+    {
+        Instance = this;
+        counter = GetNode<Label>("HBoxContainer/Counter");
 
-	public override void _Ready()
-	{
-		Instance = this;
-		counter = GetNode<Label>("HBoxContainer/Counter");
-		UpdateDisplay();
-	}
+        // Restore coins from WorldState
+        var worldState = GetNodeOrNull<WorldState>("/root/WorldState");
+        if (worldState != null)
+            coinAmount = worldState.Coins;
+
+        UpdateDisplay();
+    }
 
     public override void _Process(double delta)
     {
@@ -21,28 +26,37 @@ public partial class Coin : Control
         Visible = inTown;
     }
 
-	public void AddCoins(int amount)
-	{
-		coinAmount += amount;
-		UpdateDisplay();
-		GD.Print($"Added {amount} coins. Total: {coinAmount}");
+    public void AddCoins(int amount)
+    {
+        coinAmount += amount;
+        SaveCoins();
+        UpdateDisplay();
+        GD.Print($"Added {amount} coins. Total: {coinAmount}");
     }
 
-	public void RemoveCoins(int amount)
-	{
-		coinAmount -= amount;
-		UpdateDisplay();
-		GD.Print($"Removed {amount} coins. Total: {coinAmount}");
+    public void RemoveCoins(int amount)
+    {
+        coinAmount -= amount;
+        SaveCoins();
+        UpdateDisplay();
+        GD.Print($"Removed {amount} coins. Total: {coinAmount}");
     }
 
-	public int GetCoinAmount() 
-	{ 
-		return coinAmount; 
-	}
+    public int GetCoinAmount()
+    {
+        return coinAmount;
+    }
+
+    private void SaveCoins()
+    {
+        var worldState = GetNodeOrNull<WorldState>("/root/WorldState");
+        if (worldState != null)
+            worldState.Coins = coinAmount;
+    }
 
     private void UpdateDisplay()
-	{
-		if (counter != null)
-			counter.Text = $"{coinAmount}";
+    {
+        if (counter != null)
+            counter.Text = $"{coinAmount}";
     }
 }
