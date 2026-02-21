@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_1y7mm")
 QuestId = "herbs"
-QuestTitle = "NPC's Quest"
+QuestTitle = "Olivia's Quest"
+DialogPages = PackedStringArray("Oh dear… I’m running low on thyme. Without it, I can’t finish my remedies.", "If you’re facing the town gate, go right.", "When you reach the end of the stone walls, take a left. it grows just beyond there.", "Will you help me?")
 TargetProgress = 3
 metadata/_custom_type_script = "uid://bsen6cibx0to0"

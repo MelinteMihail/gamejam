@@ -4,27 +4,30 @@ using static Player;
 
 public partial class Enemy : CharacterBody2D
 {
-	[Export]
-	public float Enemy_Speed = 100.0f;
-	[Export]
-	public string EnemyType = "";
-	[Export]
-	private AnimatedSprite2D animatedSprite;
+    [Export]
+    public float Enemy_Speed = 100.0f;
+    [Export]
+    public string EnemyType = "";
+    [Export]
+    public string UniqueId = "";
+    [Export]
+    private AnimatedSprite2D animatedSprite;
     [Export]
     private PackedScene ProjectileScene;
 
     private AudioStreamPlayer2D hurtSound;
     private CharacterBody2D Player;
     private Area2D area2D;
-	private Health health;
+    private Health health;
     private Collision Attack;
     private AudioStreamPlayer2D attackSound;
 
     private bool isAttacking = false;
     private string EnemyTypePrefix;
-	
+
     private Vector2 lastPosition;
     public EnemyEnumDirection currentEnemyDirection = EnemyEnumDirection.Down;
+
     public enum EnemyEnumDirection
     {
         None,
@@ -33,15 +36,23 @@ public partial class Enemy : CharacterBody2D
         Left,
         Right
     }
+
     public override void _Ready()
-	{
+    {
+        var worldState = GetNodeOrNull<WorldState>("/root/WorldState");
+        if (worldState != null && !string.IsNullOrEmpty(UniqueId) && worldState.DefeatedEnemies.Contains(UniqueId))
+        {
+            QueueFree();
+            return;
+        }
+
         AddToGroup("enemy");
 
         Attack = GetNode<Collision>("Collision Area");
         attackSound = GetNode<AudioStreamPlayer2D>("AttackSound");
         hurtSound = GetNode<AudioStreamPlayer2D>("HurtSound");
         area2D = GetNode<Area2D>("FollowArea");
-        
+
         area2D.BodyEntered += OnBodyEntered;
         area2D.BodyExited += OnBodyExited;
 
@@ -54,8 +65,8 @@ public partial class Enemy : CharacterBody2D
 
         Attack.AttackStarted += OnAttackStarted;
         animatedSprite.AnimationFinished += OnAnimationFinished;
-
     }
+
     private void OnEnemyDied()
     {
         Player = null;
@@ -72,6 +83,10 @@ public partial class Enemy : CharacterBody2D
         SetProcess(false);
 
         hurtSound?.Play();
+
+        var worldState = GetNodeOrNull<WorldState>("/root/WorldState");
+        if (worldState != null && !string.IsNullOrEmpty(UniqueId))
+            worldState.DefeatedEnemies.Add(UniqueId);
 
         if (QuestManager.Instance != null)
         {
@@ -98,18 +113,21 @@ public partial class Enemy : CharacterBody2D
     {
         GD.Print($"Enemy health changed: {current}");
     }
+
     private void OnBodyEntered(Node body)
-	{
-		if (body.IsInGroup("player"))
-			Player = body as CharacterBody2D;
-	}
-	private void OnBodyExited(Node body)
-	{
-		if (body == Player)
-			Player = null;
+    {
+        if (body.IsInGroup("player"))
+            Player = body as CharacterBody2D;
     }
-	public override void _PhysicsProcess(double delta)
-	{
+
+    private void OnBodyExited(Node body)
+    {
+        if (body == Player)
+            Player = null;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
         if (Player != null)
         {
             Vector2 direction = (Player.GlobalPosition - GlobalPosition).Normalized();
@@ -121,12 +139,12 @@ public partial class Enemy : CharacterBody2D
                 Velocity = direction * Enemy_Speed;
                 MoveAndCollide(direction);
             }
-            
         }
         else
-		{
-			Velocity = Vector2.Zero;
-		}
+        {
+            Velocity = Vector2.Zero;
+        }
+
         if (EnemyType == "eye")
         {
             Velocity = Vector2.Zero;
@@ -143,21 +161,17 @@ public partial class Enemy : CharacterBody2D
         if (lastPosition != Vector2.Zero)
         {
             if (Mathf.Abs(lastPosition.X) > Mathf.Abs(lastPosition.Y))
-            {
                 currentEnemyDirection = lastPosition.X > 0 ? EnemyEnumDirection.Right : EnemyEnumDirection.Left;
-            }
             else
-            {
                 currentEnemyDirection = lastPosition.Y > 0 ? EnemyEnumDirection.Down : EnemyEnumDirection.Up;
-            }
         }
     }
-
 
     private void AnimateEnemy()
     {
         if (isAttacking)
             return;
+
         bool isMoving = Velocity != Vector2.Zero;
         string targetAnim = "";
         bool flip = false;
@@ -180,11 +194,13 @@ public partial class Enemy : CharacterBody2D
             default:
                 return;
         }
+
         animatedSprite.FlipH = flip;
 
         if (animatedSprite.Animation.ToString() != targetAnim)
             animatedSprite.Play(targetAnim);
     }
+
     private void OnAttackStarted()
     {
         isAttacking = true;
@@ -196,7 +212,7 @@ public partial class Enemy : CharacterBody2D
                 animatedSprite.Play(EnemyTypePrefix + "attack_up");
                 break;
             case EnemyEnumDirection.Down:
-                animatedSprite.Play(EnemyTypePrefix+ "attack_down");
+                animatedSprite.Play(EnemyTypePrefix + "attack_down");
                 break;
             case EnemyEnumDirection.Left:
                 animatedSprite.FlipH = true;
@@ -208,8 +224,9 @@ public partial class Enemy : CharacterBody2D
                 break;
         }
     }
+
     private void OnAnimationFinished()
-    {   
+    {
         string anim = animatedSprite.Animation.ToString();
 
         if (anim.StartsWith(EnemyTypePrefix + "attack"))
@@ -224,7 +241,7 @@ public partial class Enemy : CharacterBody2D
                 Vector2 dir = (Player.GlobalPosition - GlobalPosition).Normalized();
                 projectile.Initialize(dir);
                 Attack.isAttacking = false;
-                Attack.ResetCooldown();     
+                Attack.ResetCooldown();
             }
             else
             {
@@ -232,6 +249,7 @@ public partial class Enemy : CharacterBody2D
             }
         }
     }
+
     public async void Flicker(float duration = 0.4f, float interval = 0.05f)
     {
         if (animatedSprite == null)

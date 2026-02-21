@@ -10,6 +10,14 @@ public partial class LanternPickup : Area2D
     {
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
+
+        var lanternState = GetNodeOrNull<LanternState>("/root/LanternState");
+        if (lanternState != null && lanternState.HasLantern)
+        {
+            QueueFree();
+            return;
+        }
+
         sprite.Play("lantern_flame");
         interactableText = GetNode<Label>("Label");
         interactableText.Visible = false;
@@ -19,9 +27,10 @@ public partial class LanternPickup : Area2D
     {
         if (player != null && Input.IsActionJustPressed("interact"))
         {
-            var gameState = GetNode<LanternState>("/root/LanternState");
-            gameState.HasLantern = true;
+            var lanternState = GetNode<LanternState>("/root/LanternState");
+            lanternState.HasLantern = true;
             player.EnableLantern();
+            QuestChain.Instance?.OnLanternPickedUp();
             QueueFree();
         }
     }
@@ -31,7 +40,8 @@ public partial class LanternPickup : Area2D
         if (body.IsInGroup("player"))
         {
             player = body as Player;
-            interactableText.Visible = true;
+            if (interactableText != null)
+                interactableText.Visible = true;
         }
     }
 
@@ -40,7 +50,8 @@ public partial class LanternPickup : Area2D
         if (body.IsInGroup("player"))
         {
             player = null;
-            interactableText.Visible = false;
+            if (interactableText != null)
+                interactableText.Visible = false;
         }
     }
 }

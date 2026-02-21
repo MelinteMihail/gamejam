@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c0jp7nf5p8jnp" path="res://assets/map/Outdoor decoration/Oak_Tree.png" id="1_udpx5"]
 [ext_resource type="TileSet" uid="uid://cdt74uafhlpio" path="res://resources/groundlayer.tres" id="2_v7x2m"]
+[ext_resource type="AudioStream" uid="uid://c4puuuefvy8oa" path="res://assets/osts/outside.mp3" id="2_wxvcn"]
 [ext_resource type="Texture2D" uid="uid://odooeoil16l3" path="res://assets/map/Tiles/Grass_Middle.png" id="3_x3una"]
 [ext_resource type="Texture2D" uid="uid://dv0wjamwnqjaw" path="res://assets/map/Tiles/Path_Tile.png" id="4_nxbbw"]
 [ext_resource type="Texture2D" uid="uid://c15k5ei465wog" path="res://assets/map/Outdoor decoration/Oak_Tree_Small.png" id="5_7r1kg"]
@@ -10,9 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://bdplex2ommyd" path="res://assets/map/Tiles/castle.png" id="8_lt5my"]
 [ext_resource type="Texture2D" uid="uid://cbg2koovue53k" path="res://assets/map/Outdoor decoration/Fences.png" id="8_nxbbw"]
 [ext_resource type="PackedScene" uid="uid://f6s2clhetoem" path="res://scenes/enemy.tscn" id="9_lt7nq"]
+[ext_resource type="Script" uid="uid://devvm4ih6lvry" path="res://scripts/QuestSpawnGroup.cs" id="10_2xi43"]
 [ext_resource type="PackedScene" uid="uid://cnwrlh3hsqf5f" path="res://scenes/quest_collectible.tscn" id="11_v7x2m"]
 [ext_resource type="PackedScene" uid="uid://2nim5xr3c6cl" path="res://scenes/guard.tscn" id="13_x3una"]
-[ext_resource type="Script" uid="uid://devvm4ih6lvry" path="res://scripts/QuestSpawnGroup.cs" id="14_nxbbw"]
+[ext_resource type="PackedScene" uid="uid://ct54ghg14ppqv" path="res://scenes/lantern.tscn" id="14_nxbbw"]
 [ext_resource type="PackedScene" uid="uid://ct21lad8m8odr" path="res://scenes/quest_dialog.tscn" id="14_xi7x6"]
 [ext_resource type="Script" uid="uid://lmmdfpe00ocn" path="res://scripts/QuestUI.cs" id="15_s22lx"]
 [ext_resource type="Script" uid="uid://c00rglak8othv" path="res://scripts/BlacksmithShop.cs" id="16_2xi43"]
@@ -20,9 +22,9 @@
 [ext_resource type="Texture2D" uid="uid://cr7hwbiu7vrad" path="res://assets/extras/health_bar_decoration.png" id="18_wxvcn"]
 [ext_resource type="Texture2D" uid="uid://c3tf4l6mqsbka" path="res://assets/extras/health_bar.png" id="19_hbx8j"]
 [ext_resource type="PackedScene" uid="uid://eajqw7sql02g" path="res://scenes/Dialogue.tscn" id="20_xe0xi"]
-[ext_resource type="Script" uid="uid://tahvhhrt5s4u" path="res://scripts/QuestArrowManager.cs" id="21_fh1te"]
 [ext_resource type="PackedScene" uid="uid://cj32o0h314nk" path="res://scenes/coin.tscn" id="22_bcrnr"]
-[ext_resource type="PackedScene" uid="uid://ct54ghg14ppqv" path="res://scenes/lantern.tscn" id="14_nxbbw"]
+[ext_resource type="PackedScene" uid="uid://b7fisn1pvbcxh" path="res://scenes/checkpoint.tscn" id="23_s22lx"]
+[ext_resource type="Script" uid="uid://c41fbnx8d83vp" path="res://scripts/IntroDialogue.cs" id="24_2xi43"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxbbw"]
 texture = ExtResource("7_x3una")
@@ -377,47 +379,50 @@ tile_set = SubResource("TileSet_nxbbw")
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1320173865]
 color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 
-[node name="Player" parent="." unique_id=1439945288 groups=["player"] instance=ExtResource("7_uaw8k")]
-position = Vector2(-216, 196)
-[node name="NPC" parent="." unique_id=1047270165 instance=ExtResource("6_bkgx0")]
-position = Vector2(-109, 119)
-
-[node name="Player" parent="." unique_id=1439945288 instance=ExtResource("7_uaw8k")]
+[node name="Player" parent="." unique_id=1318477387 groups=["player"] instance=ExtResource("7_uaw8k")]
 position = Vector2(-66, 757)
 
 [node name="QuestAreas" type="Node2D" parent="." unique_id=824545844]
 
 [node name="Mobs" type="Node2D" parent="QuestAreas" unique_id=1713397907 groups=["MobArea"]]
 position = Vector2(-925, -217)
-script = ExtResource("14_nxbbw")
+script = ExtResource("10_2xi43")
 TrackedQuestId = "mobs"
 
 [node name="Enemy" parent="QuestAreas/Mobs" unique_id=1382627107 instance=ExtResource("9_lt7nq")]
 position = Vector2(86, 0)
+UniqueId = "goblin_1"
 
 [node name="Enemy2" parent="QuestAreas/Mobs" unique_id=558606853 instance=ExtResource("9_lt7nq")]
 position = Vector2(0, 68)
+UniqueId = "goblin_2"
 
 [node name="Enemy3" parent="QuestAreas/Mobs" unique_id=1037317948 instance=ExtResource("9_lt7nq")]
 position = Vector2(-75, 0)
+UniqueId = "goblin_3"
 
 [node name="Enemy4" parent="QuestAreas/Mobs" unique_id=1173958220 instance=ExtResource("9_lt7nq")]
 position = Vector2(0, -58)
+UniqueId = "goblin_4"
 
 [node name="Enemy5" parent="QuestAreas/Mobs" unique_id=1085651768 instance=ExtResource("9_lt7nq")]
+UniqueId = "goblin_5"
 
 [node name="Collectibles" type="Node2D" parent="QuestAreas" unique_id=197851529 groups=["CollectibleArea"]]
 position = Vector2(615, -232)
-script = ExtResource("14_nxbbw")
+script = ExtResource("10_2xi43")
 TrackedQuestId = "herbs"
 
 [node name="QuestCollectible" parent="QuestAreas/Collectibles" unique_id=1208429657 instance=ExtResource("11_v7x2m")]
 position = Vector2(91, 0)
+UniqueId = "herb_1"
 
 [node name="QuestCollectible2" parent="QuestAreas/Collectibles" unique_id=1203502892 instance=ExtResource("11_v7x2m")]
+UniqueId = "herb_2"
 
 [node name="QuestCollectible3" parent="QuestAreas/Collectibles" unique_id=987282939 instance=ExtResource("11_v7x2m")]
 position = Vector2(38, -76)
+UniqueId = "herb_3"
 
 [node name="Guard" parent="." unique_id=2030267479 instance=ExtResource("13_x3una")]
 position = Vector2(51, 87)
@@ -478,11 +483,6 @@ texture = ExtResource("19_hbx8j")
 
 [node name="Dialog" parent="UI" unique_id=2072398341 groups=["Dialogue"] instance=ExtResource("20_xe0xi")]
 
-[node name="QuestArrowManager" type="Control" parent="UI" unique_id=2070395117]
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("21_fh1te")
-
 [node name="Coin" parent="UI" unique_id=958254845 instance=ExtResource("22_bcrnr")]
 anchors_preset = 1
 anchor_left = 1.0
@@ -495,6 +495,7 @@ grow_horizontal = 0
 
 [node name="OutsideGate" type="Node2D" parent="." unique_id=93167208 groups=["OutsideGate"]]
 position = Vector2(0, 85)
+
 [node name="QuestCollectible4" parent="." unique_id=30500554 instance=ExtResource("11_v7x2m")]
 position = Vector2(-412, 591)
 
@@ -507,3 +508,17 @@ position = Vector2(-399, 540)
 [node name="Lantern" parent="." unique_id=1097607982 instance=ExtResource("14_nxbbw")]
 position = Vector2(50, 734)
 scale = Vector2(0.5, 0.5)
+
+[node name="Checkpoint" parent="." unique_id=878379604 instance=ExtResource("23_s22lx")]
+position = Vector2(-2, 1028)
+Type = 2
+NextScene = "res://scenes/forest_1.tscn"
+
+[node name="IntroDialogue" type="Node" parent="." unique_id=2076260534]
+script = ExtResource("24_2xi43")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=72349448]
+stream = ExtResource("2_wxvcn")
+volume_db = -20.0
+autoplay = true
+parameters/looping = true

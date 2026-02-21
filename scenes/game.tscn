@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://dfn2vw2lesmwg"]
 
-[ext_resource type="Script" uid="uid://dpulc48kdi5la" path="res://scripts/Game.cs" id="1_ssvqc"]
 [ext_resource type="PackedScene" uid="uid://b15tgnborxqam" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://bumh5if4xovdf" path="res://icon.svg" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://f6s2clhetoem" path="res://scenes/enemy.tscn" id="3_lnu2h"]
@@ -26,12 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://b6ade2grjyqov" path="res://scenes/boss.tscn" id="24_e1j6l"]
 [ext_resource type="PackedScene" uid="uid://2nim5xr3c6cl" path="res://scenes/guard.tscn" id="25_pl11u"]
 
-[node name="game" type="Node2D" unique_id=561111296 node_paths=PackedStringArray("dialogue", "pointA", "pointB", "player")]
-script = ExtResource("1_ssvqc")
-dialogue = NodePath("UI/Dialog")
-pointA = NodePath("pointA")
-pointB = NodePath("pointB")
-player = NodePath("Player")
+[node name="game" type="Node2D" unique_id=561111296]
 
 [node name="Icon" type="Sprite2D" parent="." unique_id=1250055078]
 position = Vector2(-45, -12)

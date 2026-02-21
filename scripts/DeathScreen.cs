@@ -22,7 +22,7 @@ public partial class DeathScreen : CanvasLayer
 
     private void GoToLoadingScreen()
     {
-        LoadingScreen.NextScenePath = "res://scenes/game.tscn";
+        LoadingScreen.NextScenePath = RespawnState.LastScene;
         GetTree().ChangeSceneToFile("res://scenes/loading_screen.tscn");
     }
 }

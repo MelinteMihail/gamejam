@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_qac4l")
 QuestId = "mobs"
-QuestTitle = "NPC2's Quest "
+QuestTitle = "Arthur's Quest "
+DialogPages = PackedStringArray("Ah… so you’re the destined hero.", "I know you’re looking for answers, but we’re in grave danger.", "Monsters from the forest are closing in on our town. We don’t have much time.", "Face the town gate, go left.", "When you reach the end of the stone walls, take a right.", "That’s where they’ve been sighted.", "Drive them back, and I’ll tell you everything.")
 TargetProgress = 5
 ProgressType = "goblin"

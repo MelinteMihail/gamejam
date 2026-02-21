@@ -21,15 +21,14 @@ QuestManager="*uid://b6knk6gpi1efc"
 LockInput="*uid://tcr7wwt5nqhd"
 GuardState="*uid://jqh3hjlf5w6k"
 QuestChain="*uid://prr5jmx63jys"
+LanternState="*uid://dlbjhpxwt62hf"
+ArmorState="*uid://dprv4phqcbtta"
+WorldState="*uid://bl850gc8md4yk"
 
 [display]
 
 window/stretch/mode="canvas_items"
 LanternState="*uid://dlbjhpxwt62hf"
-
-[display]
-
-window/size/mode=3
 
 [dotnet]
 

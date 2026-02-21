@@ -24,7 +24,6 @@ public partial class QuestChain : Node
         else QueueFree();
     }
 
-    // Call this when the player picks up the lantern
     public void OnLanternPickedUp()
     {
         if (CurrentStage != StoryStage.PickupLantern) return;
@@ -32,7 +31,6 @@ public partial class QuestChain : Node
         GD.Print("Stage: GoToTown");
     }
 
-    // Call this when the player enters the town scene
     public void OnEnteredTown()
     {
         if (CurrentStage != StoryStage.GoToTown) return;
@@ -41,7 +39,7 @@ public partial class QuestChain : Node
         GD.Print("Stage: TalkToCivilians");
     }
 
-    // Call this when a civilian quest is accepted
+   
     public void OnCivilianSpokenTo()
     {
         if (CurrentStage != StoryStage.TalkToCivilians) return;
@@ -54,7 +52,6 @@ public partial class QuestChain : Node
         }
     }
 
-    // Call this when civilian quests are turned in
     public void OnQuestsTurnedIn()
     {
         if (CurrentStage != StoryStage.DoQuests) return;
@@ -67,7 +64,6 @@ public partial class QuestChain : Node
         }
     }
 
-    // Call this when any armor is bought
     public void OnArmorBought()
     {
         if (CurrentStage != StoryStage.BuyArmor) return;
@@ -75,7 +71,6 @@ public partial class QuestChain : Node
         GD.Print("Stage: GoToForest");
     }
 
-    // Call this when the player enters the forest scene
     public void OnEnteredForest()
     {
         if (CurrentStage != StoryStage.GoToForest) return;
@@ -83,14 +78,14 @@ public partial class QuestChain : Node
         GD.Print("Stage: Done");
     }
 
-    // Used by Checkpoint to decide whether to allow scene transition to outside
     public bool CanLeaveTown()
     {
-        return CurrentStage == StoryStage.GoToForest ||
+        return CurrentStage == StoryStage.DoQuests ||
+               CurrentStage == StoryStage.BuyArmor ||
+               CurrentStage == StoryStage.GoToForest ||
                CurrentStage == StoryStage.Done;
     }
 
-    // Used by Checkpoint to decide whether to allow transition to town
     public bool CanEnterTown()
     {
         return CurrentStage == StoryStage.GoToTown ||
