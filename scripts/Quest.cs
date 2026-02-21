@@ -214,7 +214,8 @@ public partial class Quest : Node2D
                     ("Arthur", "You truly are the destined hero. Our legends spoke of you."),
                     ("Arthur", "The one who would rid this land of the dangers lurking in the forest."),
                     ("Hero", "That's not what I asked. How do I get back home?"),
-                    ("Arthur", "The way home will reveal itself once the threats to this realm are gone. Until then, your path lies here.")
+                    ("Arthur", "The way home will reveal itself once the threats to this realm are gone."),
+                    ("Arthur", "Until then, your path lies here.")
                 });
             }
         }

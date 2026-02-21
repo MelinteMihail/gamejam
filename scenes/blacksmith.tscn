@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://c0q3o5u20gvfu" path="res://scripts/Blacksmith.cs" id="1_ho0ex"]
 [ext_resource type="Texture2D" uid="uid://c2ufpk1tjxuor" path="res://assets/extras/Npc_Smith01.png" id="2_hak2j"]
-[ext_resource type="FontFile" uid="uid://5i0cxovnatev" path="res://assets/font/pixel_3/pixel.ttf" id="3_3liba"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3liba"]
 atlas = ExtResource("2_hak2j")
@@ -99,7 +98,6 @@ offset_left = -47.0
 offset_top = -40.0
 offset_right = 48.0
 offset_bottom = -17.0
-theme_override_fonts/font = ExtResource("3_3liba")
 theme_override_font_sizes/font_size = 5
 text = "Press [E] to Interact"
 horizontal_alignment = 1
